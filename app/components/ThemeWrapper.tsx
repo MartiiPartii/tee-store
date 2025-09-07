@@ -1,5 +1,5 @@
 "use client"
-import { theme } from "@/theme/theme"
+import theme from "@/theme/theme"
 import { ThemeProvider } from "@emotion/react"
 import { Box } from "@mui/material"
 import React from "react"
