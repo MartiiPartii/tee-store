@@ -16,6 +16,11 @@ export const theme = createTheme({
     shape: {
         borderRadius: "0.75rem"
     },
+    typography: {
+        h1: { fontSize: "4.5rem" },
+        h2: { fontSize: "1.875rem" },
+        h3: { fontSize: "1.125rem" }
+    },
     palette: {
         bgcolor: {
             main: "#fcfcfc",
