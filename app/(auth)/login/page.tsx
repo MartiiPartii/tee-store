@@ -2,36 +2,19 @@
 
 import AuthForm from "@/app/components/AuthForm"
 import SectionContainer from "@/app/components/SectionContainer"
-import { Card, Typography } from "@mui/material"
 import { useRef } from "react"
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const Register = () => {
-    const firstName = useRef<HTMLInputElement | null>(null)
-    const lastName = useRef<HTMLInputElement | null>(null)
     const email = useRef<HTMLInputElement | null>(null)
     const password = useRef<HTMLInputElement | null>(null)
-    const confirmPassword = useRef<HTMLInputElement | null>(null)
+    const rememberMe = useRef<HTMLInputElement | null>(null)
 
 
 
     const inputs = [
-        {
-            label: "First Name",
-            placeholder: "Enter your first name",
-            ref: firstName,
-            type: "text",
-            Icon: PersonOutlineOutlinedIcon
-        },
-        {
-            label: "Last Name",
-            placeholder: "Enter your last name",
-            ref: lastName,
-            type: "text",
-            Icon: PersonOutlineOutlinedIcon
-        },
         {
             label: "Email Address",
             placeholder: "Enter your email",
@@ -45,14 +28,7 @@ const Register = () => {
             ref: password,
             type: "password",
             Icon: LockOutlinedIcon
-        },
-        {
-            label: "Confirm Password",
-            placeholder: "Confirm your password",
-            ref: confirmPassword,
-            type: "password",
-            Icon: LockOutlinedIcon
-        },
+        }
     ]
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -62,15 +38,17 @@ const Register = () => {
     return (
         <SectionContainer props={{ sx: { paddingTop: 15, paddingBottom: 12 } }}>
             <AuthForm
-                title="Create Account"
-                description="Join our community to purchase our best products or start selling your own designs"
+                title="Welcome Back"
+                description="Sign in to your account to continue shopping"
                 inputs={inputs}
-                buttonLabel="Create Account"
+                buttonLabel="Sign In"
                 handleSubmit={handleSubmit}
+                rememberMe={rememberMe}
+                forgotPass={true}
                 link={{
-                    text: "Already have an account?",
-                    label: "Sign in",
-                    to: "/login"
+                    text: "Don't have an account?",
+                    label: "Sign up",
+                    to: "/register"
                 }}
             />
         </SectionContainer>

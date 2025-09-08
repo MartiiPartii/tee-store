@@ -48,6 +48,15 @@ let theme = createTheme({
             main: "#000",
             light: "#71717a"
         }
+    },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    textTransform: "none"
+                }
+            }
+        }
     }
 })
 

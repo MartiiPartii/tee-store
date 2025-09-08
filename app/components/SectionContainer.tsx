@@ -1,9 +1,9 @@
-import { Container } from "@mui/material"
+import { Container, ContainerProps } from "@mui/material"
 import React from "react"
 
-const SectionContainer = ({ children } : { children: React.ReactNode }) => {
+const SectionContainer = ({ children, props } : { children: React.ReactNode, props: ContainerProps }) => {
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" {...props}>
             {children}
         </Container>
     )
