@@ -2,12 +2,13 @@
 
 import AuthForm from "@/app/components/AuthForm"
 import SectionContainer from "@/app/components/SectionContainer"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { useRouter } from "next/navigation";
 
 const Register = () => {
     const firstName = useRef<HTMLInputElement | null>(null)
@@ -17,6 +18,9 @@ const Register = () => {
     const phone = useRef<HTMLInputElement | null>(null)
     const address = useRef<HTMLInputElement | null>(null)
     const confirmPassword = useRef<HTMLInputElement | null>(null)
+    const [error, setError] = useState<string | null>(null)
+
+    const router = useRouter()
 
 
 
@@ -74,6 +78,7 @@ const Register = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setError(null)
 
         const response = await fetch("http://localhost:3000/api/auth/register", {
             method: "POST",
@@ -91,7 +96,13 @@ const Register = () => {
             })
         })
 
-        console.log(await response?.json())
+        if(response.status == 201) {
+            router.push("/verify")
+        }
+        else {
+            const data = await response.json()
+            setError(data.error)
+        }
     }
 
     return (
@@ -99,6 +110,7 @@ const Register = () => {
             <AuthForm
                 title="Create Account"
                 description="Join our community to purchase our best products or start selling your own designs"
+                error={error}
                 inputs={inputs}
                 buttonLabel="Create Account"
                 handleSubmit={handleSubmit}

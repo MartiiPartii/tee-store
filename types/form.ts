@@ -11,6 +11,7 @@ export interface InputProps {
 export interface FormProps {
     title: string,
     description: string,
+    error: string | null,
     inputs: InputProps[],
     rememberMe?: React.RefObject<HTMLInputElement | null>,
     forgotPass?: boolean,

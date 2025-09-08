@@ -15,36 +15,44 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  firstName String
-  lastName String
-  password String
-  phoneNumber String
-  address String
-  verified Boolean @default(false)
-  shirts Shirt[]
-  orders Order[]
+  id                Int                 @id @default(autoincrement())
+  email             String              @unique
+  firstName         String
+  lastName          String
+  password          String
+  phoneNumber       String
+  address           String
+  verified          Boolean             @default(false)
+  shirts            Shirt[]
+  orders            Order[]
+  VerificationToken VerificationToken[]
+}
+
+model VerificationToken {
+  id     Int    @id @default(autoincrement())
+  token  String @unique
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Shirt {
-  id Int @id @default(autoincrement())
-  name String
-  description String
-  price Float
-  sellerId Int?
-  seller User? @relation(fields: [sellerId], references: [id])
+  id             Int     @id @default(autoincrement())
+  name           String
+  description    String
+  price          Float
+  sellerId       Int?
+  seller         User?   @relation(fields: [sellerId], references: [id])
   soldByPlatform Boolean @default(false)
 
   orders Order[] @relation("OrderItems")
 }
 
 model Order {
-  id Int @id @default(autoincrement())
-  userId Int
-  user User @relation(fields: [userId], references: [id])
-  items Shirt[] @relation("OrderItems")
-  sum Int
-  finished Boolean @default(false)
-  date DateTime?
+  id       Int       @id @default(autoincrement())
+  userId   Int
+  user     User      @relation(fields: [userId], references: [id])
+  items    Shirt[]   @relation("OrderItems")
+  sum      Int
+  finished Boolean   @default(false)
+  date     DateTime?
 }

@@ -2,15 +2,19 @@
 
 import AuthForm from "@/app/components/AuthForm"
 import SectionContainer from "@/app/components/SectionContainer"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useRouter } from "next/navigation";
 
-const Register = () => {
+const Login = () => {
     const email = useRef<HTMLInputElement | null>(null)
     const password = useRef<HTMLInputElement | null>(null)
     const rememberMe = useRef<HTMLInputElement | null>(null)
+    const [error, setError] = useState<string | null>(null)
+
+    const router = useRouter()
 
 
 
@@ -24,7 +28,7 @@ const Register = () => {
         },
         {
             label: "Password",
-            placeholder: "Create a strong password",
+            placeholder: "Enter your password",
             ref: password,
             type: "password",
             Icon: LockOutlinedIcon
@@ -33,6 +37,7 @@ const Register = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setError(null)
 
         const response = await fetch("http://localhost:3000/api/auth/login/", {
             method: "POST",
@@ -45,7 +50,13 @@ const Register = () => {
             })
         })
 
-        console.log(response)
+        if(response.status == 200) {
+            router.push("/browse")
+        }
+        else {
+            const data = await response.json()
+            setError(data.error)
+        }
     }
 
     return (
@@ -53,6 +64,7 @@ const Register = () => {
             <AuthForm
                 title="Welcome Back"
                 description="Sign in to your account to continue shopping"
+                error={error}
                 inputs={inputs}
                 buttonLabel="Sign In"
                 handleSubmit={handleSubmit}
@@ -68,4 +80,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default Login

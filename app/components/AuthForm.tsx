@@ -9,6 +9,7 @@ import { FormProps } from "@/types/form";
 const AuthForm = ({
     title,
     description,
+    error,
     inputs,
     rememberMe,
     forgotPass,
@@ -29,8 +30,11 @@ const AuthForm = ({
                 textAlign: "center"
             }
         }>
-            <Typography variant="h3" mb={1} color="neutral">{title}</Typography>
-            <Typography variant="body2" mb={3}>{description}</Typography>
+            <Stack gap={1}  mb={3}>
+                <Typography variant="h3" color="neutral">{title}</Typography>
+                <Typography variant="body2">{description}</Typography>
+                {error && <Typography variant="body2" color="error" fontStyle={"italic"}>{error}</Typography>}
+            </Stack>
 
             <Box mb={3}>
                 {

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcrypt"
+import { transporter } from "@/lib/email"
+import { createToken } from "@/lib/validation/token"
+import { generateUidb } from "@/lib/validation/uidb"
 
 export async function POST(req: Request) {
     try {
@@ -34,13 +37,28 @@ export async function POST(req: Request) {
         const newUser = await prisma.user.create({
             data: { email, firstName, lastName, password: hashedPass, address, phoneNumber }
         })
+
+        try {
+            const token = await createToken(newUser.id)
+            const uidb = generateUidb(newUser.id)
+            const info = await transporter.sendMail({
+                from: "teestoreht@gmail.com",
+                to: email,
+                subject: "Account Verification",
+                html: `<div><h1>Hi ${firstName}! Welcome to TeeStore.</h1><h3>Click the link below to verify your account and start using our platform:</h3><a href="http://localhost:3000/verify/${uidb}/${token}">Click to verify</a></div>`
+            })
+        } catch(err) {
+            const deletedUser = await prisma.user.delete({
+                where: { id: newUser.id }
+            })
+            throw err
+        }
         
         return NextResponse.json(
             { message: "User created successfully." },
             { status: 201 }
         )
     } catch (error) {
-        console.error(error)
         return NextResponse.json(
             { error: "Something went wrong." },
             { status: 500 }
