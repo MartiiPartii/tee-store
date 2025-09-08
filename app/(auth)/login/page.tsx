@@ -31,8 +31,21 @@ const Register = () => {
         }
     ]
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
 
+        const response = await fetch("http://localhost:3000/api/auth/login/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email?.current?.value,
+                password: password?.current?.value
+            })
+        })
+
+        console.log(response)
     }
 
     return (
