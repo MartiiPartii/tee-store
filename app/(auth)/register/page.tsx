@@ -2,17 +2,20 @@
 
 import AuthForm from "@/app/components/AuthForm"
 import SectionContainer from "@/app/components/SectionContainer"
-import { Card, Typography } from "@mui/material"
 import { useRef } from "react"
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 const Register = () => {
     const firstName = useRef<HTMLInputElement | null>(null)
     const lastName = useRef<HTMLInputElement | null>(null)
     const email = useRef<HTMLInputElement | null>(null)
     const password = useRef<HTMLInputElement | null>(null)
+    const phone = useRef<HTMLInputElement | null>(null)
+    const address = useRef<HTMLInputElement | null>(null)
     const confirmPassword = useRef<HTMLInputElement | null>(null)
 
 
@@ -40,6 +43,20 @@ const Register = () => {
             Icon: MailOutlineIcon
         },
         {
+            label: "Phone Number",
+            placeholder: "Enter your phone",
+            ref: phone,
+            type: "text",
+            Icon: PhoneInTalkOutlinedIcon
+        },
+        {
+            label: "Home Address",
+            placeholder: "Enter your address",
+            ref: address,
+            type: "text",
+            Icon: HomeOutlinedIcon
+        },
+        {
             label: "Password",
             placeholder: "Create a strong password",
             ref: password,
@@ -55,8 +72,26 @@ const Register = () => {
         },
     ]
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
 
+        const response = await fetch("http://localhost:3000/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                firstName: firstName?.current?.value,
+                lastName: lastName?.current?.value,
+                email: email?.current?.value,
+                phoneNumber: phone?.current?.value,
+                address: address?.current?.value,
+                password: password?.current?.value,
+                confirmPassword: confirmPassword?.current?.value
+            })
+        })
+
+        console.log(await response?.json())
     }
 
     return (

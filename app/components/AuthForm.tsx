@@ -70,7 +70,7 @@ const AuthForm = ({
                             }
                         </Stack>
 
-                        <Button variant="contained" color="accent" fullWidth size="large">{buttonLabel}</Button>
+                        <Button type="submit" variant="contained" color="accent" fullWidth size="large">{buttonLabel}</Button>
                     </form>
                 }
             </Box>
