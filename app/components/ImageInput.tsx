@@ -1,14 +1,13 @@
 "use client"
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material"
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CancelIcon from '@mui/icons-material/Cancel';
 import Image from "next/image";
 
-const ImageInput = () => {
+const ImageInput = ({ file, setFile }: { file: File | null, setFile: React.Dispatch<React.SetStateAction<File | null>> }) => {
     const theme = useTheme()
 
-    const [file, setFile] = useState<File | null>(null)
     const [imageUrl, setImageUrl] = useState<string | null>(null)
     const [fileEnter, setFileEnter] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)

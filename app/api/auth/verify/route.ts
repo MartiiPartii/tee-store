@@ -1,7 +1,7 @@
 import { decodeUidb } from "@/lib/validation/uidb"
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import jwt from "jsonwebtoken"
+import { verifyToken } from "@/lib/jwt/token"
 
 export async function PATCH(req: Request) {
     try {
@@ -51,7 +51,7 @@ export async function PATCH(req: Request) {
             }
 
             try {
-                const decoded = jwt.verify(token, process.env.JWT_VALIDATION_SECRET!)
+                const decoded = await verifyToken(token, process.env.JWT_VALIDATION_SECRET!)
             } catch(err) {
                 const deletedToken = await prisma.verificationToken.delete({ where: { id: tokenObj.id } })
                 const deletedUser = await prisma.user.delete({ where: { id: userId } })
@@ -67,6 +67,7 @@ export async function PATCH(req: Request) {
                     verified: true
                 }
             })
+            const deletedToken = await prisma.verificationToken.delete({ where: { id: tokenObj.id } })
 
             return NextResponse.json(
                 { message: "User verified successfully" },

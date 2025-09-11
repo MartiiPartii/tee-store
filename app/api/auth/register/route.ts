@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcrypt"
 import { transporter } from "@/lib/email"
-import { createToken } from "@/lib/validation/token"
+import { createValidationToken } from "@/lib/jwt/token"
 import { generateUidb } from "@/lib/validation/uidb"
 
 export async function POST(req: Request) {
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         })
 
         try {
-            const token = await createToken(newUser.id)
+            const token = await createValidationToken(newUser.id)
             const uidb = generateUidb(newUser.id)
             const info = await transporter.sendMail({
                 from: "teestoreht@gmail.com",

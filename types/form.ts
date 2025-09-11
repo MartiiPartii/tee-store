@@ -5,7 +5,10 @@ export interface InputProps {
     placeholder: string,
     ref: React.RefObject<HTMLInputElement | null>,
     type: string,
-    Icon: React.ComponentType<SvgIconProps>
+    required?: boolean,
+    multiline?: boolean,
+    rows?: number,
+    Icon?: React.ComponentType<SvgIconProps> | null
 }
 
 export interface FormProps {

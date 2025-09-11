@@ -10,6 +10,9 @@ const FormInputField = ({
     label,
     placeholder,
     ref,
+    multiline,
+    required,
+    rows,
     type,
     Icon
 } : InputProps) => {
@@ -33,16 +36,21 @@ const FormInputField = ({
                 size="small"
                 inputRef={ref}
                 inputProps={inputProps}
+                multiline={multiline}
+                required={required ? true : false}
+                rows={rows}
                 type={type === "password" ? showPassword ? "text" : "password" : type}
                 slotProps={{
                     input: {
-                        startAdornment: (
-                            <InputAdornment
-                                position="start"
-                            >
-                                <Icon sx={{ width: "1rem", height: "1rem" }} />
-                            </InputAdornment>
-                        ),
+                        startAdornment: Icon ? (
+                                <InputAdornment
+                                    position="start"
+                                >
+                                    <Icon sx={{ width: "1rem", height: "1rem" }} />
+                                </InputAdornment>
+                            )
+                            :
+                            <></>,
                         endAdornment: type === "password" ? (
                             <InputAdornment
                                 position="end"

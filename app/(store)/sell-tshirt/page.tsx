@@ -1,5 +1,5 @@
-import ImageInput from "@/app/components/ImageInput"
 import SectionContainer from "@/app/components/SectionContainer"
+import ShirtForm from "@/app/components/ShirtForm"
 import { Box, Card, Stack, Typography } from "@mui/material"
 
 const Sell = () => {
@@ -18,7 +18,9 @@ const Sell = () => {
                 <Card variant="outlined" sx={{ padding: 3 }}>
                     <Typography variant="h3" mb={2}>T-Shirt Details</Typography>
 
-                    <ImageInput />
+                    <ShirtForm
+            
+                    />
                 </Card>
             </Stack>
         </SectionContainer>

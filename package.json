@@ -17,6 +17,7 @@
     "@prisma/client": "^6.15.0",
     "bcrypt": "^6.0.0",
     "cookies": "^0.9.1",
+    "jose": "^6.1.0",
     "js-base64": "^3.7.8",
     "jsonwebtoken": "^9.0.2",
     "next": "15.5.2",

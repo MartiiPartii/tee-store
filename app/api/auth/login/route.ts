@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
 import { cookies } from "next/headers"
+import { createAuthorizationToken } from "@/lib/jwt/token"
 
 export async function POST(req: Request) {
     const { email, password } = await req.json()
@@ -37,9 +37,7 @@ export async function POST(req: Request) {
         )
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
-        expiresIn: "168h"
-    });
+    const token = await createAuthorizationToken(user.id);
 
     (await cookies()).set("token", token, {
         httpOnly: true,
