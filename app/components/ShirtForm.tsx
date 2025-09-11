@@ -41,7 +41,7 @@ const ShirtForm = () => {
                 setFile={setFile}
             />
 
-            <Stack gap={2}>
+            <Stack gap={2} mt={2}>
                 <FormInputField
                     label="T-Shirt Name*"
                     placeholder="Enter t-shirt name"

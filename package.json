@@ -16,6 +16,7 @@
     "@mui/material-nextjs": "^7.3.2",
     "@prisma/client": "^6.15.0",
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.7.0",
     "cookies": "^0.9.1",
     "jose": "^6.1.0",
     "js-base64": "^3.7.8",
