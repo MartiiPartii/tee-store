@@ -6,6 +6,7 @@ import { uploadToCloudinary } from "@/lib/cloudinary/cloudinary";
 export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url)
+
         const take = searchParams.get("take")
         const seller = searchParams.get("seller")
 

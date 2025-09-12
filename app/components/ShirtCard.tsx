@@ -5,6 +5,8 @@ import Link from "next/link"
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const ShirtCard = ({ shirt }: { shirt: Shirt }) => {
+    const encodedId = btoa(String(shirt.id))
+
     return (
         <Grid size={3}>
             <Card variant="outlined" sx={{ textAlign: "start", height: "100%", display: "flex", flexDirection: "column" }}>
@@ -21,7 +23,7 @@ const ShirtCard = ({ shirt }: { shirt: Shirt }) => {
 
                 <Stack flex={1} sx={{ padding: 2 }}>
                     <Stack flex={1}>
-                        <Link href={`/shirt/${shirt.id}`}><Typography mt={2} mb={1} variant="h5" fontSize={"1.4rem"} color="primary" sx={{ transition: ".2s", "&:hover": { color: "accent.main" } }}>{shirt.name}</Typography></Link>
+                        <Link href={`/shirt/${encodedId}`}><Typography mt={2} mb={1} variant="h5" fontSize={"1.4rem"} color="primary" sx={{ transition: ".2s", "&:hover": { color: "accent.main" } }}>{shirt.name}</Typography></Link>
                         <Typography mb={1.5} variant="body2" color="neutral.light">{shirt.description}</Typography>
                     </Stack>
 

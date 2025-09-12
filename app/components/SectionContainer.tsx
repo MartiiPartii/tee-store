@@ -3,7 +3,7 @@ import React from "react"
 
 const SectionContainer = ({ children, props } : { children: React.ReactNode, props?: ContainerProps }) => {
     return (
-        <Container maxWidth="xl" {...props}>
+        <Container maxWidth="lg" {...props}>
             {children}
         </Container>
     )
