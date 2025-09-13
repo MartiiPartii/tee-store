@@ -1,8 +1,9 @@
 import { verifyToken } from "@/lib/jwt/token"
-import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material"
+import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from "@mui/material"
 import { cookies } from "next/headers"
 import Link from "next/link"
 import SearchForm from "./SearchForm"
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 const Header = async () => {
     const cookieStore = await cookies()
@@ -21,25 +22,26 @@ const Header = async () => {
 
 
     return (
-        <AppBar position="sticky">
-                <Toolbar sx={{ backgroundColor: "primary.contrastText" }}>
-                    <Link href="/"><Typography variant="h4" color="primary">TeeStore</Typography></Link>
+        <AppBar elevation={0} position="sticky" sx={{ backgroundColor: "primary.contrastText", borderBottom: "solid 1px", borderColor: "border.main" }}>
+            <Toolbar sx={{ mx: "auto", width: "100%", maxWidth: "lg", gap: 24 }}>
+                <Link href="/"><Typography variant="h4" color="primary">TeeStore</Typography></Link>
 
-                    <SearchForm />
+                <SearchForm />
 
-                    <Stack direction={"row"} gap={2} justifyContent="end" alignItems={"end"}>
-                        <Link href={"/browse"}><Button>Browse</Button></Link>
-                        
-                        {
-                            isAuthenticated ?
-                            <>
-                                <Link href={"/sell-tshirt"}><Button>Sell</Button></Link>
-                            </>
-                            :
-                            <Link href={"/register"}><Button color="accent" variant="contained">Join now</Button></Link>
-                        }
-                    </Stack>
-                </Toolbar>
+                <Stack direction={"row"} gap={2} justifyContent="end" alignItems={"end"}>
+                    <Link href={"/browse"}><Button>Browse</Button></Link>
+                    
+                    {
+                        isAuthenticated ?
+                        <>
+                            <Link href={"/sell-tshirt"}><Button>Sell</Button></Link>
+                            <Link href={"/profile"}><IconButton color="neutral"><PersonOutlinedIcon/></IconButton></Link>
+                        </>
+                        :
+                        <Link href={"/register"}><Button color="accent" variant="contained">Join now</Button></Link>
+                    }
+                </Stack>
+            </Toolbar>
         </AppBar>
     )
 }

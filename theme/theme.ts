@@ -15,6 +15,9 @@ declare module "@mui/material/styles" {
         neutral: {
             main: string,
             light: string
+        },
+        border: {
+            main: string
         }
     }
     interface PaletteOptions {
@@ -30,6 +33,9 @@ declare module "@mui/material/styles" {
         neutral?: {
             main: string,
             light: string
+        },
+        border?: {
+            main: string
         }
     }
 }
@@ -39,6 +45,14 @@ import "@mui/material/Button";
 declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
     accent: true;
+  }
+}
+
+import "@mui/material/IconButton";
+
+declare module "@mui/material/IconButton" {
+  interface IconButtonPropsColorOverrides {
+    neutral: true;
   }
 }
 
@@ -102,6 +116,9 @@ let theme = createTheme({
         neutral: {
             main: "#000",
             light: "#71717a"
+        },
+        border: {
+            main: "#e4e4e7"
         }
     },
     components: {
@@ -110,6 +127,14 @@ let theme = createTheme({
                 root: {
                     textTransform: "none"
                 }
+            }
+        },
+        MuiPaper: {
+            styleOverrides: {
+                elevation3: ({ theme }) => ({
+                    boxShadow: `0 0 12px ${theme.palette.neutral.light}`
+                    // boxShadow: `0 0 24px red`
+                })
             }
         }
     }

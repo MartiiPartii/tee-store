@@ -5,11 +5,12 @@ import SearchIcon from '@mui/icons-material/Search';
 const SearchForm = () => {
     return (
         <Stack flex={1} alignItems={"center"} justifyContent={"center"}>
-            <Form action={'/browse'}>
+            <Form action={'/browse'} style={{ width: "100%" }}>
                 <TextField
                     name="search"
                     size="small"
                     placeholder="Search"
+                    fullWidth
                     slotProps={{
                         input: {
                             startAdornment: (
