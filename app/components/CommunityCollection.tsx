@@ -17,7 +17,7 @@ const CommunityCollection = async () => {
         <SectionContainer props={{
             sx: { textAlign: "center", padding: `3.2rem` }
         }}>
-            <Typography variant="h2" mb={3} color="neutral">Our premium collection</Typography>
+            <Typography variant="h2" mb={3} color="neutral">Our community collection</Typography>
 
             {
                 shirts && shirts.length > 0 &&
