@@ -42,6 +42,14 @@ declare module "@mui/material/Button" {
   }
 }
 
+import "@mui/material/Chip";
+
+declare module "@mui/material/Chip" {
+  interface ChipPropsColorOverrides {
+    accent: true;
+  }
+}
+
 import "@mui/material/Typography"
 
 declare module "@mui/material/Typography" {

@@ -1,23 +1,48 @@
 import { Shirt } from "../generated/prisma"
-import { Button, Card, Grid, Stack, Typography } from "@mui/material"
+import { Button, Card, Chip, Grid, Stack, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import placeholder from "@/public/placeholder.png"
+import { prisma } from "@/lib/prisma"
 
-const ShirtCard = ({ shirt }: { shirt: Shirt }) => {
+const ShirtCard = async ({ shirt }: { shirt: Shirt }) => {
     const encodedId = btoa(String(shirt.id))
+
+    let seller: { firstName: string, lastName: string } | null = null
+    if(!shirt.soldByPlatform) {
+        const sellerId = shirt.sellerId!
+        seller = await prisma.user.findUnique({
+            where: { id: sellerId },
+            select: { firstName: true, lastName: true }
+        })
+    }
 
     return (
         <Grid size={4}>
-            <Card variant="outlined" sx={{ textAlign: "start", height: "100%", display: "flex", flexDirection: "column" }}>
+            <Card variant="outlined" sx={{ textAlign: "start", height: "100%", display: "flex", flexDirection: "column", position: "relative" }}>
+                {
+                    !shirt.soldByPlatform && seller &&
+                    <Chip
+                        label={`By ${seller.firstName} ${seller.lastName}`}
+                        size="small"
+                        color="accent"
+                        sx={{
+                            position: "absolute",
+                            top: 12,
+                            left: 12
+                        }}
+                    />
+                }
+                
                 <Image
                     width={256}
                     height={256}
                     alt={shirt.name}
-                    src={shirt.imageLink || ""}
+                    src={shirt.imageLink || placeholder}
                     style={{
                         width: "100%",
-                        objectFit: "cover"
+                        objectFit: "cover",
+                        objectPosition: "center"
                     }}
                 />
 

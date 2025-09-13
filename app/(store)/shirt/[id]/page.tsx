@@ -4,6 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { prisma } from "@/lib/prisma"
 import Image from "next/image"
 import { User } from "@/app/generated/prisma";
+import placeholder from "@/public/placeholder.png"
 
 const Shirt = async ({ params }: { params: { id: string } }) => {
     const encodedId = (await params).id
@@ -34,7 +35,7 @@ const Shirt = async ({ params }: { params: { id: string } }) => {
                 <Grid container spacing={6}>
                     <Grid size={6}>
                         <Image
-                            src={shirt.imageLink}
+                            src={shirt.imageLink || placeholder}
                             alt="Product Image"
                             width={1000}
                             height={1000}
