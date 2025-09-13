@@ -3,14 +3,50 @@ import { createTheme } from '@mui/material/styles'
 
 declare module "@mui/material/styles" {
     interface Palette {
-        bgcolor: Palette["primary"],
-        accent: Palette["primary"],
-        neutral: Palette["primary"]
+        bgcolor: {
+            main: string,
+            secondary: string,
+            contrastText: string
+        },
+        accent: {
+            main: string,
+            contrastText: string
+        },
+        neutral: {
+            main: string,
+            light: string
+        }
     }
     interface PaletteOptions {
-        bgcolor?: PaletteOptions["primary"],
-        accent?: PaletteOptions["primary"],
-        neutral?: PaletteOptions["primary"]
+        bgcolor?: {
+            main: string,
+            secondary: string,
+            contrastText: string
+        },
+        accent?: {
+            main: string,
+            contrastText: string
+        },
+        neutral?: {
+            main: string,
+            light: string
+        }
+    }
+}
+
+import "@mui/material/Button";
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    accent: true;
+  }
+}
+
+import "@mui/material/Typography"
+
+declare module "@mui/material/Typography" {
+    interface TypographyPropsVariantOverrides {
+        span: true
     }
 }
 
@@ -19,11 +55,12 @@ const headingStyles = {
 }
 
 let theme = createTheme({
+    cssVariables: true,
     shape: {
         borderRadius: "0.75rem"
     },
     typography: {
-        fontFamily: ["Inter", 'sans-serif'].join(","),
+        fontFamily: "var(--font-inter)",
         h1: { ...headingStyles, fontSize: "3.2rem" },
         h2: { ...headingStyles, fontSize: "2rem" },
         h3: { ...headingStyles, fontSize: "1.5rem" },
@@ -35,6 +72,7 @@ let theme = createTheme({
     palette: {
         bgcolor: {
             main: "#fcfcfc",
+            secondary: "#f4f4f5",
             contrastText: "#09090b"
         },
         primary: {

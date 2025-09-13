@@ -14,7 +14,7 @@ const ShirtCard = ({ shirt }: { shirt: Shirt }) => {
                     width={256}
                     height={256}
                     alt={shirt.name}
-                    src={shirt.imageLink}
+                    src={shirt.imageLink || ""}
                     style={{
                         width: "100%",
                         objectFit: "cover"
@@ -31,7 +31,7 @@ const ShirtCard = ({ shirt }: { shirt: Shirt }) => {
 
                     <Stack>
                         <Typography mb={2} variant="h5" color="primary">${shirt.price}</Typography>
-                        <Button size="large" startIcon={<ShoppingCartOutlinedIcon />} sx={{ justifySelf: "end" }} variant="contained" color="accent" fullWidth>Add to cart</Button>
+                        <Button size="large" sx={{ justifySelf: "end" }} variant="contained" color="accent" fullWidth>Purchase - ${shirt.price}</Button>
                     </Stack>
                 </Stack>
             </Card>

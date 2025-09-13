@@ -3,7 +3,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import "./globals.css";
 import ThemeWrapper from "./components/ThemeWrapper";
 import Header from "./components/Header";
-import { Geist, Inter } from "next/font/google"
+import { Inter } from "next/font/google"
 
 const inter = Inter({
   subsets: ['latin']

@@ -20,7 +20,7 @@ const Header = async () => {
 
 
     return (
-        <AppBar>
+        <AppBar position="sticky">
                 <Toolbar sx={{ backgroundColor: "primary.contrastText" }}>
                     <Link href="/"><Typography variant="h4" color="primary">TeeStore</Typography></Link>
 
