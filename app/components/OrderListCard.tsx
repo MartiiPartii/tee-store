@@ -7,7 +7,7 @@ const OrderListCard = ({ order }: { order: OrderPreview }) => {
     const encodedId = btoa(String(order.id))
 
     return (
-        <Link href={`/order/${encodedId}`}>
+        <Link href={`/orders/${encodedId}`}>
             <Card 
                 variant="outlined"
                 sx={{

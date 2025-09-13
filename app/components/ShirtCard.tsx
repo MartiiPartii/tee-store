@@ -5,7 +5,7 @@ import Link from "next/link"
 import placeholder from "@/public/placeholder.png"
 import { prisma } from "@/lib/prisma"
 
-const ShirtCard = async ({ shirt }: { shirt: Shirt }) => {
+const ShirtCard = async ({ shirt, button = true }: { shirt: Shirt, button?: boolean }) => {
     const encodedId = btoa(String(shirt.id))
 
     let seller: { firstName: string, lastName: string } | null = null
@@ -56,7 +56,7 @@ const ShirtCard = async ({ shirt }: { shirt: Shirt }) => {
 
                     <Stack>
                         <Typography mb={2} variant="h5" color="primary">${shirt.price}</Typography>
-                        <Link href={`/shirt/${encodedId}/purchase`}><Button size="large" sx={{ justifySelf: "end" }} variant="contained" color="accent" fullWidth>Purchase - ${shirt.price}</Button></Link>
+                        {button && <Link href={`/shirt/${encodedId}/purchase`}><Button size="large" sx={{ justifySelf: "end" }} variant="contained" color="accent" fullWidth>Purchase - ${shirt.price}</Button></Link>}
                     </Stack>
                 </Stack>
             </Card>

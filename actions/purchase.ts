@@ -46,5 +46,5 @@ export const purchase = async (prevState: any, formData: FormData) => {
     }
 
     const b64id = btoa(String(order.id))
-    redirect(`/order/${b64id}`)
+    redirect(`/orders/${b64id}`)
 }

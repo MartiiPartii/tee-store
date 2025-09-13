@@ -80,8 +80,8 @@ let theme = createTheme({
         h1: { ...headingStyles, fontSize: "3.2rem" },
         h2: { ...headingStyles, fontSize: "2rem" },
         h3: { ...headingStyles, fontSize: "1.5rem" },
-        h4: { ...headingStyles },
-        h5: { ...headingStyles },
+        h4: { ...headingStyles, fontSize: "1.2rem" },
+        h5: { ...headingStyles, fontSize: "1rem" },
         body1: { fontSize: "1rem" },
         body2: { fontSize: "0.875rem" }
     },
