@@ -3,8 +3,34 @@ import { Box, Stack, Typography } from "@mui/material"
 import { prisma } from "@/lib/prisma"
 import StoreCollection from "@/app/components/StoreCollection"
 
-const Browse = async () => {
-    const collection = await prisma.shirt.findMany()
+const Browse = async ({ searchParams }: { searchParams: { search: string } }) => {
+    const search = (await searchParams).search || ""
+    const decodedSearch = decodeURIComponent(search)
+    const words = decodedSearch.split(" ")
+    console.log(words)
+
+    const collection = await prisma.shirt.findMany({
+        where: {
+            OR: [
+                { name: { contains: decodedSearch, mode: "insensitive" } },
+                { description: { contains: decodedSearch, mode: "insensitive" } },
+                {
+                    seller: {
+                        is: {
+                            OR: words.map(word => ({
+                                OR: [
+                                    { firstName: { contains: word, mode: "insensitive" } },
+                                    { lastName: { contains: word, mode: "insensitive" } }
+                                ]
+                            }))
+                        }
+                    }
+                }
+            ]
+        }
+    })
+
+    console.log(collection)
 
 
     return (

@@ -2,6 +2,7 @@ import { verifyToken } from "@/lib/jwt/token"
 import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material"
 import { cookies } from "next/headers"
 import Link from "next/link"
+import SearchForm from "./SearchForm"
 
 const Header = async () => {
     const cookieStore = await cookies()
@@ -24,7 +25,9 @@ const Header = async () => {
                 <Toolbar sx={{ backgroundColor: "primary.contrastText" }}>
                     <Link href="/"><Typography variant="h4" color="primary">TeeStore</Typography></Link>
 
-                    <Stack direction={"row"} gap={2} flex={1} justifyContent="end" alignItems={"end"}>
+                    <SearchForm />
+
+                    <Stack direction={"row"} gap={2} justifyContent="end" alignItems={"end"}>
                         <Link href={"/browse"}><Button>Browse</Button></Link>
                         
                         {
