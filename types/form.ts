@@ -3,7 +3,9 @@ import { SvgIconProps } from '@mui/material/SvgIcon';
 export interface InputProps {
     label: string,
     placeholder: string,
-    ref: React.RefObject<HTMLInputElement | null>,
+    defaultValue?: string,
+    name?: string,
+    ref?: React.RefObject<HTMLInputElement | null>,
     type: string,
     required?: boolean,
     multiline?: boolean,

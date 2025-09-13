@@ -9,6 +9,8 @@ import { InputProps } from "@/types/form";
 const FormInputField = ({
     label,
     placeholder,
+    defaultValue,
+    name,
     ref,
     multiline,
     required,
@@ -33,10 +35,12 @@ const FormInputField = ({
 
             <TextField
                 placeholder={placeholder}
+                defaultValue={defaultValue ? defaultValue : ""}
                 size="small"
                 inputRef={ref}
                 inputProps={inputProps}
                 multiline={multiline}
+                name={name ? name : ""}
                 required={required ? true : false}
                 rows={rows}
                 type={type === "password" ? showPassword ? "text" : "password" : type}

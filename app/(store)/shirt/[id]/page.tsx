@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma"
 import Image from "next/image"
 import { User } from "@/app/generated/prisma";
 import placeholder from "@/public/placeholder.png"
+import Link from "next/link";
 
 const Shirt = async ({ params }: { params: { id: string } }) => {
     const encodedId = (await params).id
@@ -12,8 +13,6 @@ const Shirt = async ({ params }: { params: { id: string } }) => {
     const rawId = atob(b64)
 
     const shirt = await prisma.shirt.findUnique({ where: { id: Number(rawId) } })
-
-    console.log(shirt)
 
     let user: { firstName: string, lastName: string } | null
     if(shirt && !shirt.soldByPlatform) {
@@ -68,7 +67,7 @@ const Shirt = async ({ params }: { params: { id: string } }) => {
                                 <Typography variant="body1" mb={4}>{shirt.description}</Typography>
                             </Stack>
 
-                            <Button variant="contained" color="accent" size="large" fullWidth>Buy - ${shirt.price}</Button>
+                            <Link href={`/shirt/${b64}/purchase`}><Button variant="contained" color="accent" size="large" fullWidth>Buy - ${shirt.price}</Button></Link>
                         </Stack>
                     </Grid>
                 </Grid>

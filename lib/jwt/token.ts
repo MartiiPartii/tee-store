@@ -1,5 +1,7 @@
-import { jwtVerify, SignJWT } from "jose"
+import { JWTPayload, jwtVerify, SignJWT } from "jose"
 import { prisma } from "../prisma"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 async function createToken(userId: number, secret: string, exp: number | string | Date) {
     const key = new TextEncoder().encode(secret)
@@ -40,4 +42,19 @@ export async function createAuthorizationToken(userId: number) {
     const token = await createToken(userId, process.env.JWT_SECRET!, "168h")
 
     return token
+}
+
+export async function getUserId() {
+    const cookieStore = await cookies()
+    const token = cookieStore.get("token")?.value
+
+    let payload: JWTPayload
+    try {
+        if(token) payload = await verifyToken(token, process.env.JWT_SECRET!)
+        else throw new Error()
+    } catch(err) {
+        redirect("/login")
+    }
+
+    return payload.userId
 }

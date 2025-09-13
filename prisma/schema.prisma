@@ -36,25 +36,31 @@ model VerificationToken {
 }
 
 model Shirt {
-  id             Int     @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   imageLink      String
   name           String
   description    String
   price          Float
   sellerId       Int?
-  seller         User?   @relation(fields: [sellerId], references: [id])
-  soldByPlatform Boolean @default(false)
-  createdAt DateTime @default(now())
+  seller         User?    @relation(fields: [sellerId], references: [id])
+  soldByPlatform Boolean  @default(false)
+  createdAt      DateTime @default(now())
 
-  orders Order[] @relation("OrderItems")
+  orders Order[]
 }
 
 model Order {
-  id       Int       @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   userId   Int
-  user     User      @relation(fields: [userId], references: [id])
-  items    Shirt[]   @relation("OrderItems")
-  sum      Int
-  finished Boolean   @default(false)
-  date     DateTime?
+  user     User   @relation(fields: [userId], references: [id])
+  itemId   Int
+  item     Shirt  @relation(fields: [itemId], references: [id])
+  itemSize String
+
+  firstName String
+  lastName  String
+  address   String
+  phone     String
+
+  date DateTime @default(now())
 }

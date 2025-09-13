@@ -56,7 +56,7 @@ const ShirtCard = async ({ shirt }: { shirt: Shirt }) => {
 
                     <Stack>
                         <Typography mb={2} variant="h5" color="primary">${shirt.price}</Typography>
-                        <Button size="large" sx={{ justifySelf: "end" }} variant="contained" color="accent" fullWidth>Purchase - ${shirt.price}</Button>
+                        <Link href={`/shirt/${encodedId}/purchase`}><Button size="large" sx={{ justifySelf: "end" }} variant="contained" color="accent" fullWidth>Purchase - ${shirt.price}</Button></Link>
                     </Stack>
                 </Stack>
             </Card>
