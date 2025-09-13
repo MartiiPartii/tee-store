@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material"
 import ShirtCard from "./ShirtCard"
-import { Shirt } from "@/types/shirt"
+import { Shirt } from "../generated/prisma"
 
 const StoreCollection = async ({ collection }: { collection: Shirt[] }) => {
     return (

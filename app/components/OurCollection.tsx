@@ -1,7 +1,5 @@
-import { Grid, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import SectionContainer from "./SectionContainer"
-import ShirtCard from "./ShirtCard"
-import { Shirt } from "@/types/shirt"
 import { authFetch } from "@/lib/api/api"
 import StoreCollection from "./StoreCollection"
 

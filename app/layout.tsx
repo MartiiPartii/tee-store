@@ -3,6 +3,11 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import "./globals.css";
 import ThemeWrapper from "./components/ThemeWrapper";
 import Header from "./components/Header";
+import { Geist, Inter } from "next/font/google"
+
+const inter = Inter({
+  subsets: ['latin']
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.className}>
       <body>
         <AppRouterCacheProvider>
           <ThemeWrapper>

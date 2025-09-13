@@ -1,4 +1,4 @@
-import { Shirt } from "@/types/shirt"
+import { Shirt } from "../generated/prisma"
 import { Button, Card, Grid, Stack, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
@@ -8,7 +8,7 @@ const ShirtCard = ({ shirt }: { shirt: Shirt }) => {
     const encodedId = btoa(String(shirt.id))
 
     return (
-        <Grid size={3}>
+        <Grid size={4}>
             <Card variant="outlined" sx={{ textAlign: "start", height: "100%", display: "flex", flexDirection: "column" }}>
                 <Image
                     width={256}
@@ -24,7 +24,9 @@ const ShirtCard = ({ shirt }: { shirt: Shirt }) => {
                 <Stack flex={1} sx={{ padding: 2 }}>
                     <Stack flex={1}>
                         <Link href={`/shirt/${encodedId}`}><Typography mt={2} mb={1} variant="h5" fontSize={"1.4rem"} color="primary" sx={{ transition: ".2s", "&:hover": { color: "accent.main" } }}>{shirt.name}</Typography></Link>
-                        <Typography mb={1.5} variant="body2" color="neutral.light">{shirt.description}</Typography>
+                        <Typography mb={1.5} variant="body2" color="neutral.light">
+                            {shirt.description.length > 100 ? `${shirt.description.substring(0, 200)}...` : shirt.description}
+                        </Typography>
                     </Stack>
 
                     <Stack>

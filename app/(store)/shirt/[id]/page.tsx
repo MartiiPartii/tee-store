@@ -3,6 +3,7 @@ import { Button, Chip, Grid, Stack, Typography } from "@mui/material"
 import CheckIcon from '@mui/icons-material/Check';
 import { prisma } from "@/lib/prisma"
 import Image from "next/image"
+import { User } from "@/app/generated/prisma";
 
 const Shirt = async ({ params }: { params: { id: string } }) => {
     const encodedId = (await params).id
@@ -12,6 +13,15 @@ const Shirt = async ({ params }: { params: { id: string } }) => {
     const shirt = await prisma.shirt.findUnique({ where: { id: Number(rawId) } })
 
     console.log(shirt)
+
+    let user: { firstName: string, lastName: string } | null
+    if(shirt && !shirt.soldByPlatform) {
+        const sellerId: number = shirt.sellerId!
+        user = await prisma.user.findUnique({
+            where: { id: sellerId },
+            select: { firstName: true, lastName: true }
+        })
+    }
 
     return (
         <SectionContainer
@@ -39,10 +49,10 @@ const Shirt = async ({ params }: { params: { id: string } }) => {
                     </Grid>
 
                     <Grid size="grow" component={Stack}>
-                        <Stack direction="row" sx={{ marginBottom: 1 }}>
+                        <Stack direction="row" gap={1} sx={{ marginBottom: 1 }}>
                             {
                                 !shirt.soldByPlatform &&
-                                <Typography>User Shirt</Typography>
+                                <Chip label={`By ${user!.firstName || ""} ${user!.lastName || ""}`} variant="filled" size="small" color="accent" />
                             }
                             <Chip label="In Stock" icon={<CheckIcon />} variant="outlined" size="small" color="accent" />
                         </Stack>

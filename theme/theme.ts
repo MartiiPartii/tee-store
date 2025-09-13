@@ -23,6 +23,7 @@ let theme = createTheme({
         borderRadius: "0.75rem"
     },
     typography: {
+        fontFamily: ["Inter", 'sans-serif'].join(","),
         h1: { ...headingStyles, fontSize: "3.2rem" },
         h2: { ...headingStyles, fontSize: "2rem" },
         h3: { ...headingStyles, fontSize: "1.5rem" },
