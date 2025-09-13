@@ -58,6 +58,14 @@ declare module "@mui/material/Typography" {
     }
 }
 
+import "@mui/material/SvgIcon"
+
+declare module "@mui/material/SvgIcon" {
+    interface SvgIconPropsColorOverrides {
+        accent: true
+    }
+}
+
 const headingStyles = {
     fontWeight: 700
 }

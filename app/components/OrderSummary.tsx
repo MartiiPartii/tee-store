@@ -9,8 +9,8 @@ const OrderSummary = ({ product }: { product: ProductOverview }) => {
             <Card variant="outlined" sx={{ p: 3 }}>
                 <Typography variant="h3" mb={3}>Order Summary</Typography>
 
-                <Grid mb={1} container alignItems={"center"}>
-                    <Grid size={3} spacing={2}>
+                <Grid mb={1} spacing={2} container alignItems={"center"}>
+                    <Grid size={3}>
                         <Image
                             src={product.imageLink}
                             alt="Product Image"
@@ -19,7 +19,8 @@ const OrderSummary = ({ product }: { product: ProductOverview }) => {
                             style={{
                                 width: "100%",
                                 height: "auto",
-                                aspectRatio: "1 / 1"
+                                aspectRatio: "1 / 1",
+                                borderRadius: 10
                             }}
                         />
                     </Grid>
