@@ -2,7 +2,7 @@ import { Shirt } from "../generated/prisma"
 import { Button, Card, Chip, Grid, Stack, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
-import placeholder from "@/public/placeholder.png"
+import placeholder from "@/public/placeholder.webp"
 import { prisma } from "@/lib/prisma"
 
 const ShirtCard = async ({ shirt, button = true }: { shirt: Shirt, button?: boolean }) => {

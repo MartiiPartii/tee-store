@@ -4,7 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { prisma } from "@/lib/prisma"
 import Image from "next/image"
 import { User } from "@/app/generated/prisma";
-import placeholder from "@/public/placeholder.png"
+import placeholder from "@/public/placeholder.webp"
 import Link from "next/link";
 
 const Shirt = async ({ params }: { params: { id: string } }) => {

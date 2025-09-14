@@ -1,7 +1,7 @@
 import { ShirtOverview } from "@/types/shirt"
 import { Card, Grid, Stack, Typography } from "@mui/material"
 import Image from "next/image"
-import blank from "@/public/placeholder.png"
+import blank from "@/public/placeholder.webp"
 import Link from "next/link"
 
 const MyShirtCard = ({ shirt }: { shirt: ShirtOverview }) => {
