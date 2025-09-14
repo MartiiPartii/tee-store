@@ -41,6 +41,8 @@ const ShirtCard = async ({ shirt, button = true }: { shirt: Shirt, button?: bool
                     src={shirt.imageLink || placeholder}
                     style={{
                         width: "100%",
+                        height: "auto",
+                        aspectRatio: "1 / 1",
                         objectFit: "cover",
                         objectPosition: "center"
                     }}
