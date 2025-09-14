@@ -1,11 +1,12 @@
 import SectionContainer from "@/app/components/SectionContainer"
 import { getUserId } from "@/lib/jwt/token"
 import { ShirtOverview } from "@/types/shirt"
-import { Grid, Stack, Typography } from "@mui/material"
+import { Button, Grid, Stack, Typography } from "@mui/material"
 import { prisma } from "@/lib/prisma"
-import { Description } from "@mui/icons-material"
+import AddIcon from '@mui/icons-material/Add';
 import OrdersStatCard from "@/app/components/OrdersStatCard"
 import MyShirtCard from "@/app/components/MyShirtCard"
+import Link from "next/link"
 
 const MyShirts = async () => {
     const userId = await getUserId() as number
@@ -53,8 +54,14 @@ const MyShirts = async () => {
                 }
             }}
         >
-            <Typography variant="h2" mb={1}>My T-Shirts</Typography>
-            <Typography variant="body1" mb={3}>Manage your t-shirt listings and track performance</Typography>
+            <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
+                <Stack>
+                    <Typography variant="h2" mb={1}>My T-Shirts</Typography>
+                    <Typography variant="body1" mb={3}>Manage your t-shirt listings and track performance</Typography>
+                </Stack>
+
+                <Link href={'/sell-tshirt'}><Button startIcon={<AddIcon />} variant="contained" color="accent">Sell New T-Shirt</Button></Link>
+            </Stack>
 
             <Grid container spacing={2} mb={3}>
                 <OrdersStatCard stat={String(shirts?.length || 0)} label="Total Listings" />
