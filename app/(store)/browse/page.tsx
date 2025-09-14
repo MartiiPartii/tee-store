@@ -1,34 +1,22 @@
 import SectionContainer from "@/app/components/SectionContainer"
 import { Box, Stack, Typography } from "@mui/material"
-import { prisma } from "@/lib/prisma"
 import StoreCollection from "@/app/components/StoreCollection"
+import { getShirts } from "@/actions/store"
+import { Shirt } from "@/app/generated/prisma"
 
 const Browse = async ({ searchParams }: { searchParams: { search: string } }) => {
     const search = (await searchParams).search || ""
     const decodedSearch = decodeURIComponent(search)
-    const words = decodedSearch.split(" ")
-    console.log(words)
+    let collection: Shirt[] | null = null
+    let error: string | null = null
 
-    const collection = await prisma.shirt.findMany({
-        where: {
-            OR: [
-                { name: { contains: decodedSearch, mode: "insensitive" } },
-                { description: { contains: decodedSearch, mode: "insensitive" } },
-                {
-                    seller: {
-                        is: {
-                            OR: words.map(word => ({
-                                OR: [
-                                    { firstName: { contains: word, mode: "insensitive" } },
-                                    { lastName: { contains: word, mode: "insensitive" } }
-                                ]
-                            }))
-                        }
-                    }
-                }
-            ]
-        }
-    })
+    try {
+        collection = await getShirts({
+            searchQuery: decodedSearch
+        })
+    } catch(err) {
+        error = "We couldn't fetch products properly. Please try again."
+    }
 
     console.log(collection)
 
@@ -60,8 +48,23 @@ const Browse = async ({ searchParams }: { searchParams: { search: string } }) =>
                 }}
             >
                 {
-                    collection && collection.length > 0 &&
+                    error ?
+                    <Typography textAlign={"center"} variant="body1" fontStyle={"italic"} color="error">{error}</Typography>
+                    :
+                    collection && collection.length > 0 ?
                     <StoreCollection collection={collection} />
+                    :
+                    <Stack>
+                        <Typography variant="h4">Nothing here...</Typography>
+                        <Typography variant="body1">
+                            {
+                                decodedSearch ?
+                                "No products match your search query."
+                                :
+                                "Expect new products very soon."
+                            }
+                        </Typography>
+                    </Stack>
                 }
             </SectionContainer>
         </>

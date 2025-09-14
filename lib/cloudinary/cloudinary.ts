@@ -14,7 +14,7 @@ const generateSignature = (timestamp: string, uploadPreset: string) => {
     return signature
 }
 
-export const uploadToCloudinary = async (file: FormDataEntryValue) => {
+export const uploadToCloudinary = async (file: File) => {
     const formData = new FormData()
     formData.append("file", file)
     formData.append("upload_preset", "TeeStore")

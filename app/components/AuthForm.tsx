@@ -1,23 +1,21 @@
-import { Box, Button, Card, Checkbox, FormControlLabel, Stack, Typography, useTheme } from "@mui/material"
+import { Box, Button, Card, Stack, Typography } from "@mui/material"
 import FormInputField from "./FormInputField"
 import Link from "next/link"
-import React from "react"
+import React, { useActionState } from "react"
 import { FormProps } from "@/types/form";
+import Form from "next/form";
 
 
 
 const AuthForm = ({
     title,
     description,
-    error,
     inputs,
-    rememberMe,
-    forgotPass,
     buttonLabel,
-    handleSubmit,
+    actionCallback,
     link
 } : FormProps) => {
-    const theme = useTheme()
+    const [state, action] = useActionState(actionCallback, null)
 
     return (
         <Card
@@ -33,14 +31,14 @@ const AuthForm = ({
             <Stack gap={1}  mb={3}>
                 <Typography variant="h3" color="neutral">{title}</Typography>
                 <Typography variant="body2">{description}</Typography>
-                {error && <Typography variant="body2" color="error" fontStyle={"italic"}>{error}</Typography>}
+                {state && state.error && <Typography variant="body2" color="error" fontStyle={"italic"}>{state.error}</Typography>}
             </Stack>
 
             <Box mb={3}>
                 {
                     inputs && inputs.length > 0 &&
-                    <form onSubmit={(e) => handleSubmit(e)}>
-                        <Stack gap={2}>
+                    <Form action={action}>
+                        <Stack gap={2} mb={3}>
                             {
                                 inputs.map((input, i) => (
                                     <FormInputField
@@ -51,31 +49,8 @@ const AuthForm = ({
                             }
                         </Stack>
 
-                        <Stack mt={1.5} mb={1.5} direction="row" alignItems="center" justifyContent="space-between">
-                            {
-                                rememberMe &&
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox size="small" color="primary" inputRef={rememberMe} />
-                                    } 
-                                    label="Remember me"
-                                    slotProps={{
-                                        typography: {
-                                            fontSize: "0.875rem",
-                                            color: theme.palette.neutral.main
-                                        }
-                                    }}
-                                />
-                            }
-    
-                            {
-                                forgotPass &&
-                                <Link href="/forgot-password"><Typography variant="body2" fontWeight={500} color="accent">Forgot Password?</Typography></Link>
-                            }
-                        </Stack>
-
                         <Button type="submit" variant="contained" color="accent" fullWidth size="large">{buttonLabel}</Button>
-                    </form>
+                    </Form>
                 }
             </Box>
 

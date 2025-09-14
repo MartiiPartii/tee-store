@@ -1,56 +1,14 @@
 import SectionContainer from "@/app/components/SectionContainer"
 import { Grid, Typography } from "@mui/material"
 import PurchaseForm from "@/app/components/PurchaseForm";
-import { getUserId } from "@/lib/jwt/token";
-import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import { ProductOverview, UserShippingInfo } from "@/types/shipping";
 import OrderSummary from "@/app/components/OrderSummary";
+import { getProductOverview, getUserShippingInfo } from "@/actions/purchase";
 
 const Purchase = async ({ params }: { params: { id: string } }) => {
-    const userId = await getUserId() as number
-
-    let user: UserShippingInfo | null
-    try {
-        user = await prisma.user.findUnique({
-            where: { id: userId },
-            select: {
-                firstName: true,
-                lastName: true,
-                phoneNumber: true,
-                address: true
-            }
-        })
-    } catch(err) {
-        redirect("/login")
-    }
-
-    // console.log(user)
-
+    const user = await getUserShippingInfo()
     const encodedId = (await params).id
     const b64id = decodeURIComponent(encodedId)
-    const productId = atob(b64id)
-
-    const product: ProductOverview | null = await prisma.shirt.findUnique({
-        where: { id: Number(productId) },
-        select: {
-            id: true,
-            imageLink: true,
-            name: true,
-            soldByPlatform: true,
-            price: true,
-            seller: {
-                select: {
-                    firstName: true,
-                    lastName: true
-                }
-            }
-        }
-    })
-
-    if(!product) throw new Error()
-
-    // console.log(product)
+    const product = await getProductOverview(b64id)
 
 
     return (

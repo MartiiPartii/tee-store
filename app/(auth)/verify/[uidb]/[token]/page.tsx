@@ -3,33 +3,35 @@ import { Button, Stack, Typography } from "@mui/material"
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Link from "next/link";
+import { verifyAccount } from "@/actions/authenticate";
 
 
 
 const Verify = async ({ params }: { params: { uidb: string, token: string } }) => {
     const { uidb, token } = await params
-    let title = "Something went wrong.", text = "", button = "Home", link = "/", success = false
-    const response = await fetch("http://localhost:3000/api/auth/verify/", {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            uidb,
-            token
-        })
+    let title = "Account verified.", text = "Your account was successfully verified. Now you can login.", button = "Login", link = "/login", success = true
 
-    })
-    
-    if(response.status == 200) {
-        title = "Account verified."
-        text = "Your account was successfully verified. Now you can login."
-        button = "Login"
-        link = "/login"
-        success = true
-    } else {
-        text = (await response.json()).error
+    try {
+        await verifyAccount(uidb, token)
+    } catch(err) {
+        title = err instanceof Error ? err.message : "Something went wrong"
+        text = ""
+        button = "Home"
+        link = "/"
+        success = false
     }
+
+    // })
+    
+    // if(response.status == 200) {
+        // title = "Account verified."
+        // text = "Your account was successfully verified. Now you can login."
+        // button = "Login"
+        // link = "/login"
+        // success = true
+    // } else {
+    //     text = (await response.json()).error
+    // }
 
     return (
         <SectionContainer props={{

@@ -1,47 +1,24 @@
 "use client"
 
-import { Button, Stack } from "@mui/material"
+import { Button, Stack, Typography } from "@mui/material"
 import ImageInput from "./ImageInput"
-import React, { useRef, useState } from "react"
+import React, { useActionState, useState } from "react"
 import FormInputField from "./FormInputField"
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AddIcon from '@mui/icons-material/Add';
-import { authFetch } from "@/lib/api/api"
-import { useRouter } from "next/navigation"
+import Form from "next/form"
+import { uploadShirt } from "@/actions/store"
 
 const ShirtForm = () => {
-    const name = useRef<HTMLInputElement>(null)
-    const description = useRef<HTMLInputElement>(null)
-    const price = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
-
-    const router = useRouter()
-
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
-        const formData = new FormData(e.currentTarget)
-        if(file) formData.append("file", file)
-        formData.append("name", (name?.current?.value || ""))
-        formData.append("description", (description?.current?.value || ""))
-        formData.append("price", (price?.current?.value || ""))
-
-        const response = await authFetch("http://localhost:3000/api/store/shirt", {
-            method: "POST",
-            body: formData,
-            credentials: "include"
-        })
-
-        const data = await response.json()
-        if(response.ok) {
-            router.push(`/my-shirts`)
-        }
-    }
+    const [state, action] = useActionState((previousState: any, formData: FormData) => uploadShirt(previousState, formData, file), null)
 
 
     return (
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <Form action={action}>
+
+            {state?.error && <Typography mb={2} variant="body1" color="error" fontStyle={"italic"}>{state.error}</Typography>}
+
             <ImageInput
                 file={file}
                 setFile={setFile}
@@ -51,15 +28,15 @@ const ShirtForm = () => {
                 <FormInputField
                     label="T-Shirt Name*"
                     placeholder="Enter t-shirt name"
-                    ref={name}
+                    name="name"
                     type="text"
                     required={true}
                 />
                 <FormInputField
                     label="T-Shirt Description*"
                     placeholder="Describe your t-shirt, its style, material, etc."
-                    ref={description}
                     type="text"
+                    name="description"
                     multiline={true}
                     rows={4}
                     required={true}
@@ -68,7 +45,7 @@ const ShirtForm = () => {
                     label="Price (USD)*"
                     placeholder="0.00"
                     step={0.01}
-                    ref={price}
+                    name="price"
                     type="number"
                     Icon={AttachMoneyIcon}
                     required={true}
@@ -82,7 +59,7 @@ const ShirtForm = () => {
                     </Button>
                 </Stack>
             </Stack>
-        </form>
+        </Form>
     )
 }
 

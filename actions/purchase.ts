@@ -3,7 +3,8 @@
 import { Order } from "@/app/generated/prisma"
 import { getUserId } from "@/lib/jwt/token"
 import { prisma } from "@/lib/prisma"
-import { redirect } from "next/navigation"
+import { ProductOverview, UserShippingInfo } from "@/types/shipping"
+import { notFound, redirect } from "next/navigation"
 
 export const purchase = async (prevState: any, formData: FormData) => {
     const userId = await getUserId()
@@ -47,4 +48,56 @@ export const purchase = async (prevState: any, formData: FormData) => {
 
     const b64id = btoa(String(order.id))
     redirect(`/orders/${b64id}`)
+}
+
+export const getUserShippingInfo = async() => {
+    const userId = await getUserId() as number
+
+    let user: UserShippingInfo | null
+    try {
+        user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                firstName: true,
+                lastName: true,
+                phoneNumber: true,
+                address: true
+            }
+        })
+    } catch(err) {
+        redirect("/login")
+    }
+
+    return user
+}
+
+export const getProductOverview = async (b64id: string) => {
+    let product: ProductOverview | null = null
+
+    try {
+        const productId = atob(b64id)
+
+        product = await prisma.shirt.findUnique({
+            where: { id: Number(productId) },
+            select: {
+                id: true,
+                imageLink: true,
+                name: true,
+                soldByPlatform: true,
+                price: true,
+                seller: {
+                    select: {
+                        firstName: true,
+                        lastName: true
+                    }
+                }
+            }
+        })
+
+        if(!product) throw new Error()
+    } catch(err) {
+        notFound()
+    }
+
+    return product
 }

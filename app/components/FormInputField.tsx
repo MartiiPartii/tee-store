@@ -11,7 +11,6 @@ const FormInputField = ({
     placeholder,
     defaultValue,
     name,
-    ref,
     multiline,
     required,
     step,
@@ -38,7 +37,6 @@ const FormInputField = ({
                 placeholder={placeholder}
                 defaultValue={defaultValue ? defaultValue : ""}
                 size="small"
-                inputRef={ref}
                 inputProps={inputProps}
                 multiline={multiline}
                 name={name ? name : ""}

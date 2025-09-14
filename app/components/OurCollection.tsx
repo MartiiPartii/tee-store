@@ -1,30 +1,19 @@
 import { Typography } from "@mui/material"
 import SectionContainer from "./SectionContainer"
-import { authFetch } from "@/lib/api/api"
 import StoreCollection from "./StoreCollection"
+import { getShirts } from "@/actions/store"
+import { Shirt } from "../generated/prisma"
 
 const OurCollection = async () => {
-    
-    const response = await authFetch("http://localhost:3000/api/store/shirt?take=4&seller=0", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
+    let data: Shirt[] = []
+    let error = null
 
-    console.log(response)
-    
-    if(!response.ok) {
-        console.log("Not ok")
-        return (
-            <SectionContainer props={{
-                sx: { textAlign: "center", padding: `3.2rem` }
-            }}>
-                <Typography variant="h2" mb={3} color="neutral">We couldnt fetch our premium collection</Typography>
-            </SectionContainer>
-        )
+    try {
+        const collection = await getShirts({ take: 3, soldByPlatform: true })
+        data = collection
+    } catch(err) {
+        error = "We couldnt fetch our premium collection."
     }
-    const data = (await response.json()).data
 
 
     return (
@@ -34,8 +23,13 @@ const OurCollection = async () => {
             <Typography variant="h2" mb={3} color="neutral">Our premium collection</Typography>
 
             {
-                data && data.length > 0 &&
+                error ?
+                <Typography variant="body1" color="error" fontStyle={"italic"}>{error}</Typography>
+                :
+                data && data.length > 0 ?
                 <StoreCollection collection={data} />
+                :
+                <Typography variant="body1">Nothing here. Expect new products soon.</Typography>
             }
         </SectionContainer>
     )

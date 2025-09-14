@@ -1,36 +1,25 @@
 import SectionContainer from "@/app/components/SectionContainer"
 import { Button, Chip, Grid, Stack, Typography } from "@mui/material"
 import CheckIcon from '@mui/icons-material/Check';
-import { prisma } from "@/lib/prisma"
 import Image from "next/image"
-import { User } from "@/app/generated/prisma";
 import placeholder from "@/public/placeholder.webp"
 import Link from "next/link";
+import { getShirt } from "@/actions/store";
 
 const Shirt = async ({ params }: { params: { id: string } }) => {
     const encodedId = (await params).id
     const b64 = encodedId ? decodeURIComponent(encodedId) : ""
-    const rawId = atob(b64)
 
-    const shirt = await prisma.shirt.findUnique({ where: { id: Number(rawId) } })
-
-    let user: { firstName: string, lastName: string } | null
-    if(shirt && !shirt.soldByPlatform) {
-        const sellerId: number = shirt.sellerId!
-        user = await prisma.user.findUnique({
-            where: { id: sellerId },
-            select: { firstName: true, lastName: true }
-        })
-    }
+    const { shirt, user } = await getShirt(b64)
 
     return (
         <SectionContainer
             props={{
-                sx: { padding: `8rem 0` }
+                sx: { py: 8 }
             }}
         >
             {
-                shirt ?
+                shirt &&
                 <Grid container spacing={6}>
                     <Grid size={6}>
                         <Image
@@ -71,8 +60,6 @@ const Shirt = async ({ params }: { params: { id: string } }) => {
                         </Stack>
                     </Grid>
                 </Grid>
-                :
-                <Typography variant="h3">Not found</Typography>
             }
         </SectionContainer>
     )

@@ -3,7 +3,7 @@ import { Button, Card, Chip, Grid, Stack, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
 import placeholder from "@/public/placeholder.webp"
-import { prisma } from "@/lib/prisma"
+import { getShirtSeller } from "@/actions/store"
 
 const ShirtCard = async ({ shirt, button = true }: { shirt: Shirt, button?: boolean }) => {
     const encodedId = btoa(String(shirt.id))
@@ -11,10 +11,7 @@ const ShirtCard = async ({ shirt, button = true }: { shirt: Shirt, button?: bool
     let seller: { firstName: string, lastName: string } | null = null
     if(!shirt.soldByPlatform) {
         const sellerId = shirt.sellerId!
-        seller = await prisma.user.findUnique({
-            where: { id: sellerId },
-            select: { firstName: true, lastName: true }
-        })
+        seller = await getShirtSeller(sellerId)
     }
 
     return (

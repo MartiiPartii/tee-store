@@ -1,51 +1,16 @@
-import { OrderDetailsInterface } from "@/types/order"
-import { prisma } from "@/lib/prisma"
-import { getUserId } from "@/lib/jwt/token"
 import SectionContainer from "@/app/components/SectionContainer"
 import { Card, Grid, Stack, Typography } from "@mui/material"
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import Image from "next/image"
 import DownloadPdf from "@/app/components/DownloadPdf"
+import { getOrder } from "@/actions/orders"
 
 const OrderDetails = async ({ params }: { params: { id: string } }) => {
-    const userId = await getUserId()
-
     const encodedId = (await params).id
     const b64id = decodeURIComponent(encodedId)
     const id = Number(atob(b64id))
 
-    let order: OrderDetailsInterface | null = null
-    try {
-        order = await prisma.order.findUnique({
-            where: {
-                id,
-                userId: Number(userId)
-            },
-            select: {
-                id: true,
-                date: true,
-                address: true,
-                firstName: true,
-                lastName: true,
-                phone: true,
-                itemSize: true,
-                item: {
-                    include: {
-                        seller: {
-                            select: {
-                                firstName: true,
-                                lastName: true
-                            }
-                        }
-                    }
-                }
-            }
-        })
-    } catch(err) {
-        throw new Error("Order not found.")
-    }
-
-    console.log(order)
+    const order = await getOrder(id)
 
 
     return (

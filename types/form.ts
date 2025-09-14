@@ -5,7 +5,6 @@ export interface InputProps {
     placeholder: string,
     defaultValue?: string,
     name?: string,
-    ref?: React.RefObject<HTMLInputElement | null>,
     step?: number,
     type: string,
     required?: boolean,
@@ -17,12 +16,9 @@ export interface InputProps {
 export interface FormProps {
     title: string,
     description: string,
-    error: string | null,
     inputs: InputProps[],
-    rememberMe?: React.RefObject<HTMLInputElement | null>,
-    forgotPass?: boolean,
     buttonLabel: string,
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
+    actionCallback: (prevState: any, formData: FormData) => any,
     link: {
         text: string,
         label: string,
