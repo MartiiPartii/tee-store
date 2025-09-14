@@ -20,6 +20,7 @@ const OrderSummary = ({ product }: { product: ProductOverview }) => {
                                 width: "100%",
                                 height: "auto",
                                 aspectRatio: "1 / 1",
+                                objectFit: "cover",
                                 borderRadius: 10
                             }}
                         />

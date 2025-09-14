@@ -4,6 +4,8 @@ import "./globals.css";
 import ThemeWrapper from "./components/ThemeWrapper";
 import Header from "./components/Header";
 import { Inter } from "next/font/google"
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const inter = Inter({
   subsets: ['latin']
@@ -25,7 +27,9 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeWrapper>
               <Header />
-              {children}
+              <Suspense fallback={<Loading />}>
+                {children}
+              </Suspense>
           </ThemeWrapper>
         </AppRouterCacheProvider>
       </body>

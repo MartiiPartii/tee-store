@@ -4,6 +4,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import Image from "next/image"
 import DownloadPdf from "@/app/components/DownloadPdf"
 import { getOrder } from "@/actions/orders"
+import Link from "next/link"
 
 const OrderDetails = async ({ params }: { params: { id: string } }) => {
     const encodedId = (await params).id
@@ -46,12 +47,18 @@ const OrderDetails = async ({ params }: { params: { id: string } }) => {
                                         style={{
                                             height: "auto",
                                             aspectRatio: "1 / 1",
+                                            objectFit: "cover",
                                             borderRadius: 10
                                         }}
                                     />
 
                                     <Stack>
-                                        <Typography variant="body1" color="neutral" fontWeight={600}>{order.item.name}</Typography>
+                                        <Link href={`/shirt/${btoa(String(order.item.id))}`}><Typography variant="body1" color="neutral" fontWeight={600} sx={{
+                                            transition: ".2s",
+                                            "&:hover": {
+                                                color: "accent.main"
+                                            }
+                                        }}>{order.item.name}</Typography></Link>
                                         <Typography variant="body2" mb={1}>{order.item.description.length > 100 ? `${order.item.description.substring(0, 100)}...` : order.item.description}</Typography>
                                         <Typography variant="body2">Product size: <Typography variant="span" color="neutral">{order.itemSize}</Typography></Typography>
                                     </Stack>
