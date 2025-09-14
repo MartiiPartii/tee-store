@@ -1,9 +1,9 @@
 import { decodeUidb } from "@/lib/validation/uidb"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { verifyToken } from "@/lib/jwt/token"
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
     try {
             const { uidb, token } = await req.json()
 

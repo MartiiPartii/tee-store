@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcrypt"
 import { transporter } from "@/lib/email"
 import { createValidationToken } from "@/lib/jwt/token"
 import { generateUidb } from "@/lib/validation/uidb"
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const { firstName, lastName, email, password, confirmPassword, address, phoneNumber } = await req.json()
 
