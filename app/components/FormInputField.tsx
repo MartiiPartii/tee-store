@@ -14,6 +14,7 @@ const FormInputField = ({
     ref,
     multiline,
     required,
+    step,
     rows,
     type,
     Icon
@@ -45,6 +46,9 @@ const FormInputField = ({
                 rows={rows}
                 type={type === "password" ? showPassword ? "text" : "password" : type}
                 slotProps={{
+                    htmlInput: {
+                        step: step ? step : 1.00,
+                    },
                     input: {
                         startAdornment: Icon ? (
                                 <InputAdornment

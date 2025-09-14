@@ -19,9 +19,7 @@ const Sell = () => {
                 <Card variant="outlined" sx={{ padding: 3 }}>
                     <Typography variant="h3" mb={2}>T-Shirt Details</Typography>
 
-                    <ShirtForm
-            
-                    />
+                    <ShirtForm />
                 </Card>
             </Stack>
         </SectionContainer>

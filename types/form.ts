@@ -6,6 +6,7 @@ export interface InputProps {
     defaultValue?: string,
     name?: string,
     ref?: React.RefObject<HTMLInputElement | null>,
+    step?: number,
     type: string,
     required?: boolean,
     multiline?: boolean,

@@ -7,12 +7,15 @@ import FormInputField from "./FormInputField"
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AddIcon from '@mui/icons-material/Add';
 import { authFetch } from "@/lib/api/api"
+import { useRouter } from "next/navigation"
 
 const ShirtForm = () => {
     const name = useRef<HTMLInputElement>(null)
     const description = useRef<HTMLInputElement>(null)
     const price = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
+
+    const router = useRouter()
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +33,10 @@ const ShirtForm = () => {
             credentials: "include"
         })
 
-        console.log(response)
+        const data = await response.json()
+        if(response.ok) {
+            router.push(`/my-shirts`)
+        }
     }
 
 
@@ -61,6 +67,7 @@ const ShirtForm = () => {
                 <FormInputField
                     label="Price (USD)*"
                     placeholder="0.00"
+                    step={0.01}
                     ref={price}
                     type="number"
                     Icon={AttachMoneyIcon}
