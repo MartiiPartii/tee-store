@@ -13,7 +13,7 @@ const Hero = () => {
             }}
         >
             <Stack
-                sx={{ alignItems: "center", textAlign: "center", maxWidth: "48rem", margin: "0 auto", padding: `3.6rem`, paddingTop: "7.2rem" }}
+                sx={{ alignItems: "center", textAlign: "center", maxWidth: "48rem", margin: "0 auto", p: 8 }}
             >
                 <Typography variant="body1" mb={3} fontWeight={"bold"} color="primary.contrastText" fontSize={18}>✨ Premium Quality</Typography>
 

@@ -53,6 +53,7 @@ import "@mui/material/IconButton";
 declare module "@mui/material/IconButton" {
   interface IconButtonPropsColorOverrides {
     neutral: true;
+    accent: true
   }
 }
 
