@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [new URL("https://res.cloudinary.com/da3mhikdh/image/upload/**")]
+    remotePatterns: [new URL(`https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/**`)]
   },
   experimental: {
     globalNotFound: true,

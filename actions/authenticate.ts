@@ -104,7 +104,7 @@ export const register = async (prevState: any, formData: FormData) => {
                 from: "teestoreht@gmail.com",
                 to: email,
                 subject: "Account Verification",
-                html: `<div><h1>Hi ${firstName}! Welcome to TeeStore.</h1><h3>Click the link below to verify your account and start using our platform:</h3><a href="http://localhost:3000/verify/${uidb}/${token}">Click to verify</a></div>`
+                html: `<div><h1>Hi ${firstName}! Welcome to TeeStore.</h1><h3>Click the link below to verify your account and start using our platform:</h3><a href="${process.env.NEXT_PUBLIC_URL}/verify/${uidb}/${token}">Click to verify</a></div>`
             })
         } catch(err) {
             const deletedUser = await prisma.user.delete({
