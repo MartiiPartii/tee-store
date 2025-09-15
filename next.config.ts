@@ -6,7 +6,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [new URL("https://res.cloudinary.com/da3mhikdh/image/upload/**")]
   },
   experimental: {
-    globalNotFound: true
+    globalNotFound: true,
+    serverActions: {
+      bodySizeLimit: "10mb"
+    }
   }
 };
 

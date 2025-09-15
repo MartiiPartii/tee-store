@@ -69,6 +69,9 @@ export const getMyShirts = async () => {
         if(!userId) throw new Error()
         shirts = await await prisma.shirt.findMany({
             where: { sellerId: userId },
+            orderBy: {
+                createdAt: "desc"
+            },
             select: {
                 id: true,
                 imageLink: true,

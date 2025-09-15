@@ -14,7 +14,11 @@ const ImageInput = ({ file, setFile }: { file: File | null, setFile: React.Dispa
 
     const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)
-        if(e.target.files) setFile(e.target.files[0])
+        if(e.target.files) {
+            const fileObj = e.target.files[0]
+            if(fileObj && fileObj?.size > 10 * 1024 * 1024) setError("Maximum file size is 10MB.")
+            else setFile(fileObj)
+        }
     }
 
     const handleDropFile = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -29,7 +33,9 @@ const ImageInput = ({ file, setFile }: { file: File | null, setFile: React.Dispa
                 [...e.dataTransfer.items].forEach((item, i) => {
                     console.log(item)
                     if(item.kind === "file") {
-                        setFile(item.getAsFile())
+                        const fileObj = item.getAsFile()
+                        if(fileObj && fileObj?.size > 10 * 1024 * 1024) setError("Maximum file size is 10MB.")
+                        else setFile(item.getAsFile())
                     }
                 })
             }
