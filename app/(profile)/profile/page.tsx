@@ -31,7 +31,7 @@ const Profile = async () => {
             {
                 !error &&
                 <Grid container spacing={3}>
-                    <Grid size={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <Card variant="outlined" sx={{ p: 3, height: "100%" }}>
                             <Typography color="neutral" mb={2} variant="h2">{user?.firstName || ""} {user?.lastName || ""}</Typography>
 
@@ -53,20 +53,20 @@ const Profile = async () => {
                             <LogOut />
                         </Card>
                     </Grid>
-                    <Grid size={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <Grid container spacing={3}>
                             <ProfileStatCard
                                 Icon={Shirt}
                                 stat={String(shirts)}
                                 label="Shirts Selling"
-                                size={6}
+                                size={{ xs: 12, md: 6 }}
                                 link="/my-shirts"
                             />
                             <ProfileStatCard
                                 Icon={DollarSign}
                                 stat={String(profit)}
                                 label="Total Earned"
-                                size={6}
+                                size={{ xs: 12, md: 6 }}
                             />
                             <ProfileStatCard
                                 Icon={ShoppingBag}

@@ -18,7 +18,7 @@ const CommunityCollection = async () => {
 
     return (
         <SectionContainer props={{
-            sx: { textAlign: "center", padding: `3.2rem` }
+            sx: { textAlign: "center", p: { xs: 3.2, sm: 6.4 } }
         }}>
             <Typography variant="h2" mb={3} color="neutral">Community collection</Typography>
 

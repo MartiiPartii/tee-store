@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <SectionContainer props={{ sx: { py: 8 } }}>
-        <Stack mx="auto" justifyContent={"center"} alignItems={"center"}>
+        <Stack mx="auto" textAlign={"center"} justifyContent={"center"} alignItems={"center"}>
             <Typography variant="h1">404</Typography>
             <Typography variant="h3" mb={1}>Not Found</Typography>
             <Typography variant="body1" mb={2}>The page you are looking for was not found.</Typography>

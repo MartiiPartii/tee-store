@@ -2,7 +2,7 @@ import { Box, Card, Grid, Stack, Typography } from "@mui/material"
 import { LucideIcon } from "lucide-react"
 import Link from "next/link"
 
-const ProfileStatCard = ({ Icon, stat, label, size, link }: { Icon: LucideIcon, stat: string, label: string, size: number, link?: string }) => {
+const ProfileStatCard = ({ Icon, stat, label, size, link }: { Icon: LucideIcon, stat: string, label: string, size: any, link?: string }) => {
     return (
         <Grid size={size}>
             <Link href={link ? link : ""}>

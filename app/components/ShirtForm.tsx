@@ -54,7 +54,7 @@ const ShirtForm = () => {
                         Icon={AttachMoneyIcon}
                         required={true}
                     />
-                    <Stack direction="row" gap={2}>
+                    <Stack direction={{ sm: "row" }} gap={2}>
                         <Button onClick={() => router.back()} sx={{ flex: 1 }} variant="outlined" color="primary">
                             Cancel
                         </Button>

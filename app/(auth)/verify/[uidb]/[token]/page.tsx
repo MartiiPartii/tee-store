@@ -21,24 +21,12 @@ const Verify = async ({ params }: { params: { uidb: string, token: string } }) =
         success = false
     }
 
-    // })
-    
-    // if(response.status == 200) {
-        // title = "Account verified."
-        // text = "Your account was successfully verified. Now you can login."
-        // button = "Login"
-        // link = "/login"
-        // success = true
-    // } else {
-    //     text = (await response.json()).error
-    // }
-
     return (
         <SectionContainer props={{
             component: Stack,
             sx: { justifyContent: "center", minHeight: "100vh" }
         }}>
-            <Stack maxWidth={"36rem"} alignItems={"center"} mx="auto">
+            <Stack maxWidth={"36rem"} textAlign={"center"} alignItems={"center"} mx="auto">
                 {
                     success ?
                     <CheckCircleOutlineIcon sx={{ color: "success.main", width: "4.8rem", height: "4.8rem" }} />

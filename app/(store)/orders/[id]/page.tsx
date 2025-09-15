@@ -23,7 +23,7 @@ const OrderDetails = async ({ params }: { params: { id: string } }) => {
                 }
             }}
         >
-            <Stack direction={"row"} alignItems={"end"} mb={3} justifyContent={"space-between"}>
+            <Stack direction={{ sm: "row" }} alignItems={{ sm: "end" }} gap={1} mb={3} justifyContent={"space-between"}>
                 <Stack>
                     <Typography variant="h2" mb={1}>Order №{order.id}</Typography>
                     <Typography variant="body1">Placed on {order.date.toDateString()}</Typography>
@@ -36,9 +36,9 @@ const OrderDetails = async ({ params }: { params: { id: string } }) => {
                     <Card variant="outlined" sx={{ p: 3 }}>
                         <Typography variant="h3" mb={2}>Ordered Item</Typography>
 
-                        <Grid container spacing={6} alignItems={"start"}>
-                            <Grid size={8}>
-                                <Stack direction={"row"} alignItems={"stretch"} gap={2}>
+                        <Grid container spacing={{ xs: 2, sm: 6 }} alignItems={"start"}>
+                            <Grid size={{ xs: 12, sm: 8 }}>
+                                <Stack direction={{ sm: "row" }} alignItems={"stretch"} gap={2}>
                                     <Image
                                         src={order.item.imageLink}
                                         alt="Product Image"
@@ -65,7 +65,7 @@ const OrderDetails = async ({ params }: { params: { id: string } }) => {
                                 </Stack>
                             </Grid>
 
-                            <Grid size="grow" component={Stack} alignItems={"end"}>
+                            <Grid size="grow" component={Stack} alignItems={{ sm: "end" }}>
                                 <Typography variant="body1" color="neutral" fontSize={20} fontWeight={600}>${order.item.price}</Typography>
                                 <Typography variant="body2">Sold by <Typography variant="span" color="accent">{order.item.soldByPlatform ? "TeeStore" : `${order.item.seller?.firstName} ${order.item.seller?.lastName}`}</Typography></Typography>
                             </Grid>

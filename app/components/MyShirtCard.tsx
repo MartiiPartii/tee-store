@@ -10,12 +10,12 @@ const MyShirtCard = ({ shirt }: { shirt: ShirtOverview }) => {
     return (
         <Card variant="outlined" sx={{ p: 3 }}>
             <Grid container spacing={2}>
-                <Grid size={1.5}>
+                <Grid size={{ xs: 12, sm: 2, md: 1.5 }}>
                     <Image
                         src={shirt.imageLink ? shirt.imageLink : blank} 
                         alt="Product image"
-                        width={100}
-                        height={100}
+                        width={500}
+                        height={500}
                         style={{
                             width: "100%",
                             height: "auto",
@@ -42,7 +42,7 @@ const MyShirtCard = ({ shirt }: { shirt: ShirtOverview }) => {
                     <Typography variant="h3" mb={1} color="accent">${shirt.price}</Typography>
                     <Typography variant="body1" mb={3}>{shirt.description.length > 200 ? `${shirt.description.substring(0, 200)}...` : shirt.description}</Typography>
                 
-                    <Stack direction={"row"} justifyContent={"space-between"} width={"25%"}>
+                    <Stack direction={"row"} justifyContent={"space-between"} width={{ xs: "100%", sm: "50%", md: "25%" }}>
                         <Stack>
                             <Typography variant="body2">Sales</Typography>
                             <Typography variant="body1" fontWeight={600} color="neutral">{shirt._count.orders}</Typography>

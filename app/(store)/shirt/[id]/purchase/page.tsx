@@ -22,7 +22,7 @@ const Purchase = async ({ params }: { params: { id: string } }) => {
             <Typography variant="h2" mb={1}>Checkout</Typography>
 
             <Grid container spacing={3}>
-                <Grid size={8} sx={{ py: 2 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 8 }} sx={{ py: 2 }}>
                     {user && <PurchaseForm user={user} productId={product.id} />}
                 </Grid>
                 <Grid size="grow">

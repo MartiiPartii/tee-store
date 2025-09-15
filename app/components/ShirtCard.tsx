@@ -15,7 +15,7 @@ const ShirtCard = async ({ shirt, button = true }: { shirt: Shirt, button?: bool
     }
 
     return (
-        <Grid size={4}>
+        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <Card variant="outlined" sx={{ textAlign: "start", height: "100%", display: "flex", flexDirection: "column", position: "relative" }}>
                 {
                     !shirt.soldByPlatform && seller &&

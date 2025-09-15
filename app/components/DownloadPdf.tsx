@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Modal, Stack, Typography } from "@mui/material"
+import { Box, Button, Modal, Stack, Typography } from "@mui/material"
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { useState } from "react";
 import { OrderDetailsInterface } from "@/types/order";
@@ -32,33 +32,36 @@ const DownloadPdf = ({ order }: { order: OrderDetailsInterface }) => {
                     root: {
                         style: {
                             width: "100%",
-                            paddingLeft: 128,
-                            paddingRight: 128,
-                            paddingTop: 64,
-                            paddingBottom: 64,
                             display: "flex"
                         }
                     }
                 }}
             >
-                <Stack
-                    sx={{
-                        p: 4,
-                        bgcolor: "bgcolor.secondary",
-                        width: "100%",
-                        borderRadius: 1
-                    }}
-                    alignItems="start"
-                >
-                    <Typography variant="h1" mb={3}>Preview</Typography>
+                <Box sx={{
+                    width: "100%",
+                    px: { xs: 2, sm: 4, md: 8, lg: 16 },
+                    py: 8,
+                    overflow: "auto"
+                }}>
+                    <Stack
+                        sx={{
+                            p: { xs: 2, sm: 4 },
+                            bgcolor: "bgcolor.secondary",
+                            width: "100%",
+                            borderRadius: 1
+                        }}
+                        alignItems="start"
+                    >
+                        <Typography variant="h1" mb={3}>Preview</Typography>
 
-                    <PdfPreview order={order} />
+                        <PdfPreview order={order} />
 
-                    <Stack direction={"row"} gap={3} width="35rem">
-                        <Button fullWidth size="large" variant="contained" startIcon={<FileDownloadOutlinedIcon />} color="accent" onClick={() => createPdf()}>Download</Button>
-                        <Button onClick={() => setIsOpen(false)} fullWidth size="large" variant="outlined" color="accent">Cancel</Button>
+                        <Stack direction={{ sm: "row" }} gap={3} width={"100%"} maxWidth="35rem">
+                            <Button sx={{ flex: 1 }} fullWidth size="large" variant="contained" startIcon={<FileDownloadOutlinedIcon />} color="accent" onClick={() => createPdf()}>Download</Button>
+                            <Button sx={{ flex: 1 }} onClick={() => setIsOpen(false)} fullWidth size="large" variant="outlined" color="accent">Cancel</Button>
+                        </Stack>
                     </Stack>
-                </Stack>
+                </Box>
             </Modal>
         </>
     )

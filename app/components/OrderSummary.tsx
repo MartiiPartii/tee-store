@@ -2,6 +2,7 @@ import { ProductOverview } from "@/types/shipping"
 import { Box, Button, Card, Divider, Grid, Stack, Typography } from "@mui/material"
 import Image from "next/image"
 import PurchaseButton from "./PurchaseButton"
+import Link from "next/link"
 
 const OrderSummary = ({ product }: { product: ProductOverview }) => {
     return (
@@ -26,7 +27,12 @@ const OrderSummary = ({ product }: { product: ProductOverview }) => {
                         />
                     </Grid>
                     <Grid size="grow">
-                        <Typography variant="body1" color="neutral">{product.name}</Typography>
+                        <Link href={`/shirt/${btoa(String(product.id))}`}><Typography variant="body1" color="neutral" sx={{
+                            transition: ".2s",
+                            "&:hover": {
+                                color: "accent.main"
+                            }
+                        }}>{product.name}</Typography></Link>
                         <Typography variant="body1">By {product.soldByPlatform ? "TeeStore" : `${product.seller?.firstName} ${product.seller?.lastName}`}</Typography>
                     </Grid>
                     <Grid size={3}>

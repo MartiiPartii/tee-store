@@ -9,11 +9,12 @@ const Hero = () => {
         <Stack
             sx={{
                 background: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/hero.webp)",
-                backgroundSize: "cover"
+                backgroundSize: "cover",
+                backgroundPosition: "center"
             }}
         >
             <Stack
-                sx={{ alignItems: "center", textAlign: "center", maxWidth: "48rem", margin: "0 auto", p: 8 }}
+                sx={{ alignItems: "center", textAlign: "center", maxWidth: "48rem", margin: "0 auto", p: { xs: 2, sm: 4, md: 8 } }}
             >
                 <Typography variant="body1" mb={3} fontWeight={"bold"} color="primary.contrastText" fontSize={18}>✨ Premium Quality</Typography>
 
