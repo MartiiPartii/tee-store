@@ -1,7 +1,8 @@
 "use server"
 
 import { transporter } from "@/lib/email"
-import { createAuthorizationToken, createValidationToken, getUserId, verifyToken } from "@/lib/jwt/token"
+import { createAuthorizationToken, getUserId, verifyToken } from "@/lib/jwt/token"
+import { createValidationToken } from "@/lib/jwt/validation-token"
 import { prisma } from "@/lib/prisma"
 import { decodeUidb, generateUidb } from "@/lib/validation/uidb"
 import { UserProfile } from "@/types/profile"
@@ -113,6 +114,8 @@ export const register = async (prevState: any, formData: FormData) => {
             throw err
         }
     } catch (error) {
+        console.error(error)
+
         return {
             error: "Something went wrong. Please try again."
         }

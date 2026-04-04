@@ -1,9 +1,8 @@
 import { JWTPayload, jwtVerify, SignJWT } from "jose"
-import { prisma } from "../prisma"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-async function createToken(userId: number, secret: string, exp: number | string | Date) {
+export async function createToken(userId: number, secret: string, exp: number | string | Date) {
     const key = new TextEncoder().encode(secret)
     
     const token = await new SignJWT({
@@ -26,16 +25,6 @@ export async function verifyToken(token: string, secret: string) {
     })
 
     return payload
-}
-
-export async function createValidationToken(userId: number) {
-    const token = await createToken(userId, process.env.JWT_VALIDATION_SECRET!, "15m")
-
-    const tokenObj = await prisma.verificationToken.create({
-        data: { token, userId }
-    })
-
-    return token
 }
 
 export async function createAuthorizationToken(userId: number) {
