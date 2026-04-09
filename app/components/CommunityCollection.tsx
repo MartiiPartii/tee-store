@@ -3,6 +3,7 @@ import { Typography } from "@mui/material"
 import StoreCollection from "./StoreCollection"
 import { Shirt } from "../generated/prisma"
 import { getShirts } from "@/actions/store"
+import { logServerError } from "@/lib/logger"
 
 const CommunityCollection = async () => {
     let data: Shirt[] = []
@@ -11,7 +12,8 @@ const CommunityCollection = async () => {
     try {
         const collection = await getShirts({ take: 3, soldByPlatform: false })
         data = collection
-    } catch(err) {
+    } catch (err) {
+        logServerError("home:community_collection_failed", err)
         error = "We couldnt fetch our community collection."
     }
 

@@ -2,6 +2,7 @@ import SectionContainer from "@/app/components/SectionContainer"
 import { Box, Stack, Typography } from "@mui/material"
 import StoreCollection from "@/app/components/StoreCollection"
 import { getShirts } from "@/actions/store"
+import { logServerError } from "@/lib/logger"
 import { Shirt } from "@/app/generated/prisma"
 
 const Browse = async ({ searchParams }: { searchParams: { search: string } }) => {
@@ -14,11 +15,10 @@ const Browse = async ({ searchParams }: { searchParams: { search: string } }) =>
         collection = await getShirts({
             searchQuery: decodedSearch
         })
-    } catch(err) {
+    } catch (err) {
+        logServerError("browse:get_shirts_failed", err, { search: decodedSearch })
         error = "We couldn't fetch products properly. Please try again."
     }
-
-    console.log(collection)
 
 
     return (

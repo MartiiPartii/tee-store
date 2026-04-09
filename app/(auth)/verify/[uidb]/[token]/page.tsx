@@ -4,6 +4,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Link from "next/link";
 import { verifyAccount } from "@/actions/authenticate";
+import { logServerError } from "@/lib/logger";
 
 
 
@@ -13,7 +14,8 @@ const Verify = async ({ params }: { params: { uidb: string, token: string } }) =
 
     try {
         await verifyAccount(uidb, token)
-    } catch(err) {
+    } catch (err) {
+        logServerError("verify_page:verify_account_failed", err, { uidb })
         title = err instanceof Error ? err.message : "Something went wrong"
         text = ""
         button = "Home"

@@ -1,4 +1,5 @@
 import { getUserId } from "@/lib/jwt/token"
+import { logServerError } from "@/lib/logger"
 import { OrderDetailsInterface, OrderPreview } from "@/types/order"
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
@@ -25,7 +26,8 @@ export const getMyOrders = async () => {
                 date: "desc"
             }
         }) || []
-    } catch(err) {
+    } catch (err) {
+        logServerError("orders:get_my_orders_failed", err, { userId })
         error = "We couldn't fetch your orders. Please try again."
     }
 
@@ -63,7 +65,8 @@ export const getOrder = async (id: number) => {
                 }
             }
         })
-    } catch(err) {
+    } catch (err) {
+        logServerError("orders:get_order_failed", err, { orderId: id, userId })
         notFound()
     }
 

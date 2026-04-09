@@ -2,6 +2,7 @@
 
 import { uploadToCloudinary } from "@/lib/cloudinary/cloudinary"
 import { getUserId, verifyToken } from "@/lib/jwt/token"
+import { logServerError } from "@/lib/logger"
 import { prisma } from "@/lib/prisma"
 import { ShirtOverview } from "@/types/shirt"
 import { cookies } from "next/headers"
@@ -97,7 +98,8 @@ export const getMyShirts = async () => {
             const saleCounts = shirts.map(shirt => shirt._count.orders)
             totalSales = saleCounts.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
         }
-    } catch(err) {
+    } catch (err) {
+        logServerError("store:get_my_shirts_failed", err, { userId })
         error = "We couldn't fetch your products properly. Please try again."
     }
 
@@ -124,7 +126,8 @@ export const getShirt = async (b64id: string) => {
             const sellerId: number = shirt.sellerId!
             user = await getShirtSeller(sellerId)
         }
-    } catch(err) {
+    } catch (err) {
+        logServerError("store:get_shirt_failed", err, { b64id })
         notFound()
     }
 
@@ -169,7 +172,8 @@ export const uploadShirt = async (previousState: any, formData: FormData, file: 
             throw new Error("Something went wrong.")
         }
 
-    } catch(err) { 
+    } catch (err) {
+        logServerError("store:upload_shirt_failed", err)
         return {
             error: "We couldn't upload your product. Please try again"
         }

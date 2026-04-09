@@ -2,6 +2,7 @@
 
 import { Order } from "@/app/generated/prisma"
 import { getUserId } from "@/lib/jwt/token"
+import { logServerError } from "@/lib/logger"
 import { prisma } from "@/lib/prisma"
 import { ProductOverview, UserShippingInfo } from "@/types/shipping"
 import { notFound, redirect } from "next/navigation"
@@ -37,10 +38,11 @@ export const purchase = async (prevState: any, formData: FormData) => {
             }
         })
 
-        
-        console.log(order)
-    } catch(err) {
-        console.error(err)
+    } catch (err) {
+        logServerError("purchase:create_order_failed", err, {
+            userId: Number(userId),
+            itemId: Number(itemId)
+        })
         return {
             error: "We couldn't create your order. Please try again."
         }
@@ -64,7 +66,8 @@ export const getUserShippingInfo = async() => {
                 address: true
             }
         })
-    } catch(err) {
+    } catch (err) {
+        logServerError("purchase:get_user_shipping_info_failed", err, { userId })
         redirect("/login")
     }
 
@@ -95,7 +98,8 @@ export const getProductOverview = async (b64id: string) => {
         })
 
         if(!product) throw new Error()
-    } catch(err) {
+    } catch (err) {
+        logServerError("purchase:get_product_overview_failed", err, { b64id })
         notFound()
     }
 

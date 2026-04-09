@@ -10,7 +10,6 @@ cloudinary.config({
 const generateSignature = (timestamp: string, uploadPreset: string) => {
     const signatureString = `timestamp=${timestamp}&upload_preset=${uploadPreset}${process.env.CLOUDINARY_SECRET!}`
     const signature = crypto.createHash("sha1").update(signatureString).digest("hex")
-    console.log(`Signature: ${signature}`)
     return signature
 }
 

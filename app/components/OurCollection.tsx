@@ -2,6 +2,7 @@ import { Typography } from "@mui/material"
 import SectionContainer from "./SectionContainer"
 import StoreCollection from "./StoreCollection"
 import { getShirts } from "@/actions/store"
+import { logServerError } from "@/lib/logger"
 import { Shirt } from "../generated/prisma"
 
 const OurCollection = async () => {
@@ -11,7 +12,8 @@ const OurCollection = async () => {
     try {
         const collection = await getShirts({ take: 3, soldByPlatform: true })
         data = collection
-    } catch(err) {
+    } catch (err) {
+        logServerError("home:our_collection_failed", err)
         error = "We couldnt fetch our premium collection."
     }
 

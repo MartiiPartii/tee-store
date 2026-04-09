@@ -1,12 +1,12 @@
 import nodemailer from "nodemailer"
+import SMTPTransport from "nodemailer/lib/smtp-transport"
 
-export const transporter = nodemailer.createTransport({
-    service: "gmail",
+export const transporter = nodemailer.createTransport(new SMTPTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: true,
     auth: {
-        type: "OAuth2",
-        user: "teestoreht@gmail.com",
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        refreshToken: process.env.GOOGLE_REFRESH_TOKEN
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD
     }
-})
+}))

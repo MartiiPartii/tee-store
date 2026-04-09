@@ -2,6 +2,7 @@
 
 import { transporter } from "@/lib/email"
 import { createAuthorizationToken, getUserId, verifyToken } from "@/lib/jwt/token"
+import { logServerError } from "@/lib/logger"
 import { createValidationToken } from "@/lib/jwt/validation-token"
 import { prisma } from "@/lib/prisma"
 import { decodeUidb, generateUidb } from "@/lib/validation/uidb"
@@ -52,7 +53,8 @@ export const login = async (prevState: any, formData: FormData) => {
             path: "/",
         })
 
-    } catch(err) {
+    } catch (err) {
+        logServerError("login:unexpected_failure", err)
         return {
             error: "Something went wrong. Please try again."
         }
@@ -101,20 +103,31 @@ export const register = async (prevState: any, formData: FormData) => {
         try {
             const token = await createValidationToken(newUser.id)
             const uidb = generateUidb(newUser.id)
-            const info = await transporter.sendMail({
-                from: "teestoreht@gmail.com",
+            await transporter.sendMail({
+                from: "teestoreht@resend.dev",
                 to: email,
                 subject: "Account Verification",
                 html: `<div><h1>Hi ${firstName}! Welcome to TeeStore.</h1><h3>Click the link below to verify your account and start using our platform:</h3><a href="${process.env.NEXT_PUBLIC_URL}/verify/${uidb}/${token}">Click to verify</a></div>`
             })
-        } catch(err) {
-            const deletedUser = await prisma.user.delete({
-                where: { id: newUser.id }
+        } catch (err) {
+            logServerError("register:verification_email_failed", err, {
+                userId: newUser.id,
+                email
             })
-            throw err
+            try {
+                await prisma.verificationToken.deleteMany({ where: { userId: newUser.id } })
+                await prisma.user.delete({ where: { id: newUser.id } })
+            } catch (cleanupErr) {
+                logServerError("register:rollback_after_email_failure_failed", cleanupErr, {
+                    userId: newUser.id
+                })
+            }
+            return {
+                error: "We couldn't send the verification email. Please try again."
+            }
         }
     } catch (error) {
-        console.error(error)
+        logServerError("register:unexpected_failure", error)
 
         return {
             error: "Something went wrong. Please try again."
@@ -144,10 +157,11 @@ export const verifyAccount = async (uidb: string, token: string) => {
     if(tokenObj.userId !== userId) throw new Error("Wrong verification token.")
 
     try {
-        const decoded = await verifyToken(token, process.env.JWT_VALIDATION_SECRET!)
-    } catch(err) {
-        const deletedToken = await prisma.verificationToken.delete({ where: { id: tokenObj.id } })
-        const deletedUser = await prisma.user.delete({ where: { id: userId } })
+        await verifyToken(token, process.env.JWT_VALIDATION_SECRET!)
+    } catch (err) {
+        logServerError("verifyAccount:invalid_or_expired_token", err, { userId })
+        await prisma.verificationToken.delete({ where: { id: tokenObj.id } })
+        await prisma.user.delete({ where: { id: userId } })
         throw new Error("Verification token expired.")
     }
 
@@ -207,7 +221,8 @@ export const getAccount = async () => {
         })
         const prices = sales.map(sale => sale.item.price)
         profit = prices.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    } catch(err) {
+    } catch (err) {
+        logServerError("getAccount:fetch_failed", err, { userId })
         error = "We couldn't get your profile data. Please try again."
     }
 
