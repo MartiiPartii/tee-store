@@ -11,11 +11,16 @@ const Verify = () => {
         className: "flex min-h-screen flex-col justify-center",
       }}
     >
-      <Card className="mx-auto max-w-md p-6 text-center">
-        <Mail className="mx-auto mb-4 size-24 text-brand-text" aria-hidden />
+      <Card className="mx-auto max-w-md p-8 text-center sm:p-10">
+        <Mail
+          className="mx-auto mb-6 size-16 text-primary"
+          strokeWidth={1.25}
+          aria-hidden
+        />
 
-        <h1 className="text-[2rem] font-bold text-brand-text">Verify your account.</h1>
-        <p className="mb-6 text-base text-brand-muted">
+        <p className="ui-section-label mb-3">Email</p>
+        <h1 className="ui-page-title mb-4">Verify your account</h1>
+        <p className="ui-body-lead mb-8">
           We&apos;ve sent a verification link to your email. Once you&apos;re verified
           you can start shopping.
         </p>

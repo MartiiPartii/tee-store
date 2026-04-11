@@ -10,16 +10,17 @@ const MyShirts = async () => {
   const { shirts, totalSales, totalRevenue, error } = await getMyShirts()
 
   return (
-    <SectionContainer props={{ className: "py-16" }}>
-      <div className="mb-6 flex flex-row items-center justify-between">
-        <div className="flex flex-col">
-          <h1 className="mb-2 text-[2rem] font-bold text-brand-text">My T-Shirts</h1>
-          <p className="mb-6 text-base text-brand-muted">
-            Manage your t-shirt listings and track performance
+    <SectionContainer props={{ className: "ui-page-section" }}>
+      <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
+        <div>
+          <p className="ui-section-label mb-3">Listings</p>
+          <h1 className="ui-page-title mb-4">My T-Shirts</h1>
+          <p className="ui-body-lead max-w-xl">
+            Manage your t-shirt listings and track performance.
           </p>
         </div>
 
-        <Link href="/sell-tshirt">
+        <Link href="/sell-tshirt" className="shrink-0">
           <Button variant="default">
             <Plus className="size-4" />
             Sell New T-Shirt
@@ -28,10 +29,10 @@ const MyShirts = async () => {
       </div>
 
       {error ? (
-        <p className="text-base italic text-destructive">{error}</p>
+        <p className="text-sm italic text-destructive">{error}</p>
       ) : (
         <>
-          <div className="mb-6 grid grid-cols-12 gap-4">
+          <div className="mb-8 grid grid-cols-12 gap-4">
             <OrdersStatCard stat={String(shirts?.length || 0)} label="Total Listings" />
             <OrdersStatCard stat={String(totalSales || 0)} label="Total Sales" />
             <OrdersStatCard
@@ -47,8 +48,8 @@ const MyShirts = async () => {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col gap-2">
-              <p className="text-base text-brand-muted">You have no products yet...</p>
+            <div className="flex flex-col items-start gap-4">
+              <p className="ui-body-lead">You have no products yet...</p>
               <Link href="/sell-tshirt">
                 <Button variant="default" size="sm">
                   <Plus className="size-4" />

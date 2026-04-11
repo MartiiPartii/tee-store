@@ -19,19 +19,22 @@ const OurCollection = async () => {
   return (
     <SectionContainer
       props={{
-        className: "p-[25.6px] text-center sm:p-[51.2px]",
+        className: "ui-page-section text-center",
       }}
     >
-      <h2 className="mb-6 text-[2rem] font-bold text-brand-text">
-        Our premium collection
-      </h2>
+      <p className="ui-section-label mb-3">Collections</p>
+      <h2 className="ui-section-title mb-4">Our premium collection</h2>
+      <p className="ui-body-lead mx-auto mb-10 max-w-lg">
+        Hand-picked designs from the TeeStore studio — limited runs and timeless
+        staples.
+      </p>
 
       {error ? (
-        <p className="text-base italic text-destructive">{error}</p>
+        <p className="text-sm italic text-destructive">{error}</p>
       ) : data && data.length > 0 ? (
         <StoreCollection collection={data} />
       ) : (
-        <p className="text-base text-brand-muted">
+        <p className="ui-body-lead">
           Nothing here. Expect new products soon.
         </p>
       )}

@@ -23,9 +23,9 @@ const ShirtCard = async ({
 
   return (
     <div className="col-span-12 sm:col-span-6 md:col-span-4">
-      <Card className="relative flex h-full flex-col text-start">
+      <Card className="relative flex h-full flex-col overflow-hidden text-start">
         {!shirt.soldByPlatform && seller && (
-          <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-md bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground">
+          <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
             By {seller.firstName} {seller.lastName}
           </span>
         )}
@@ -44,14 +44,14 @@ const ShirtCard = async ({
           }}
         />
 
-        <div className="flex flex-1 flex-col p-4">
+        <div className="flex flex-1 flex-col p-5">
           <div className="flex flex-1 flex-col">
             <Link href={`/shirt/${encodedId}`}>
-              <h2 className="mb-2 mt-4 text-[1.4rem] font-bold text-primary transition-colors hover:text-primary/80">
+              <h2 className="ui-card-title mb-2 mt-5 transition-colors hover:text-primary/80">
                 {shirt.name}
               </h2>
             </Link>
-            <p className="mb-3 text-sm text-brand-muted">
+            <p className="mb-3 text-sm leading-relaxed text-brand-muted">
               {shirt.description.length > 100
                 ? `${shirt.description.substring(0, 200)}...`
                 : shirt.description}
@@ -59,7 +59,7 @@ const ShirtCard = async ({
           </div>
 
           <div className="flex flex-col">
-            <p className="mb-4 text-[1rem] font-bold text-primary">
+            <p className="mb-4 text-base font-semibold tracking-tight text-primary">
               ${shirt.price}
             </p>
             {button && (

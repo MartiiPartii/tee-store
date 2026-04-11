@@ -10,17 +10,14 @@ const Sell = () => {
       }}
     >
       <div className="mx-auto max-w-[42rem]">
-        <h1 className="text-[2rem] font-bold text-brand-text">
-          Sell your T-Shirt
-        </h1>
-        <p className="mb-6 text-base text-brand-muted">
-          Create a new listing and start selling your t-shirt
+        <p className="ui-section-label mb-3">Selling</p>
+        <h1 className="ui-page-title mb-4">Sell your T-Shirt</h1>
+        <p className="ui-body-lead mb-8">
+          Create a new listing and start selling your t-shirt.
         </p>
 
-        <Card className="p-6">
-          <h2 className="mb-4 text-[1.5rem] font-bold text-brand-text">
-            T-Shirt Details
-          </h2>
+        <Card className="p-6 sm:p-8">
+          <h2 className="ui-card-title mb-6">T-Shirt details</h2>
 
           <ShirtForm />
         </Card>

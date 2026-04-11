@@ -3,9 +3,7 @@
 import Link from "next/link"
 import { Facebook, Instagram, Twitter } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-const linkClass =
-  "text-sm text-brand-muted transition-colors hover:text-primary"
+import { navLinkClass as linkClass } from "@/lib/site-ui"
 
 const socialPlaceholders = [
   { label: "Twitter", href: "", Icon: Twitter },

@@ -90,6 +90,41 @@ a {
   color: color-mix(in srgb, var(--brand-text) 62%, transparent);
 }
 
+/* Align page content with header / footer: labels, type, spacing */
+@layer components {
+  .ui-section-label {
+    @apply text-xs font-semibold uppercase tracking-wider text-primary;
+  }
+
+  .ui-page-title {
+    @apply text-3xl font-semibold tracking-tight text-primary sm:text-4xl;
+  }
+
+  .ui-section-title {
+    @apply text-2xl font-semibold tracking-tight text-primary sm:text-3xl;
+  }
+
+  .ui-card-title {
+    @apply text-lg font-semibold tracking-tight text-primary;
+  }
+
+  .ui-body-lead {
+    @apply text-sm leading-relaxed text-brand-muted sm:text-base;
+  }
+
+  .ui-page-section {
+    @apply py-14 sm:py-16;
+  }
+
+  .ui-nav-link {
+    @apply text-sm text-brand-muted transition-colors hover:text-primary;
+  }
+
+  .ui-surface-card {
+    @apply rounded-2xl border border-border bg-brand-surface shadow-soft;
+  }
+}
+
 /* HTML: <div class="loader"></div> */
 /* https://css-loaders.com/classic/ */
 .loader {

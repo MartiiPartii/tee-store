@@ -20,10 +20,12 @@ const AuthForm = ({
   return (
     <>
       {isLoading && <Loader />}
-      <Card className="mx-auto w-full max-w-md p-6 text-center">
-        <div className="mb-6 flex flex-col gap-2">
-          <h2 className="text-[1.5rem] font-bold text-brand-text">{title}</h2>
-          <p className="text-sm text-brand-muted">{description}</p>
+      <Card className="mx-auto w-full max-w-md border-border p-8 text-center">
+        <div className="mb-8 flex flex-col gap-3">
+          <h2 className="text-balance text-2xl font-semibold tracking-tight text-primary sm:text-3xl">
+            {title}
+          </h2>
+          <p className="ui-body-lead">{description}</p>
           {state && state.error && (
             <p className="text-sm italic text-destructive">{state.error}</p>
           )}

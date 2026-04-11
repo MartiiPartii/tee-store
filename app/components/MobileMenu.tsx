@@ -10,9 +10,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
-
-const navLinkClass =
-  "text-sm text-brand-muted transition-colors hover:text-primary"
+import { iconCircleButtonClass, navLinkClass, pillButtonClass } from "@/lib/site-ui"
 
 const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -24,7 +22,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
           type="button"
           onClick={() => setIsOpen(true)}
           aria-label="Open menu"
-          className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-brand-bg text-brand-muted transition-colors hover:border-primary hover:text-primary"
+          className={cn(iconCircleButtonClass, "shrink-0")}
         >
           <Menu className="size-[18px]" aria-hidden />
         </button>
@@ -90,9 +88,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
                     <Link
                       href="/register"
                       onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "inline-flex rounded-full border border-border bg-brand-bg px-4 py-2 text-sm font-medium text-primary transition-colors hover:border-primary hover:bg-primary/[0.06]"
-                      )}
+                      className={pillButtonClass}
                     >
                       Join now
                     </Link>

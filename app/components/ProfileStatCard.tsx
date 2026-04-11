@@ -22,12 +22,14 @@ const ProfileStatCard = ({
   }
 
   const inner = (
-    <Card className="flex h-full flex-col items-center p-6 text-center">
-      <div className="mb-2 text-primary">
-        <Icon size={32} />
+    <Card className="flex h-full flex-col items-center p-6 text-center sm:p-8">
+      <div className="mb-3 text-primary">
+        <Icon size={28} strokeWidth={1.5} />
       </div>
-      <p className="text-[1.5rem] font-bold text-brand-muted">{stat}</p>
-      <p className="text-base text-brand-muted">{label}</p>
+      <p className="text-2xl font-semibold tracking-tight text-primary">{stat}</p>
+      <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-brand-muted">
+        {label}
+      </p>
     </Card>
   )
 

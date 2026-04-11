@@ -1,8 +1,12 @@
 const HeroStat = ({ stat, label }: { stat: string; label: string }) => {
   return (
     <div className="grow text-center">
-      <p className="text-[1.2rem] font-bold text-primary-foreground">{stat}</p>
-      <p className="text-base text-primary-foreground">{label}</p>
+      <p className="text-2xl font-semibold tracking-tight text-primary-foreground sm:text-3xl">
+        {stat}
+      </p>
+      <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-primary-foreground/75">
+        {label}
+      </p>
     </div>
   )
 }

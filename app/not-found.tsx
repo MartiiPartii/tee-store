@@ -10,11 +10,14 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <SectionContainer props={{ className: "py-16" }}>
-      <div className="mx-auto flex flex-col items-center justify-center text-center">
-        <h1 className="text-[3.2rem] font-bold text-brand-text">404</h1>
-        <h2 className="mb-2 text-[1.5rem] font-bold text-brand-text">Not Found</h2>
-        <p className="mb-4 text-base text-brand-muted">
+    <SectionContainer props={{ className: "ui-page-section" }}>
+      <div className="mx-auto flex max-w-lg flex-col items-center justify-center text-center">
+        <p className="ui-section-label mb-3">Error</p>
+        <h1 className="mb-2 text-6xl font-semibold tracking-tight text-primary md:text-7xl">
+          404
+        </h1>
+        <h2 className="ui-page-title mb-4">Page not found</h2>
+        <p className="ui-body-lead mb-8">
           The page you are looking for was not found.
         </p>
         <Link href="/">

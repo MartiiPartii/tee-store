@@ -8,12 +8,15 @@ const Orders = async () => {
   const { error, orders } = await getMyOrders()
 
   return (
-    <SectionContainer props={{ className: "py-24" }}>
-      <h1 className="mb-2 text-[2rem] font-bold text-brand-text">My Orders</h1>
-      <p className="mb-4 text-base text-brand-muted">Track your order history</p>
+    <SectionContainer props={{ className: "ui-page-section" }}>
+      <p className="ui-section-label mb-3">Orders</p>
+      <h1 className="ui-page-title mb-4">My Orders</h1>
+      <p className="ui-body-lead mb-8 max-w-xl">
+        Track your order history and receipts.
+      </p>
 
       {error ? (
-        <p className="text-base italic text-destructive">{error}</p>
+        <p className="text-sm italic text-destructive">{error}</p>
       ) : orders && orders.length > 0 ? (
         <div className="flex flex-col gap-4">
           {orders.map((order, i) => (
@@ -21,9 +24,9 @@ const Orders = async () => {
           ))}
         </div>
       ) : (
-        <div className="mt-8 flex flex-col">
-          <h2 className="text-[1.2rem] font-bold text-brand-text">Nothing here...</h2>
-          <p className="mb-4 text-base text-brand-muted">
+        <div className="flex flex-col items-start gap-4">
+          <h2 className="ui-card-title">Nothing here yet</h2>
+          <p className="ui-body-lead mb-2 max-w-md">
             You haven&apos;t purchased any products yet.
           </p>
           <Link href="/browse">

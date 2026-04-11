@@ -7,11 +7,9 @@ import { User } from "lucide-react"
 import SearchForm from "./SearchForm"
 import MobileMenu from "./MobileMenu"
 import { cn } from "@/lib/utils"
+import { iconCircleButtonClass, navLinkClass, pillButtonClass } from "@/lib/site-ui"
 
 const HEADER_SCROLL_THRESHOLD = 8
-
-const navLinkClass =
-  "text-sm text-brand-muted transition-colors hover:text-primary"
 
 type Props = {
   isAuthenticated: boolean
@@ -81,7 +79,7 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
                   href="/profile"
                   aria-label="Profile"
                   className={cn(
-                    "inline-flex size-10 items-center justify-center rounded-full border border-border bg-brand-bg text-brand-muted transition-colors hover:border-primary hover:text-primary",
+                    iconCircleButtonClass,
                     linkActive("/profile") && "border-primary text-primary"
                   )}
                 >
@@ -89,10 +87,7 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
                 </Link>
               </>
             ) : (
-              <Link
-                href="/register"
-                className="inline-flex items-center rounded-full border border-border bg-brand-bg px-4 py-2 text-sm font-medium text-primary transition-colors hover:border-primary hover:bg-primary/[0.06]"
-              >
+              <Link href="/register" className={pillButtonClass}>
                 Join now
               </Link>
             )}

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { verifyAccount } from "@/actions/authenticate"
 import { logServerError } from "@/lib/logger"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 
 const Verify = async ({
   params,
@@ -34,26 +35,29 @@ const Verify = async ({
         className: "flex min-h-screen flex-col justify-center",
       }}
     >
-      <div className="mx-auto flex max-w-[36rem] flex-col items-center text-center">
+      <Card className="mx-auto w-full max-w-md p-8 text-center sm:p-10">
         {success ? (
           <CheckCircle2
-            className="mb-4 size-[4.8rem] text-green-600"
+            className="mx-auto mb-6 size-16 text-green-600"
+            strokeWidth={1.25}
             aria-hidden
           />
         ) : (
           <XCircle
-            className="mb-4 size-[4.8rem] text-destructive"
+            className="mx-auto mb-6 size-16 text-destructive"
+            strokeWidth={1.25}
             aria-hidden
           />
         )}
 
-        <h1 className="text-[2rem] font-bold text-brand-text">{title}</h1>
-        <p className="mb-6 text-base text-brand-muted">{text}</p>
+        <p className="ui-section-label mb-3">{success ? "Verified" : "Status"}</p>
+        <h1 className="ui-page-title mb-4">{title}</h1>
+        {text ? <p className="ui-body-lead mb-8">{text}</p> : null}
 
         <Link href={link}>
           <Button variant="default">{button}</Button>
         </Link>
-      </div>
+      </Card>
     </SectionContainer>
   )
 }

@@ -25,33 +25,30 @@ const Browse = async ({
 
   return (
     <>
-      <div className="bg-brand-surface">
+      <div className="border-b border-border bg-brand-surface">
         <SectionContainer
           props={{
             className:
-              "flex flex-col items-center justify-center py-24 text-center",
+              "flex flex-col items-center justify-center py-16 text-center sm:py-20",
           }}
         >
-          <h1 className="mb-2 text-[3.2rem] font-bold text-brand-text">
-            All T-Shirts
-          </h1>
-          <p className="mb-2 text-xl text-brand-muted">
-            Browse our complete collection of premium t-shirts and unique
-            designs from our community.
+          <p className="ui-section-label mb-3">Catalog</p>
+          <h1 className="ui-page-title mb-4">All T-Shirts</h1>
+          <p className="ui-body-lead max-w-xl">
+            Browse our complete collection of premium t-shirts and unique designs
+            from our community.
           </p>
         </SectionContainer>
       </div>
-      <SectionContainer props={{ className: "py-16" }}>
+      <SectionContainer props={{ className: "ui-page-section" }}>
         {error ? (
-          <p className="text-center text-base italic text-destructive">{error}</p>
+          <p className="text-center text-sm italic text-destructive">{error}</p>
         ) : collection && collection.length > 0 ? (
           <StoreCollection collection={collection} />
         ) : (
-          <div className="flex flex-col">
-            <h2 className="text-[1.2rem] font-bold text-brand-text">
-              Nothing here...
-            </h2>
-            <p className="text-base text-brand-muted">
+          <div className="flex flex-col items-center text-center">
+            <h2 className="ui-card-title mb-2">Nothing here yet</h2>
+            <p className="ui-body-lead max-w-md">
               {decodedSearch
                 ? "No products match your search query."
                 : "Expect new products very soon."}

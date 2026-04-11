@@ -94,27 +94,30 @@ const Hero = () => {
             "linear-gradient(rgba(44, 40, 37, 0.52), rgba(44, 40, 37, 0.52))",
         }}
       />
-      <div className="relative z-[2] mx-auto flex max-w-[48rem] flex-col items-center px-2 py-8 text-center sm:px-4 sm:py-16 md:px-8 md:py-32">
-        <h1 className="text-[3.2rem] font-bold text-primary-foreground">
+      <div className="relative z-[2] mx-auto flex max-w-[48rem] flex-col items-center px-4 py-12 text-center sm:py-20 md:py-28">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-primary-foreground/85">
+          Welcome
+        </p>
+        <h1 className="text-4xl font-semibold tracking-tight text-primary-foreground sm:text-5xl md:text-6xl">
           Express yourself
         </h1>
-        <h1 className="mb-1 text-[3.2rem] font-bold text-primary-foreground">
-          Through Style
-        </h1>
+        <h2 className="mt-2 text-4xl font-semibold tracking-tight text-primary-foreground sm:text-5xl md:text-6xl">
+          Through style
+        </h2>
 
-        <p className="mb-6 text-2xl text-primary-foreground">
+        <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-foreground/90 sm:text-base">
           Discover unique t-shirts from our curated collection and talented
           designers worldwide. Quality meets creativity.
         </p>
 
-        <Button variant="default" size="lg" asChild>
+        <Button variant="default" size="lg" className="mt-8" asChild>
           <Link href="/browse" className="gap-2">
             Shop collection
             <ArrowRight className="size-[1.2rem]" />
           </Link>
         </Button>
 
-        <div className="mt-12 grid w-full grid-cols-3 gap-4">
+        <div className="mt-14 grid w-full grid-cols-3 gap-6 sm:gap-8">
           <HeroStat stat="10K+" label="Happy Customers" />
           <HeroStat stat="500K+" label="Unique Designs" />
           <HeroStat stat="100+" label="Artists" />

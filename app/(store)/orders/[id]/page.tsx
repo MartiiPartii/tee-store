@@ -15,13 +15,12 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 
   return (
     order && (
-      <SectionContainer props={{ className: "py-24" }}>
-        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div className="flex flex-col">
-            <h1 className="mb-2 text-[2rem] font-bold text-brand-text">
-              Order №{order.id}
-            </h1>
-            <p className="text-base text-brand-muted">
+      <SectionContainer props={{ className: "ui-page-section" }}>
+        <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div className="flex flex-col gap-2">
+            <p className="ui-section-label">Order detail</p>
+            <h1 className="ui-page-title">Order №{order.id}</h1>
+            <p className="text-sm text-brand-muted">
               Placed on {order.date.toDateString()}
             </p>
           </div>
@@ -30,10 +29,8 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
         </div>
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12">
-            <Card className="p-6">
-              <h2 className="mb-4 text-[1.5rem] font-bold text-brand-text">
-                Ordered Item
-              </h2>
+            <Card className="p-6 sm:p-8">
+              <h2 className="ui-card-title mb-6">Ordered item</h2>
 
               <div className="grid grid-cols-12 gap-4 sm:gap-12">
                 <div className="col-span-12 sm:col-span-8">
@@ -47,13 +44,13 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                         height: "auto",
                         aspectRatio: "1 / 1",
                         objectFit: "cover",
-                        borderRadius: 10,
+                        borderRadius: "1rem",
                       }}
                     />
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-1">
                       <Link href={`/shirt/${btoa(String(order.item.id))}`}>
-                        <p className="text-base font-semibold text-brand-muted transition-colors hover:text-primary/80">
+                        <p className="font-medium text-primary transition-colors hover:text-primary/80">
                           {order.item.name}
                         </p>
                       </Link>
@@ -71,9 +68,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 </div>
 
                 <div className="col-span-12 flex flex-col items-start sm:col-span-4 sm:items-end">
-                  <p className="text-xl font-semibold text-brand-muted">
-                    ${order.item.price}
-                  </p>
+                  <p className="text-xl font-semibold text-primary">${order.item.price}</p>
                   <p className="text-sm text-brand-muted">
                     Sold by{" "}
                     <span className="text-primary">
@@ -87,12 +82,17 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
             </Card>
           </div>
           <div className="col-span-12">
-            <Card className="p-6">
-              <div className="mb-4 flex flex-row items-center gap-2">
-                <MapPin className="size-8 shrink-0 text-brand-text" aria-hidden />
-                <h2 className="text-[1.5rem] font-bold text-brand-text">
-                  Shipping details
-                </h2>
+            <Card className="p-6 sm:p-8">
+              <div className="mb-6 flex flex-row items-center gap-3">
+                <MapPin
+                  className="size-7 shrink-0 text-primary"
+                  strokeWidth={1.5}
+                  aria-hidden
+                />
+                <div>
+                  <p className="ui-section-label mb-1">Delivery</p>
+                  <h2 className="ui-card-title">Shipping details</h2>
+                </div>
               </div>
 
               <p className="mb-2 text-base text-brand-muted">

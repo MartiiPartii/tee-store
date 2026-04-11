@@ -4,20 +4,22 @@ import { ShoppingBag, Shirt, DollarSign } from "lucide-react"
 import ProfileStatCard from "@/app/components/ProfileStatCard"
 import LogOut from "@/app/components/LogOut"
 import { getAccount } from "@/actions/authenticate"
+import { Card } from "@/components/ui/card"
 
 const Profile = async () => {
   const { user, shirts, profit, orders, error } = await getAccount()
 
   return (
-    <SectionContainer props={{ className: "py-24" }}>
-      <div className="mb-8 flex flex-col">
-        <h1 className="text-[2rem] font-bold text-brand-text">My Profile</h1>
-        <p className="text-base text-brand-muted">
+    <SectionContainer props={{ className: "ui-page-section" }}>
+      <div className="mb-10 flex flex-col gap-2">
+        <p className="ui-section-label">Account</p>
+        <h1 className="ui-page-title">My Profile</h1>
+        <p className="ui-body-lead max-w-xl">
           Here you can check out your account&apos;s info and statistics.
         </p>
         {error && (
-          <div className="flex flex-col items-start gap-4">
-            <p className="text-base italic text-destructive">{error}</p>
+          <div className="flex flex-col items-start gap-4 pt-2">
+            <p className="text-sm italic text-destructive">{error}</p>
             <LogOut />
           </div>
         )}
@@ -26,19 +28,19 @@ const Profile = async () => {
       {!error && (
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 md:col-span-6">
-            <div className="flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-soft">
-              <h2 className="mb-4 text-[2rem] font-bold text-brand-muted">
+            <Card className="flex h-full flex-col p-6 sm:p-8">
+              <h2 className="mb-6 text-2xl font-semibold tracking-tight text-primary">
                 {user?.firstName || ""} {user?.lastName || ""}
               </h2>
 
-              <div className="mb-4 flex flex-col gap-2">
+              <div className="mb-6 flex flex-col gap-4">
                 <UserInfo label="Email" text={user?.email || ""} />
                 <UserInfo label="Phone Number" text={user?.phoneNumber || ""} />
                 <UserInfo label="Address" text={user?.address || ""} />
               </div>
 
               <LogOut />
-            </div>
+            </Card>
           </div>
           <div className="col-span-12 md:col-span-6">
             <div className="grid grid-cols-12 gap-6">

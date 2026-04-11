@@ -19,8 +19,6 @@ const DownloadPdf = ({ order }: { order: OrderDetailsInterface }) => {
     html2pdf(element, {
       filename: `teestore_order_${order.id}.pdf`,
     })
-
-    console.log("ehy")
   }
 
   return (
@@ -38,10 +36,9 @@ const DownloadPdf = ({ order }: { order: OrderDetailsInterface }) => {
             style={{ width: "100%", display: "flex" }}
           >
             <div className="w-full px-2 py-16 sm:px-4 md:px-8 lg:px-16">
-              <div className="flex w-full flex-col items-start rounded-xl bg-brand-surface p-2 sm:p-4">
-                <h1 className="mb-6 text-[3.2rem] font-bold text-brand-text">
-                  Preview
-                </h1>
+              <div className="flex w-full flex-col items-start rounded-2xl border border-border bg-brand-surface p-4 sm:p-6">
+                <p className="ui-section-label mb-2">Export</p>
+                <h1 className="ui-page-title mb-6">Preview</h1>
 
                 <PdfPreview order={order} />
 

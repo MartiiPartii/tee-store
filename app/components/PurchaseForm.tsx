@@ -20,7 +20,7 @@ const PurchaseForm = ({
   const [state, formAction, isLoading] = useActionState(purchase, null)
 
   const selectClass =
-    "flex h-10 w-full rounded-xl border border-border bg-[color-mix(in_srgb,hsl(var(--card))_65%,transparent)] px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-primary"
+    "flex h-10 w-full rounded-full border border-border bg-brand-bg px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 
   return (
     <>
@@ -28,17 +28,16 @@ const PurchaseForm = ({
       <Form id="purchase" action={formAction}>
         <input hidden name="itemId" value={productId} readOnly />
 
-        <Card className="mb-6 p-6">
+        <Card className="mb-6 p-6 sm:p-8">
           {state?.error && (
-            <p className="mb-4 text-base italic text-destructive">
-              {state?.error}
-            </p>
+            <p className="mb-4 text-sm italic text-destructive">{state?.error}</p>
           )}
-          <div className="mb-6 flex flex-row items-center gap-2">
-            <Shirt className="size-6 shrink-0" aria-hidden />
-            <h2 className="text-[1.5rem] font-bold text-brand-text">
-              Product settings
-            </h2>
+          <div className="mb-6 flex flex-row items-center gap-3">
+            <Shirt className="size-6 shrink-0 text-primary" strokeWidth={1.5} aria-hidden />
+            <div>
+              <p className="ui-section-label mb-1">Item</p>
+              <h2 className="ui-card-title">Product settings</h2>
+            </div>
           </div>
 
           <div className="grid w-full gap-2">
@@ -57,12 +56,13 @@ const PurchaseForm = ({
             </select>
           </div>
         </Card>
-        <Card className="p-6">
-          <div className="mb-4 flex flex-row items-center gap-2">
-            <MapPin className="size-6 shrink-0" aria-hidden />
-            <h2 className="text-[1.5rem] font-bold text-brand-text">
-              Shipping information
-            </h2>
+        <Card className="p-6 sm:p-8">
+          <div className="mb-6 flex flex-row items-center gap-3">
+            <MapPin className="size-6 shrink-0 text-primary" strokeWidth={1.5} aria-hidden />
+            <div>
+              <p className="ui-section-label mb-1">Delivery</p>
+              <h2 className="ui-card-title">Shipping information</h2>
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">

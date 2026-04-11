@@ -26,16 +26,14 @@ const FormInputField = ({
   if (multiline) {
     return (
       <div className="flex flex-col gap-2 text-start">
-        {label && (
-          <Label className="text-sm font-medium text-brand-muted">{label}</Label>
-        )}
+        {label && <Label>{label}</Label>}
         <textarea
           placeholder={placeholder}
           defaultValue={defaultValue ? defaultValue : ""}
           name={name ? name : ""}
           required={required ? true : false}
           rows={rows}
-          className="flex min-h-[80px] w-full rounded-xl border border-border bg-[color-mix(in_srgb,hsl(var(--card))_65%,transparent)] px-3 py-2 text-sm ring-offset-background placeholder:text-brand-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex min-h-[88px] w-full rounded-2xl border border-border bg-brand-bg px-4 py-3 text-sm normal-case text-foreground placeholder:text-brand-muted placeholder:normal-case focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50"
         />
       </div>
     )
@@ -43,9 +41,7 @@ const FormInputField = ({
 
   return (
     <div className="flex flex-col gap-2 text-start">
-      {label && (
-        <Label className="text-sm font-medium text-brand-muted">{label}</Label>
-      )}
+      {label && <Label>{label}</Label>}
 
       <div className="relative">
         {Icon && (
