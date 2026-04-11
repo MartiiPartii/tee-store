@@ -1,13 +1,14 @@
 import { Button, Grid, Stack, Typography } from "@mui/material"
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HeroStat from "./HeroStat";
-import Image from "next/image";
 import Link from "next/link";
 
 const Hero = () => {
     return (
         <Stack
             sx={{
+                minHeight: "100vh",
+                justifyContent: "center",
                 background: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/hero.webp)",
                 backgroundSize: "cover",
                 backgroundPosition: "center"
