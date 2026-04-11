@@ -1,12 +1,10 @@
-import { Stack, Typography } from "@mui/material"
-
-const UserInfo = ({ label, text }: { label: string, text: string }) => {
-    return (
-        <Stack>
-            <Typography variant="body2">{label}</Typography>
-            <Typography variant="body1" fontSize={18} fontWeight={500} color="neutral">{text}</Typography>
-        </Stack>
-    )
+const UserInfo = ({ label, text }: { label: string; text: string }) => {
+  return (
+    <div className="flex flex-col">
+      <p className="text-sm text-brand-muted">{label}</p>
+      <p className="text-lg font-medium text-brand-muted">{text}</p>
+    </div>
+  )
 }
 
 export default UserInfo

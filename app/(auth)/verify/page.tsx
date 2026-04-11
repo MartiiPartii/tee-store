@@ -1,34 +1,36 @@
 import SectionContainer from "@/app/components/SectionContainer"
-import { Button, Card, Stack, Typography } from "@mui/material"
 import Link from "next/link"
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { Mail } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
 const Verify = () => {
-    return (
-        <SectionContainer props={{
-            component: Stack,
-            sx: {
-                minHeight: "100vh",
-                justifyContent: "center",
-            }
-        }}>
-            <Card
-                sx={{ textAlign: "center", maxWidth: "28rem", padding: 3, margin: "0 auto" }}
-            >
-                <MailOutlineIcon
-                    sx={{ width: "6rem", height: "6rem" }}
-                />
+  return (
+    <SectionContainer
+      props={{
+        className: "flex min-h-screen flex-col justify-center",
+      }}
+    >
+      <Card className="mx-auto max-w-md p-6 text-center">
+        <Mail className="mx-auto mb-4 size-24 text-brand-text" aria-hidden />
 
-                <Typography variant="h2">Verify your account.</Typography>
-                <Typography mb={3} variant="body1">We've sent a verification link to your email. Once you're verified you can start shopping.</Typography>
+        <h1 className="text-[2rem] font-bold text-brand-text">Verify your account.</h1>
+        <p className="mb-6 text-base text-brand-muted">
+          We&apos;ve sent a verification link to your email. Once you&apos;re verified
+          you can start shopping.
+        </p>
 
-                <Stack direction="row" gap={1} justifyContent={"center"}>
-                    <Link href="/"><Button variant="outlined" color="accent">Home</Button></Link>
-                    <Link href="/login"><Button variant="contained" color="accent">Login</Button></Link>
-                </Stack>
-            </Card>
-        </SectionContainer>
-    )
+        <div className="flex flex-row justify-center gap-2">
+          <Link href="/">
+            <Button variant="outlineAccent">Home</Button>
+          </Link>
+          <Link href="/login">
+            <Button variant="accent">Login</Button>
+          </Link>
+        </div>
+      </Card>
+    </SectionContainer>
+  )
 }
 
 export default Verify

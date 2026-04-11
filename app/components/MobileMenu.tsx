@@ -1,44 +1,87 @@
 "use client"
 
-import { Button, Drawer, IconButton, Stack, Typography } from "@mui/material"
-import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from "react";
-import Link from "next/link";
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import { Menu } from "lucide-react"
+import { useState } from "react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
+import { cn } from "@/lib/utils"
 
 const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
-    const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
-    return (
-        <>
-            <Stack
-                sx={{ display: { xs: "flex", sm: "none" } }}
+  return (
+    <>
+      <div className="flex sm:hidden">
+        <Button
+          variant="ghostAccent"
+          size="icon"
+          type="button"
+          onClick={() => setIsOpen(true)}
+          aria-label="Open menu"
+        >
+          <Menu className="size-6 text-brand-text" />
+        </Button>
+      </div>
+
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent
+          side="left"
+          showCloseButton={false}
+          className="w-[min(100%,20rem)] border-r border-border bg-brand-surface p-0 sm:max-w-sm"
+        >
+          <SheetHeader className="sr-only">
+            <SheetTitle>Navigation</SheetTitle>
+          </SheetHeader>
+          <div className="flex flex-col gap-1 px-8 py-8">
+            <p className="mb-2 text-[1.2rem] font-bold text-brand-text">TeeStore</p>
+
+            <Link
+              href="/browse"
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                "text-base text-primary transition-colors hover:text-accent"
+              )}
             >
-                <IconButton onClick={() => setIsOpen(true)} color="neutral"><MenuIcon/></IconButton>
-            </Stack>
+              Browse
+            </Link>
 
-            <Drawer open={isOpen} onClose={() => setIsOpen(false)}>
-                <Stack sx={{
-                    py: 2,
-                    px: 4
-                }} gap={1}>
-                    <Typography mb={2} variant="h4">TeeStore</Typography>
-
-                    <Link href={"/browse"}><Typography variant="body1" color="primary" sx={{ transition: "color 0.2s", "&:hover": { color: "accent.main" } }}>Browse</Typography></Link>
-
-                    {
-                        isAuthenticated ?
-                        <>
-                            <Link href={"/sell-tshirt"}><Typography variant="body1" color="primary" sx={{ transition: "color 0.2s", "&:hover": { color: "accent.main" } }}>Sell</Typography></Link>
-                            <Link href={"/profile"}><Typography variant="body1" color="primary" sx={{ transition: "color 0.2s", "&:hover": { color: "accent.main" } }}>Profile</Typography></Link>
-                        </>
-                        :
-                        <Link href={"/register"}><Typography variant="body1" sx={{ color: "accent.main", transition: "color 0.2s", "&:hover": { color: "accent.dark" } }}>Join now</Typography></Link>
-                    }
-                </Stack>
-            </Drawer>
-        </>
-    )
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/sell-tshirt"
+                  onClick={() => setIsOpen(false)}
+                  className="text-base text-primary transition-colors hover:text-accent"
+                >
+                  Sell
+                </Link>
+                <Link
+                  href="/profile"
+                  onClick={() => setIsOpen(false)}
+                  className="text-base text-primary transition-colors hover:text-accent"
+                >
+                  Profile
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/register"
+                onClick={() => setIsOpen(false)}
+                className="text-base text-accent transition-colors hover:text-[#8272A3]"
+              >
+                Join now
+              </Link>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  )
 }
 
 export default MobileMenu

@@ -1,48 +1,61 @@
 import SectionContainer from "@/app/components/SectionContainer"
-import { Button, Stack, Typography } from "@mui/material"
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import Link from "next/link";
-import { verifyAccount } from "@/actions/authenticate";
-import { logServerError } from "@/lib/logger";
+import { CheckCircle2, XCircle } from "lucide-react"
+import Link from "next/link"
+import { verifyAccount } from "@/actions/authenticate"
+import { logServerError } from "@/lib/logger"
+import { Button } from "@/components/ui/button"
 
+const Verify = async ({
+  params,
+}: {
+  params: Promise<{ uidb: string; token: string }>
+}) => {
+  const { uidb, token } = await params
+  let title = "Account verified.",
+    text = "Your account was successfully verified. Now you can login.",
+    button = "Login",
+    link = "/login",
+    success = true
 
+  try {
+    await verifyAccount(uidb, token)
+  } catch (err) {
+    logServerError("verify_page:verify_account_failed", err, { uidb })
+    title = err instanceof Error ? err.message : "Something went wrong"
+    text = ""
+    button = "Home"
+    link = "/"
+    success = false
+  }
 
-const Verify = async ({ params }: { params: { uidb: string, token: string } }) => {
-    const { uidb, token } = await params
-    let title = "Account verified.", text = "Your account was successfully verified. Now you can login.", button = "Login", link = "/login", success = true
+  return (
+    <SectionContainer
+      props={{
+        className: "flex min-h-screen flex-col justify-center",
+      }}
+    >
+      <div className="mx-auto flex max-w-[36rem] flex-col items-center text-center">
+        {success ? (
+          <CheckCircle2
+            className="mb-4 size-[4.8rem] text-green-600"
+            aria-hidden
+          />
+        ) : (
+          <XCircle
+            className="mb-4 size-[4.8rem] text-destructive"
+            aria-hidden
+          />
+        )}
 
-    try {
-        await verifyAccount(uidb, token)
-    } catch (err) {
-        logServerError("verify_page:verify_account_failed", err, { uidb })
-        title = err instanceof Error ? err.message : "Something went wrong"
-        text = ""
-        button = "Home"
-        link = "/"
-        success = false
-    }
+        <h1 className="text-[2rem] font-bold text-brand-text">{title}</h1>
+        <p className="mb-6 text-base text-brand-muted">{text}</p>
 
-    return (
-        <SectionContainer props={{
-            component: Stack,
-            sx: { justifyContent: "center", minHeight: "100vh" }
-        }}>
-            <Stack maxWidth={"36rem"} textAlign={"center"} alignItems={"center"} mx="auto">
-                {
-                    success ?
-                    <CheckCircleOutlineIcon sx={{ color: "success.main", width: "4.8rem", height: "4.8rem" }} />
-                    :
-                    <HighlightOffIcon sx={{ color: "error.main", width: "4.8rem", height: "4.8rem" }} />
-                }
-
-                <Typography variant="h2">{title}</Typography>
-                <Typography variant="body1" mb={3}>{text}</Typography>
-
-                <Link href={link}><Button variant="contained" color="primary">{button}</Button></Link>
-            </Stack>
-        </SectionContainer>
-    )
+        <Link href={link}>
+          <Button variant="default">{button}</Button>
+        </Link>
+      </div>
+    </SectionContainer>
+  )
 }
 
 export default Verify

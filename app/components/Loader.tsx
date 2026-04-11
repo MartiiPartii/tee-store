@@ -1,22 +1,9 @@
-import { Box } from "@mui/material"
-
 const Loader = () => {
-    return (
-        <Box sx={{
-            backgroundColor: "bgcolor.main",
-            width: "100%",
-            height: "100%",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            zIndex: 10,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center"
-        }}>
-            <Box className="loader"></Box>
-        </Box>
-    )
+  return (
+    <div className="fixed left-0 top-0 z-10 flex h-full w-full items-center justify-center bg-brand-bg">
+      <div className="loader" />
+    </div>
+  )
 }
 
 export default Loader

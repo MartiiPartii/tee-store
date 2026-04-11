@@ -1,68 +1,77 @@
 import SectionContainer from "@/app/components/SectionContainer"
-import { Button, Chip, Grid, Stack, Typography } from "@mui/material"
-import CheckIcon from '@mui/icons-material/Check';
+import { Check } from "lucide-react"
 import Image from "next/image"
 import placeholder from "@/public/placeholder.webp"
-import Link from "next/link";
-import { getShirt } from "@/actions/store";
+import Link from "next/link"
+import { getShirt } from "@/actions/store"
+import { Button } from "@/components/ui/button"
 
-const Shirt = async ({ params }: { params: { id: string } }) => {
-    const encodedId = (await params).id
-    const b64 = encodedId ? decodeURIComponent(encodedId) : ""
+const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const encodedId = (await params).id
+  const b64 = encodedId ? decodeURIComponent(encodedId) : ""
 
-    const { shirt, user } = await getShirt(b64)
+  const { shirt, user } = await getShirt(b64)
 
-    return (
-        <SectionContainer
-            props={{
-                sx: { py: 8 }
-            }}
-        >
-            {
-                shirt &&
-                <Grid container spacing={6}>
-                    <Grid size={{ xs: 12, md: 4, lg: 6 }}>
-                        <Image
-                            src={shirt.imageLink || placeholder}
-                            alt="Product Image"
-                            width={1000}
-                            height={1000}
-                            style={{
-                                width: "100%",
-                                height: "auto",
-                                aspectRatio: "1 / 1",
-                                objectFit: "cover",
-                                borderRadius: "10px"
-                            }}
-                        />
-                    </Grid>
+  return (
+    <SectionContainer props={{ className: "py-16" }}>
+      {shirt && (
+        <div className="grid grid-cols-12 gap-12">
+          <div className="col-span-12 md:col-span-4 lg:col-span-6">
+            <Image
+              src={shirt.imageLink || placeholder}
+              alt="Product Image"
+              width={1000}
+              height={1000}
+              style={{
+                width: "100%",
+                height: "auto",
+                aspectRatio: "1 / 1",
+                objectFit: "cover",
+                borderRadius: "10px",
+              }}
+            />
+          </div>
 
-                    <Grid size="grow" component={Stack}>
-                        <Stack direction="row" gap={1} sx={{ marginBottom: 1 }}>
-                            {
-                                !shirt.soldByPlatform &&
-                                <Chip label={`By ${user!.firstName || ""} ${user!.lastName || ""}`} variant="filled" size="small" color="accent" />
-                            }
-                            <Chip label="In Stock" icon={<CheckIcon />} variant="outlined" size="small" color="accent" />
-                        </Stack>
+          <div className="col-span-12 flex flex-col md:col-span-8 lg:col-span-6">
+            <div className="mb-2 flex flex-row gap-2">
+              {!shirt.soldByPlatform && (
+                <span className="inline-flex items-center rounded-md bg-accent px-2 py-0.5 text-xs font-medium text-accent-foreground">
+                  By {user!.firstName || ""} {user!.lastName || ""}
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1 rounded-md border border-accent px-2 py-0.5 text-xs font-medium text-accent">
+                <Check className="size-3.5" aria-hidden />
+                In Stock
+              </span>
+            </div>
 
-                        <Typography variant="h1" mb={2} color="neutral">{shirt.name}</Typography>
+            <h1 className="mb-4 text-[3.2rem] font-bold text-brand-muted">
+              {shirt.name}
+            </h1>
 
-                        <Typography variant="h2" mb={3} color="accent">${shirt.price}</Typography>
+            <p className="mb-6 text-[2rem] font-bold text-accent">${shirt.price}</p>
 
-                        <Stack flex={1}>
-                            <Stack flex={1}>
-                                <Typography variant="body1" fontWeight={500} mb={1} color="neutral">Description</Typography>
-                                <Typography variant="body1" mb={4}>{shirt.description}</Typography>
-                            </Stack>
+            <div className="flex flex-1 flex-col">
+              <div className="flex flex-1 flex-col">
+                <p className="mb-2 text-base font-medium text-brand-muted">
+                  Description
+                </p>
+                <p className="mb-8 text-base text-brand-muted">
+                  {shirt.description}
+                </p>
+              </div>
 
-                            <Link href={`/shirt/${b64}/purchase`}><Button variant="contained" color="accent" size="large" fullWidth>Buy - ${shirt.price}</Button></Link>
-                        </Stack>
-                    </Grid>
-                </Grid>
-            }
-        </SectionContainer>
-    )
+              <Link href={`/shirt/${b64}/purchase`}>
+                <Button variant="accent" size="lg" className="w-full">
+                  Buy - ${shirt.price}
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+    </SectionContainer>
+  )
 }
 
 export default Shirt

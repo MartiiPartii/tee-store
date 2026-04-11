@@ -1,71 +1,78 @@
 "use client"
 
-import { Button, Stack, Typography } from "@mui/material"
 import ImageInput from "./ImageInput"
 import React, { useActionState, useState } from "react"
 import FormInputField from "./FormInputField"
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import AddIcon from '@mui/icons-material/Add';
+import { DollarSign, Plus } from "lucide-react"
 import Form from "next/form"
 import { uploadShirt } from "@/actions/store"
 import Loader from "./Loader"
 import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
 
 const ShirtForm = () => {
-    const [file, setFile] = useState<File | null>(null)
-    const [state, action, isLoading] = useActionState((previousState: any, formData: FormData) => uploadShirt(previousState, formData, file), null)
-    const router = useRouter()
+  const [file, setFile] = useState<File | null>(null)
+  const [state, action, isLoading] = useActionState(
+    (previousState: any, formData: FormData) =>
+      uploadShirt(previousState, formData, file),
+    null
+  )
+  const router = useRouter()
 
-    return (
-        <>
-            { isLoading && <Loader /> }
-            <Form action={action}>
+  return (
+    <>
+      {isLoading && <Loader />}
+      <Form action={action}>
+        {state?.error && (
+          <p className="mb-4 text-base italic text-destructive">{state.error}</p>
+        )}
 
-                {state?.error && <Typography mb={2} variant="body1" color="error" fontStyle={"italic"}>{state.error}</Typography>}
+        <ImageInput file={file} setFile={setFile} />
 
-                <ImageInput
-                    file={file}
-                    setFile={setFile}
-                />
-
-                <Stack gap={2} mt={2}>
-                    <FormInputField
-                        label="T-Shirt Name*"
-                        placeholder="Enter t-shirt name"
-                        name="name"
-                        type="text"
-                        required={true}
-                    />
-                    <FormInputField
-                        label="T-Shirt Description*"
-                        placeholder="Describe your t-shirt, its style, material, etc."
-                        type="text"
-                        name="description"
-                        multiline={true}
-                        rows={4}
-                        required={true}
-                    />
-                    <FormInputField
-                        label="Price (USD)*"
-                        placeholder="0.00"
-                        step={0.01}
-                        name="price"
-                        type="number"
-                        Icon={AttachMoneyIcon}
-                        required={true}
-                    />
-                    <Stack direction={{ sm: "row" }} gap={2}>
-                        <Button onClick={() => router.back()} sx={{ flex: 1 }} variant="outlined" color="primary">
-                            Cancel
-                        </Button>
-                        <Button type="submit" sx={{ flex: 1 }} variant="contained" color="accent" startIcon={<AddIcon />}>
-                            List T-Shirt
-                        </Button>
-                    </Stack>
-                </Stack>
-            </Form>
-        </>
-    )
+        <div className="mt-4 flex flex-col gap-4">
+          <FormInputField
+            label="T-Shirt Name*"
+            placeholder="Enter t-shirt name"
+            name="name"
+            type="text"
+            required={true}
+          />
+          <FormInputField
+            label="T-Shirt Description*"
+            placeholder="Describe your t-shirt, its style, material, etc."
+            type="text"
+            name="description"
+            multiline={true}
+            rows={4}
+            required={true}
+          />
+          <FormInputField
+            label="Price (USD)*"
+            placeholder="0.00"
+            step={0.01}
+            name="price"
+            type="number"
+            Icon={DollarSign}
+            required={true}
+          />
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button
+              type="button"
+              variant="outlinePrimary"
+              className="flex-1"
+              onClick={() => router.back()}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" variant="accent" className="flex-1">
+              <Plus className="size-4" />
+              List T-Shirt
+            </Button>
+          </div>
+        </div>
+      </Form>
+    </>
+  )
 }
 
 export default ShirtForm

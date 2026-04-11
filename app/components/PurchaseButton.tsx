@@ -1,12 +1,15 @@
 "use client"
 
-import { Button } from "@mui/material"
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { ShoppingCart } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const PurchaseButton = () => {
-    return (
-        <Button type="submit" form="purchase" variant="contained" startIcon={<ShoppingCartOutlinedIcon />} fullWidth color="accent">Complete Order</Button>
-    )
+  return (
+    <Button type="submit" form="purchase" variant="accent" className="w-full">
+      <ShoppingCart className="size-4" />
+      Complete Order
+    </Button>
+  )
 }
 
 export default PurchaseButton

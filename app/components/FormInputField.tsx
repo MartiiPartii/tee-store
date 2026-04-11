@@ -1,78 +1,92 @@
 "use client"
 
-import { IconButton, InputAdornment, Stack, TextField, Typography } from "@mui/material"
 import { useState } from "react"
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import { InputProps } from "@/types/form";
+import { Eye, EyeOff } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { InputProps } from "@/types/form"
+import { cn } from "@/lib/utils"
 
 const FormInputField = ({
-    label,
-    placeholder,
-    defaultValue,
-    name,
-    multiline,
-    required,
-    step,
-    rows,
-    type,
-    Icon
-} : InputProps) => {
-    const inputProps = {
-        style: {
-            fontSize: "0.875rem"
-        }
-    }
+  label,
+  placeholder,
+  defaultValue,
+  name,
+  multiline,
+  required,
+  step,
+  rows,
+  type,
+  Icon,
+}: InputProps) => {
+  const [showPassword, setShowPassword] = useState(false)
+  const hasPasswordToggle = type === "password"
 
-    const [showPassword, setShowPassword] = useState(false)
-
+  if (multiline) {
     return (
-        <Stack gap={1} textAlign={"start"}>
-            {
-                label &&
-                <Typography variant="body2" color="neutral" fontWeight={500}>{label}</Typography>
-            }
-
-            <TextField
-                placeholder={placeholder}
-                defaultValue={defaultValue ? defaultValue : ""}
-                size="small"
-                inputProps={inputProps}
-                multiline={multiline}
-                name={name ? name : ""}
-                required={required ? true : false}
-                rows={rows}
-                type={type === "password" ? showPassword ? "text" : "password" : type}
-                slotProps={{
-                    htmlInput: {
-                        step: step ? step : 1.00,
-                    },
-                    input: {
-                        startAdornment: Icon ? (
-                                <InputAdornment
-                                    position="start"
-                                >
-                                    <Icon sx={{ width: "1rem", height: "1rem" }} />
-                                </InputAdornment>
-                            )
-                            :
-                            <></>,
-                        endAdornment: type === "password" ? (
-                            <InputAdornment
-                                position="end"
-                            >
-                                <IconButton
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    { showPassword ? <VisibilityOffOutlinedIcon sx={{ width: "1rem", height: "1rem" }} /> : <VisibilityOutlinedIcon sx={{ width: "1rem", height: "1rem" }} /> }
-                                </IconButton>
-                            </InputAdornment>
-                        ) : (<></>)
-                    }
-                }}
-            />
-        </Stack>
+      <div className="flex flex-col gap-2 text-start">
+        {label && (
+          <Label className="text-sm font-medium text-brand-muted">{label}</Label>
+        )}
+        <textarea
+          placeholder={placeholder}
+          defaultValue={defaultValue ? defaultValue : ""}
+          name={name ? name : ""}
+          required={required ? true : false}
+          rows={rows}
+          className="flex min-h-[80px] w-full rounded-xl border border-border bg-[color-mix(in_srgb,hsl(var(--card))_65%,transparent)] px-3 py-2 text-sm ring-offset-background placeholder:text-brand-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-accent disabled:cursor-not-allowed disabled:opacity-50"
+        />
+      </div>
     )
+  }
+
+  return (
+    <div className="flex flex-col gap-2 text-start">
+      {label && (
+        <Label className="text-sm font-medium text-brand-muted">{label}</Label>
+      )}
+
+      <div className="relative">
+        {Icon && (
+          <span className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-brand-muted">
+            <Icon className="size-4" />
+          </span>
+        )}
+        <Input
+          placeholder={placeholder}
+          defaultValue={defaultValue ? defaultValue : ""}
+          name={name ? name : ""}
+          required={required ? true : false}
+          step={step !== undefined ? step : type === "number" ? 1 : undefined}
+          type={
+            type === "password" ? (showPassword ? "text" : "password") : type
+          }
+          className={cn(
+            "text-sm",
+            Icon && "pl-10",
+            hasPasswordToggle && "pr-10"
+          )}
+        />
+        {hasPasswordToggle && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="iconSm"
+            className="absolute right-0.5 top-1/2 h-9 w-9 -translate-y-1/2"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? (
+              <EyeOff className="size-4" />
+            ) : (
+              <Eye className="size-4" />
+            )}
+          </Button>
+        )}
+      </div>
+    </div>
+  )
 }
 
 export default FormInputField

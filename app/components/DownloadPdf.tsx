@@ -1,70 +1,78 @@
 "use client"
 
-import { Box, Button, Modal, Stack, Typography } from "@mui/material"
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { useState } from "react";
-import { OrderDetailsInterface } from "@/types/order";
-import PdfPreview from "./PdfPreview";
+import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { FileDown } from "lucide-react"
+import { useState } from "react"
+import { OrderDetailsInterface } from "@/types/order"
+import PdfPreview from "./PdfPreview"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogOverlay, DialogPortal } from "@/components/ui/dialog"
 
 const DownloadPdf = ({ order }: { order: OrderDetailsInterface }) => {
-    const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
-    const createPdf = async () => {
-        const element = document.getElementById("preview") || undefined
-        if(!element) return
+  const createPdf = async () => {
+    const element = document.getElementById("preview") || undefined
+    if (!element) return
 
-        const html2pdf = (await import('html2pdf.js')).default
-        html2pdf(element, {
-            filename: `teestore_order_${order.id}.pdf`
-        })
+    const html2pdf = (await import("html2pdf.js")).default
+    html2pdf(element, {
+      filename: `teestore_order_${order.id}.pdf`,
+    })
 
-        console.log("ehy")
-    }
+    console.log("ehy")
+  }
 
-    return (
-        <>
-            <Button onClick={() => setIsOpen(true)} variant="contained" startIcon={<FileDownloadOutlinedIcon />} color="accent">Get as PDF</Button>
+  return (
+    <>
+      <Button variant="accent" type="button" onClick={() => setIsOpen(true)}>
+        <FileDown className="size-4" />
+        Get as PDF
+      </Button>
 
-            <Modal
-                open={isOpen}
-                onClose={() => setIsOpen(false)}
-                slotProps={{
-                    root: {
-                        style: {
-                            width: "100%",
-                            display: "flex"
-                        }
-                    }
-                }}
-            >
-                <Box sx={{
-                    width: "100%",
-                    px: { xs: 2, sm: 4, md: 8, lg: 16 },
-                    py: 8,
-                    overflow: "auto"
-                }}>
-                    <Stack
-                        sx={{
-                            p: { xs: 2, sm: 4 },
-                            bgcolor: "bgcolor.secondary",
-                            width: "100%",
-                            borderRadius: 1
-                        }}
-                        alignItems="start"
-                    >
-                        <Typography variant="h1" mb={3}>Preview</Typography>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogPortal>
+          <DialogOverlay />
+          <DialogPrimitive.Content
+            className="fixed inset-0 z-50 flex w-full flex-col overflow-y-auto border-0 bg-transparent p-0 shadow-none outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+            style={{ width: "100%", display: "flex" }}
+          >
+            <div className="w-full px-2 py-16 sm:px-4 md:px-8 lg:px-16">
+              <div className="flex w-full flex-col items-start rounded-xl bg-brand-surface p-2 sm:p-4">
+                <h1 className="mb-6 text-[3.2rem] font-bold text-brand-text">
+                  Preview
+                </h1>
 
-                        <PdfPreview order={order} />
+                <PdfPreview order={order} />
 
-                        <Stack direction={{ sm: "row" }} gap={3} width={"100%"} maxWidth="35rem">
-                            <Button sx={{ flex: 1 }} fullWidth size="large" variant="contained" startIcon={<FileDownloadOutlinedIcon />} color="accent" onClick={() => createPdf()}>Download</Button>
-                            <Button sx={{ flex: 1 }} onClick={() => setIsOpen(false)} fullWidth size="large" variant="outlined" color="accent">Cancel</Button>
-                        </Stack>
-                    </Stack>
-                </Box>
-            </Modal>
-        </>
-    )
+                <div className="flex w-full max-w-[35rem] flex-col gap-6 sm:flex-row">
+                  <Button
+                    className="flex-1"
+                    variant="accent"
+                    size="lg"
+                    type="button"
+                    onClick={() => createPdf()}
+                  >
+                    <FileDown className="size-4" />
+                    Download
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    variant="outlineAccent"
+                    size="lg"
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </DialogPrimitive.Content>
+        </DialogPortal>
+      </Dialog>
+    </>
+  )
 }
 
 export default DownloadPdf

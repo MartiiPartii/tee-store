@@ -1,56 +1,65 @@
 import { ProductOverview } from "@/types/shipping"
-import { Box, Button, Card, Divider, Grid, Stack, Typography } from "@mui/material"
 import Image from "next/image"
 import PurchaseButton from "./PurchaseButton"
 import Link from "next/link"
+import { Card } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 
 const OrderSummary = ({ product }: { product: ProductOverview }) => {
-    return (
-        <Box sx={{ py: 2, position: "sticky", top: 80 }}>
-            <Card variant="outlined" sx={{ p: 3 }}>
-                <Typography variant="h3" mb={3}>Order Summary</Typography>
+  return (
+    <div className="sticky top-20 py-4">
+      <Card className="p-6">
+        <h2 className="mb-6 text-[1.5rem] font-bold text-brand-text">
+          Order Summary
+        </h2>
 
-                <Grid mb={1} spacing={2} container alignItems={"center"}>
-                    <Grid size={3}>
-                        <Image
-                            src={product.imageLink}
-                            alt="Product Image"
-                            width={100}
-                            height={100}
-                            style={{
-                                width: "100%",
-                                height: "auto",
-                                aspectRatio: "1 / 1",
-                                objectFit: "cover",
-                                borderRadius: 10
-                            }}
-                        />
-                    </Grid>
-                    <Grid size="grow">
-                        <Link href={`/shirt/${btoa(String(product.id))}`}><Typography variant="body1" color="neutral" sx={{
-                            transition: ".2s",
-                            "&:hover": {
-                                color: "accent.main"
-                            }
-                        }}>{product.name}</Typography></Link>
-                        <Typography variant="body1">By {product.soldByPlatform ? "TeeStore" : `${product.seller?.firstName} ${product.seller?.lastName}`}</Typography>
-                    </Grid>
-                    <Grid size={3}>
-                        <Typography textAlign={"end"} variant="body1" color="neutral">${product.price}</Typography>
-                    </Grid>
-                </Grid>
+        <div className="mb-2 grid grid-cols-12 items-center gap-4">
+          <div className="col-span-3">
+            <Image
+              src={product.imageLink}
+              alt="Product Image"
+              width={100}
+              height={100}
+              style={{
+                width: "100%",
+                height: "auto",
+                aspectRatio: "1 / 1",
+                objectFit: "cover",
+                borderRadius: 10,
+              }}
+            />
+          </div>
+          <div className="col-span-6 min-w-0">
+            <Link href={`/shirt/${btoa(String(product.id))}`}>
+              <p className="text-base text-brand-text transition-colors hover:text-accent">
+                {product.name}
+              </p>
+            </Link>
+            <p className="text-base text-brand-muted">
+              By{" "}
+              {product.soldByPlatform
+                ? "TeeStore"
+                : `${product.seller?.firstName} ${product.seller?.lastName}`}
+            </p>
+          </div>
+          <div className="col-span-3">
+            <p className="text-end text-base text-brand-muted">
+              ${product.price}
+            </p>
+          </div>
+        </div>
 
-                <Divider/>
+        <Separator />
 
-                <Stack direction={"row"} gap={1} mt={2} mb={3} justifyContent={"space-between"}>
-                    <Typography variant="body1" fontSize={20} fontWeight={500} color="neutral">Total</Typography>
-                    <Typography variant="body1" fontSize={20} fontWeight={500} color="neutral">${product.price}</Typography>
-                </Stack>
-                
-                <PurchaseButton />
-            </Card>
-        </Box>
-    )
+        <div className="mb-6 mt-4 flex flex-row justify-between gap-2">
+          <p className="text-xl font-medium text-brand-muted">Total</p>
+          <p className="text-xl font-medium text-brand-muted">${product.price}</p>
+        </div>
+
+        <PurchaseButton />
+      </Card>
+    </div>
+  )
 }
 
 export default OrderSummary

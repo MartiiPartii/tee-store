@@ -1,48 +1,38 @@
 import SectionContainer from "@/app/components/SectionContainer"
-import { Button, Stack, Typography } from "@mui/material"
 import OrderListCard from "@/app/components/OrderListCard"
 import { getMyOrders } from "@/actions/orders"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 const Orders = async () => {
-    const { error, orders } = await getMyOrders()
+  const { error, orders } = await getMyOrders()
 
+  return (
+    <SectionContainer props={{ className: "py-24" }}>
+      <h1 className="mb-2 text-[2rem] font-bold text-brand-text">My Orders</h1>
+      <p className="mb-4 text-base text-brand-muted">Track your order history</p>
 
-    return (
-        <SectionContainer
-            props={{
-                sx: {
-                    py: 12
-                }
-            }}
-        >
-            <Typography variant="h2" mb={1}>My Orders</Typography>
-            <Typography variant="body1" mb={2}>Track your order history</Typography>
-
-            {
-                error ?
-                <Typography variant="body1" color="error" fontStyle={"italic"}>{error}</Typography>
-                :
-                orders && orders.length > 0 ?
-                <Stack gap={2}>
-                    {
-                        orders.map((order, i) => (
-                            <OrderListCard
-                                key={i}
-                                order={order}
-                            />
-                        ))
-                    }
-                </Stack>
-                :
-                <Stack mt={4}>
-                    <Typography variant="h4">Nothing here...</Typography>
-                    <Typography variant="body1" mb={2}>You haven't purchased any products yet.</Typography>
-                    <Link href="/browse"><Button variant="contained" color="accent">Browse</Button></Link>
-                </Stack>
-            }
-        </SectionContainer>
-    )
+      {error ? (
+        <p className="text-base italic text-destructive">{error}</p>
+      ) : orders && orders.length > 0 ? (
+        <div className="flex flex-col gap-4">
+          {orders.map((order, i) => (
+            <OrderListCard key={i} order={order} />
+          ))}
+        </div>
+      ) : (
+        <div className="mt-8 flex flex-col">
+          <h2 className="text-[1.2rem] font-bold text-brand-text">Nothing here...</h2>
+          <p className="mb-4 text-base text-brand-muted">
+            You haven&apos;t purchased any products yet.
+          </p>
+          <Link href="/browse">
+            <Button variant="accent">Browse</Button>
+          </Link>
+        </div>
+      )}
+    </SectionContainer>
+  )
 }
 
 export default Orders

@@ -1,12 +1,23 @@
-import { Container, ContainerProps } from "@mui/material"
 import React from "react"
 
-const SectionContainer = ({ children, props } : { children: React.ReactNode, props?: ContainerProps }) => {
-    return (
-        <Container maxWidth="lg" {...props}>
-            {children}
-        </Container>
-    )
+import { cn } from "@/lib/utils"
+
+const SectionContainer = ({
+  children,
+  props,
+}: {
+  children: React.ReactNode
+  props?: React.HTMLAttributes<HTMLDivElement>
+}) => {
+  const { className, ...rest } = props || {}
+  return (
+    <div
+      className={cn("mx-auto w-full max-w-[1200px] px-4 sm:px-6", className)}
+      {...rest}
+    >
+      {children}
+    </div>
+  )
 }
 
 export default SectionContainer

@@ -1,80 +1,79 @@
 "use client"
 
-import { AppBar, Box, Button, IconButton, Stack, Toolbar, Typography } from "@mui/material"
-import { useTheme } from "@mui/material/styles"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import { User } from "lucide-react"
 import SearchForm from "./SearchForm"
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"
 import MobileMenu from "./MobileMenu"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 const HEADER_SCROLL_THRESHOLD = 8
 
 type Props = {
-    isAuthenticated: boolean
+  isAuthenticated: boolean
 }
 
 const HeaderClient = ({ isAuthenticated }: Props) => {
-    const pathname = usePathname()
-    const theme = useTheme()
-    const isHome = pathname === "/"
-    const [homeScrollNav, setHomeScrollNav] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === "/"
+  const [homeScrollNav, setHomeScrollNav] = useState(false)
 
-    useEffect(() => {
-        if (!isHome) return
-        const update = () => setHomeScrollNav(window.scrollY > HEADER_SCROLL_THRESHOLD)
-        update()
-        window.addEventListener("scroll", update, { passive: true })
-        return () => window.removeEventListener("scroll", update)
-    }, [isHome])
+  useEffect(() => {
+    if (!isHome) return
+    const update = () => setHomeScrollNav(window.scrollY > HEADER_SCROLL_THRESHOLD)
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    return () => window.removeEventListener("scroll", update)
+  }, [isHome])
 
-    const navVisible = !isHome || homeScrollNav
+  const navVisible = !isHome || homeScrollNav
 
-    return (
-        <>
-            <AppBar
-                elevation={0}
-                position="fixed"
-                sx={{
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: "bgcolor.main",
-                    borderBottom: "solid 1px",
-                    borderColor: "border.main",
-                    transform: navVisible ? "translateY(0)" : "translateY(-100%)",
-                    transition: theme.transitions.create("transform", {
-                        duration: theme.transitions.duration.shorter,
-                        easing: theme.transitions.easing.easeOut,
-                    }),
-                }}
-            >
-                <Toolbar sx={{ mx: "auto", width: "100%", maxWidth: "lg", gap: { xs: 2, sm: 8, md: 12, lg: 24 } }}>
-                    <Link href="/"><Typography variant="h4" color="primary">TeeStore</Typography></Link>
+  return (
+    <>
+      <header
+        className={cn(
+          "fixed left-0 right-0 top-0 z-50 border-b border-border bg-brand-bg transition-transform duration-200 ease-out",
+          navVisible ? "translate-y-0" : "-translate-y-full"
+        )}
+      >
+        <div className="mx-auto flex w-full max-w-[1200px] items-center gap-2 px-4 sm:gap-8 md:gap-12 lg:gap-24 sm:px-6 min-h-14 sm:min-h-16">
+          <Link href="/">
+            <span className="text-[1.2rem] font-bold text-primary">TeeStore</span>
+          </Link>
 
-                    <SearchForm />
+          <SearchForm />
 
-                    <Stack sx={{ display: { xs: "none", sm: "flex" } }} direction={"row"} gap={2} justifyContent="end" alignItems={"end"}>
-                        <Link href={"/browse"}><Button>Browse</Button></Link>
+          <div className="hidden items-end justify-end gap-2 sm:flex sm:flex-row">
+            <Button variant="ghost" asChild>
+              <Link href="/browse">Browse</Link>
+            </Button>
 
-                        {
-                            isAuthenticated ?
-                                <>
-                                    <Link href={"/sell-tshirt"}><Button>Sell</Button></Link>
-                                    <Link href={"/profile"}><IconButton color="neutral"><PersonOutlinedIcon /></IconButton></Link>
-                                </>
-                                :
-                                <Link href={"/register"}><Button color="accent" variant="contained">Join now</Button></Link>
-                        }
-                    </Stack>
+            {isAuthenticated ? (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link href="/sell-tshirt">Sell</Link>
+                </Button>
+                <Button variant="ghostAccent" size="icon" asChild>
+                  <Link href="/profile" aria-label="Profile">
+                    <User className="size-6 text-brand-text" />
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <Button variant="accent" asChild>
+                <Link href="/register">Join now</Link>
+              </Button>
+            )}
+          </div>
 
-                    <MobileMenu isAuthenticated={isAuthenticated} />
-                </Toolbar>
-            </AppBar>
-            {!isHome && <Box sx={theme.mixins.toolbar} />}
-        </>
-    )
+          <MobileMenu isAuthenticated={isAuthenticated} />
+        </div>
+      </header>
+      {!isHome && <div className="min-h-14 sm:min-h-16" aria-hidden />}
+    </>
+  )
 }
 
 export default HeaderClient

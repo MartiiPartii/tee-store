@@ -1,6 +1,6 @@
 /**
  * Boutique pastel palette — airy linen neutrals + dusty mauve accent.
- * Single source of truth; synced to :root in layout via cssVariablesBlock.
+ * Canonical hex values; app/globals.css maps matching HSL tokens for Tailwind.
  */
 export const brandPalette = {
     /** Page canvas — warm off-white */
@@ -18,10 +18,3 @@ export const brandPalette = {
 /** Subtle borders and dividers (theme only; hover uses accentHover) */
 export const brandBorder = "#D9D2C9"
 
-/** Injected into layout — the four canonical tokens */
-export const cssVariablesBlock = `:root {
-  --background: ${brandPalette.background};
-  --foreground: ${brandPalette.foreground};
-  --accent: ${brandPalette.accent};
-  --text: ${brandPalette.text};
-}`

@@ -1,29 +1,25 @@
-import { Box, InputAdornment, Stack, TextField } from "@mui/material"
 import Form from "next/form"
-import SearchIcon from '@mui/icons-material/Search';
+import { Search } from "lucide-react"
+import { Input } from "@/components/ui/input"
 
 const SearchForm = () => {
-    return (
-        <Stack flex={1} alignItems={"center"} justifyContent={"center"}>
-            <Form action={'/browse'} style={{ width: "100%" }}>
-                <TextField
-                    name="search"
-                    size="small"
-                    placeholder="Search"
-                    fullWidth
-                    slotProps={{
-                        input: {
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            )
-                        }
-                    }}
-                />
-            </Form>
-        </Stack>
-    )
+  return (
+    <div className="flex flex-1 items-center justify-center">
+      <Form action="/browse" className="w-full">
+        <div className="relative w-full">
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-brand-muted"
+            aria-hidden
+          />
+          <Input
+            name="search"
+            placeholder="Search"
+            className="h-10 w-full pl-10 text-sm"
+          />
+        </div>
+      </Form>
+    </div>
+  )
 }
 
 export default SearchForm

@@ -1,66 +1,64 @@
-import { Box, Button, Card, Stack, Typography } from "@mui/material"
 import FormInputField from "./FormInputField"
 import Link from "next/link"
 import React, { useActionState } from "react"
-import { FormProps } from "@/types/form";
-import Form from "next/form";
-import Loader from "./Loader";
-
-
+import { FormProps } from "@/types/form"
+import Form from "next/form"
+import Loader from "./Loader"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
 const AuthForm = ({
-    title,
-    description,
-    inputs,
-    buttonLabel,
-    actionCallback,
-    link
-} : FormProps) => {
-    const [state, action, isLoading] = useActionState(actionCallback, null)
+  title,
+  description,
+  inputs,
+  buttonLabel,
+  actionCallback,
+  link,
+}: FormProps) => {
+  const [state, action, isLoading] = useActionState(actionCallback, null)
 
-    return (
-        <>
-            { isLoading && <Loader /> }
-            <Card
-                variant="outlined"
-                sx={{
-                    padding: 3,
-                    width: "100%",
-                    maxWidth: "28rem",
-                    margin: "0 auto",
-                    textAlign: "center"
-                }
-            }>
-                <Stack gap={1}  mb={3}>
-                    <Typography variant="h3" color="neutral">{title}</Typography>
-                    <Typography variant="body2">{description}</Typography>
-                    {state && state.error && <Typography variant="body2" color="error" fontStyle={"italic"}>{state.error}</Typography>}
-                </Stack>
+  return (
+    <>
+      {isLoading && <Loader />}
+      <Card className="mx-auto w-full max-w-md p-6 text-center">
+        <div className="mb-6 flex flex-col gap-2">
+          <h2 className="text-[1.5rem] font-bold text-brand-text">{title}</h2>
+          <p className="text-sm text-brand-muted">{description}</p>
+          {state && state.error && (
+            <p className="text-sm italic text-destructive">{state.error}</p>
+          )}
+        </div>
 
-                <Box mb={3}>
-                    {
-                        inputs && inputs.length > 0 &&
-                        <Form action={action}>
-                            <Stack gap={2} mb={3}>
-                                {
-                                    inputs.map((input, i) => (
-                                        <FormInputField
-                                            {...input}
-                                            key={i}
-                                        />
-                                    ))
-                                }
-                            </Stack>
+        <div className="mb-6">
+          {inputs && inputs.length > 0 && (
+            <Form action={action}>
+              <div className="mb-6 flex flex-col gap-4">
+                {inputs.map((input, i) => (
+                  <FormInputField {...input} key={i} />
+                ))}
+              </div>
 
-                            <Button type="submit" variant="contained" color="accent" fullWidth size="large">{buttonLabel}</Button>
-                        </Form>
-                    }
-                </Box>
+              <Button
+                type="submit"
+                variant="accent"
+                className="w-full"
+                size="lg"
+              >
+                {buttonLabel}
+              </Button>
+            </Form>
+          )}
+        </div>
 
-                <Typography variant="body2">{link.text} <Link href={link.to}><Typography variant="span" color="accent" fontWeight={500}>{link.label}</Typography></Link></Typography>
-            </Card>
-        </>
-    )
+        <p className="text-sm text-brand-muted">
+          {link.text}{" "}
+          <Link href={link.to}>
+            <span className="font-medium text-accent">{link.label}</span>
+          </Link>
+        </p>
+      </Card>
+    </>
+  )
 }
 
 export default AuthForm
