@@ -40,7 +40,7 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
                     top: 0,
                     left: 0,
                     right: 0,
-                    backgroundColor: "primary.contrastText",
+                    backgroundColor: "bgcolor.main",
                     borderBottom: "solid 1px",
                     borderColor: "border.main",
                     transform: navVisible ? "translateY(0)" : "translateY(-100%)",

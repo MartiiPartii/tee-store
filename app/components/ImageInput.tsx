@@ -90,7 +90,7 @@ const ImageInput = ({ file, setFile }: { file: File | null, setFile: React.Dispa
                     >
                         <CancelIcon
                             sx={{
-                                background: "white",
+                                background: "bgcolor.secondary",
                                 borderRadius: "100%",
                             }}
                         />
@@ -105,7 +105,7 @@ const ImageInput = ({ file, setFile }: { file: File | null, setFile: React.Dispa
                         mt={1}
                         mb={1}
                         sx={{
-                            border: `dashed 2px ${fileEnter ? theme.palette.neutral.light : error ? theme.palette.error.main : "#e4e4e7"}`,
+                            border: `dashed 2px ${fileEnter ? theme.palette.accent.main : error ? theme.palette.error.main : theme.palette.border.main}`,
                             borderRadius: theme.shape.borderRadius,
                             padding: 3
                         }}

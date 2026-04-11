@@ -3,7 +3,7 @@ import { Box } from "@mui/material"
 const Loader = () => {
     return (
         <Box sx={{
-            backgroundColor: "white",
+            backgroundColor: "bgcolor.main",
             width: "100%",
             height: "100%",
             position: "fixed",

@@ -5,7 +5,7 @@ const PdfPreview = ({ order }: { order: OrderDetailsInterface }) => {
     return (
         <Stack
             sx={{
-                bgcolor: "white",
+                bgcolor: "bgcolor.secondary",
                 p: 6,
                 borderRadius: 1,
                 textAlign: "start",

@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { montserrat } from "./fonts";
+import { cssVariablesBlock } from "@/theme/brand-colors";
 
 export const metadata: Metadata = {
   title: "TeeStore | Buy & Sell Unique T-Shirts Online",
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={montserrat.variable}>
       <body>
+        <style dangerouslySetInnerHTML={{ __html: cssVariablesBlock }} />
         <AppRouterCacheProvider>
           <ThemeWrapper>
               <Header />

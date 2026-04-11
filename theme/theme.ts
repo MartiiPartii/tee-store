@@ -1,45 +1,10 @@
 "use client"
 import { montserrat } from '@/app/fonts'
-import { createTheme } from '@mui/material/styles'
+import { alpha, createTheme } from '@mui/material/styles'
+import { brandBorder, brandPalette } from './brand-colors'
 
-/** Sage Calm Minimal — single source of truth for brand colors */
-// export const brandPalette = {
-//     background: "#FAF8F2",
-//     foreground: "#E7E3DA",
-//     accent: "#AFC8B3",
-//     text: "#2D332F",
-// } as const
-/** Soft Blush Boutique — single source of truth for brand colors */
-// export const brandPalette = {
-//     background: "#FFF7F4",
-//     foreground: "#F2E6E2",
-//     accent: "#F6B6C8",
-//     text: "#2E2A2A",
-// } as const
-/** Lavender Dreamy Modern — single source of truth for brand colors */
-// export const brandPalette = {
-//     background: "#FBFAFF",
-//     foreground: "#ECE8F5",
-//     accent: "#CBB7F5",
-//     text: "#2B2B35",
-// } as const
-/** Peach Warm Cozy — single source of truth for brand colors */
-// export const brandPalette = {
-//     background: "#FFF6F0",
-//     foreground: "#F2E2D6",
-//     accent: "#F6B38E",
-//     text: "#352D2A",
-// } as const
-/** High-End Neutral + Pastel Accent — single source of truth for brand colors */
-export const brandPalette = {
-    background: "#F9F9F6",
-    foreground: "#E8E5DF",
-    accent: "#C8BDF4",
-    text: "#1F1F1F",
-} as const
-
-/** Secondary / supporting text (muted from `text`) */
-const textMuted = "rgba(45, 51, 47, 0.62)"
+const softShadow = "0 2px 14px rgba(44, 40, 37, 0.07)"
+const softShadowHover = "0 4px 20px rgba(44, 40, 37, 0.1)"
 
 const headingStyles = {
     fontWeight: 700
@@ -52,11 +17,11 @@ let theme = createTheme({
     },
     typography: {
         fontFamily: montserrat.style.fontFamily,
-        h1: { ...headingStyles, fontSize: "3.2rem" },
-        h2: { ...headingStyles, fontSize: "2rem" },
-        h3: { ...headingStyles, fontSize: "1.5rem" },
-        h4: { ...headingStyles, fontSize: "1.2rem" },
-        h5: { ...headingStyles, fontSize: "1rem" },
+        h1: { ...headingStyles, fontSize: "3.2rem", color: brandPalette.text },
+        h2: { ...headingStyles, fontSize: "2rem", color: brandPalette.text },
+        h3: { ...headingStyles, fontSize: "1.5rem", color: brandPalette.text },
+        h4: { ...headingStyles, fontSize: "1.2rem", color: brandPalette.text },
+        h5: { ...headingStyles, fontSize: "1rem", color: brandPalette.text },
         body1: { fontSize: "1rem" },
         body2: { fontSize: "0.875rem" }
     },
@@ -72,43 +37,135 @@ let theme = createTheme({
         },
         accent: {
             main: brandPalette.accent,
+            dark: brandPalette.accentHover,
             contrastText: brandPalette.text,
         },
         neutral: {
             main: brandPalette.text,
-            light: textMuted,
+            light: alpha(brandPalette.text, 0.62),
         },
         border: {
-            main: "#D4D0C8",
+            main: brandBorder,
+        },
+        text: {
+            primary: brandPalette.text,
+            secondary: alpha(brandPalette.text, 0.62),
         },
     },
     components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    backgroundColor: brandPalette.background,
+                    color: brandPalette.text,
+                },
+            },
+        },
         MuiButton: {
             styleOverrides: {
                 root: {
-                    textTransform: "none"
-                }
-            }
+                    textTransform: "none",
+                    borderRadius: "0.75rem",
+                    boxShadow: "none",
+                },
+                contained: {
+                    boxShadow: softShadow,
+                    "&:hover": {
+                        boxShadow: softShadowHover,
+                    },
+                },
+                containedPrimary: {
+                    "&:hover": {
+                        backgroundColor: alpha(brandPalette.text, 0.92),
+                    },
+                },
+                outlined: {
+                    borderWidth: 1,
+                },
+                text: {
+                    "&:hover": {
+                        backgroundColor: alpha(brandPalette.accent, 0.12),
+                    },
+                },
+                textPrimary: {
+                    "&:hover": {
+                        backgroundColor: alpha(brandPalette.text, 0.06),
+                    },
+                },
+            },
+        },
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    borderRadius: "0.75rem",
+                    boxShadow: softShadow,
+                    backgroundColor: brandPalette.foreground,
+                    borderColor: brandBorder,
+                },
+            },
         },
         MuiPaper: {
             styleOverrides: {
-                elevation3: {
-                    boxShadow: "0 0 12px rgba(45, 51, 47, 0.08)",
-                }
-            }
-        }
-    }
+                root: {
+                    backgroundImage: "none",
+                },
+                elevation1: { boxShadow: softShadow },
+                elevation2: { boxShadow: softShadow },
+                elevation3: { boxShadow: softShadow },
+                elevation4: { boxShadow: softShadowHover },
+            },
+        },
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    backgroundImage: "none",
+                    boxShadow: softShadow,
+                },
+            },
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    borderRadius: "0.75rem",
+                    backgroundColor: alpha(brandPalette.foreground, 0.65),
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: alpha(brandPalette.text, 0.28),
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: brandPalette.accent,
+                        borderWidth: "1px",
+                    },
+                },
+                notchedOutline: {
+                    borderColor: brandBorder,
+                },
+            },
+        },
+        MuiTextField: {
+            defaultProps: {
+                variant: "outlined",
+            },
+        },
+        MuiDrawer: {
+            styleOverrides: {
+                paper: {
+                    backgroundColor: brandPalette.foreground,
+                    borderLeft: `1px solid ${brandBorder}`,
+                },
+            },
+        },
+    },
 })
 
 theme = createTheme(theme, {
     typography: {
         body1: {
-            color: theme.palette.neutral.light
+            color: theme.palette.text.secondary
         },
         body2: {
-            color: theme.palette.neutral.light
+            color: theme.palette.text.secondary
         }
-    }
+    },
 })
 
 export default theme

@@ -7,6 +7,7 @@ declare module "@mui/material/styles" {
         },
         accent: {
             main: string,
+            dark?: string,
             contrastText: string
         },
         neutral: {
@@ -25,6 +26,7 @@ declare module "@mui/material/styles" {
         },
         accent?: {
             main: string,
+            dark?: string,
             contrastText: string
         },
         neutral?: {
@@ -67,6 +69,10 @@ import "@mui/material/Typography"
 declare module "@mui/material/Typography" {
     interface TypographyPropsVariantOverrides {
         span: true
+    }
+    interface TypographyPropsColorOverrides {
+        neutral: true;
+        accent: true;
     }
 }
 

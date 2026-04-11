@@ -24,16 +24,16 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
                 }} gap={1}>
                     <Typography mb={2} variant="h4">TeeStore</Typography>
 
-                    <Link href={"/browse"}><Typography variant="body1">Browse</Typography></Link>
+                    <Link href={"/browse"}><Typography variant="body1" color="primary" sx={{ transition: "color 0.2s", "&:hover": { color: "accent.main" } }}>Browse</Typography></Link>
 
                     {
                         isAuthenticated ?
                         <>
-                            <Link href={"/sell-tshirt"}><Typography variant="body1">Sell</Typography></Link>
-                            <Link href={"/profile"}><Typography variant="body1">Profile</Typography></Link>
+                            <Link href={"/sell-tshirt"}><Typography variant="body1" color="primary" sx={{ transition: "color 0.2s", "&:hover": { color: "accent.main" } }}>Sell</Typography></Link>
+                            <Link href={"/profile"}><Typography variant="body1" color="primary" sx={{ transition: "color 0.2s", "&:hover": { color: "accent.main" } }}>Profile</Typography></Link>
                         </>
                         :
-                        <Link href={"/register"}><Typography variant="body1">Join now</Typography></Link>
+                        <Link href={"/register"}><Typography variant="body1" sx={{ color: "accent.main", transition: "color 0.2s", "&:hover": { color: "accent.dark" } }}>Join now</Typography></Link>
                     }
                 </Stack>
             </Drawer>

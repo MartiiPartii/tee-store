@@ -1,11 +1,13 @@
 "use client"
 
 import { Box, Button, Grid, Stack, Typography } from "@mui/material"
+import { alpha } from "@mui/material/styles"
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HeroStat from "./HeroStat";
 import Link from "next/link";
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
+import { brandPalette } from "@/theme/brand-colors"
 
 const HERO_IMAGES = [
     "/hero/1.jpg",
@@ -101,7 +103,7 @@ const Hero = () => {
                     position: "absolute",
                     inset: 0,
                     zIndex: 1,
-                    background: "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6))",
+                    background: `linear-gradient(${alpha(brandPalette.text, 0.52)}, ${alpha(brandPalette.text, 0.52)})`,
                     pointerEvents: "none",
                 }}
             />
