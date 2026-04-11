@@ -64,7 +64,7 @@ const ShirtForm = () => {
             >
               Cancel
             </Button>
-            <Button type="submit" variant="accent" className="flex-1">
+            <Button type="submit" variant="default" className="flex-1">
               <Plus className="size-4" />
               List T-Shirt
             </Button>

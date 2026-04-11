@@ -35,7 +35,7 @@ const FormInputField = ({
           name={name ? name : ""}
           required={required ? true : false}
           rows={rows}
-          className="flex min-h-[80px] w-full rounded-xl border border-border bg-[color-mix(in_srgb,hsl(var(--card))_65%,transparent)] px-3 py-2 text-sm ring-offset-background placeholder:text-brand-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-accent disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex min-h-[80px] w-full rounded-xl border border-border bg-[color-mix(in_srgb,hsl(var(--card))_65%,transparent)] px-3 py-2 text-sm ring-offset-background placeholder:text-brand-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50"
         />
       </div>
     )

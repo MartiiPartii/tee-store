@@ -25,7 +25,7 @@ const ShirtCard = async ({
     <div className="col-span-12 sm:col-span-6 md:col-span-4">
       <Card className="relative flex h-full flex-col text-start">
         {!shirt.soldByPlatform && seller && (
-          <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-md bg-accent px-2 py-0.5 text-xs font-medium text-accent-foreground">
+          <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-md bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground">
             By {seller.firstName} {seller.lastName}
           </span>
         )}
@@ -47,7 +47,7 @@ const ShirtCard = async ({
         <div className="flex flex-1 flex-col p-4">
           <div className="flex flex-1 flex-col">
             <Link href={`/shirt/${encodedId}`}>
-              <h2 className="mb-2 mt-4 text-[1.4rem] font-bold text-primary transition-colors hover:text-accent">
+              <h2 className="mb-2 mt-4 text-[1.4rem] font-bold text-primary transition-colors hover:text-primary/80">
                 {shirt.name}
               </h2>
             </Link>
@@ -65,7 +65,7 @@ const ShirtCard = async ({
             {button && (
               <Link href={`/shirt/${encodedId}/purchase`}>
                 <Button
-                  variant="accent"
+                  variant="default"
                   size="lg"
                   className="w-full justify-self-end"
                 >

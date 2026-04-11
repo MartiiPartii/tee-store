@@ -27,7 +27,7 @@ const Orders = async () => {
             You haven&apos;t purchased any products yet.
           </p>
           <Link href="/browse">
-            <Button variant="accent">Browse</Button>
+            <Button variant="default">Browse</Button>
           </Link>
         </div>
       )}

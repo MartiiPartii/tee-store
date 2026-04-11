@@ -22,10 +22,10 @@ const Verify = () => {
 
         <div className="flex flex-row justify-center gap-2">
           <Link href="/">
-            <Button variant="outlineAccent">Home</Button>
+            <Button variant="outlinePrimary">Home</Button>
           </Link>
           <Link href="/login">
-            <Button variant="accent">Login</Button>
+            <Button variant="default">Login</Button>
           </Link>
         </div>
       </Card>

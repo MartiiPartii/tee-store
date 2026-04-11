@@ -28,12 +28,12 @@ const MyShirtCard = ({ shirt }: { shirt: ShirtOverview }) => {
         <div className="col-span-12 sm:col-span-10 md:col-span-10">
           <Link href={`/shirt/${encodedId}`}>
             <h2
-              className="mb-2 text-[1.2rem] font-bold text-brand-muted transition-colors hover:text-accent"
+              className="mb-2 text-[1.2rem] font-bold text-brand-muted transition-colors hover:text-primary/80"
             >
               {shirt.name}
             </h2>
           </Link>
-          <p className="mb-2 text-[1.5rem] font-bold text-accent">${shirt.price}</p>
+          <p className="mb-2 text-[1.5rem] font-bold text-primary">${shirt.price}</p>
           <p className="mb-6 text-base text-brand-muted">
             {shirt.description.length > 200
               ? `${shirt.description.substring(0, 200)}...`

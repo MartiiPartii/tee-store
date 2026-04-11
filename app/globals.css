@@ -7,8 +7,6 @@
     /* Brand (hex) — matches theme/brand-colors.ts */
     --brand-bg: #f6f4f0;
     --brand-surface: #ede8e2;
-    --brand-accent: #9b8ab8;
-    --brand-accent-hover: #8272a3;
     --brand-text: #2c2825;
     --brand-border: #d9d2c9;
 
@@ -25,13 +23,14 @@
     --secondary-foreground: 24 15% 17%;
     --muted: 35 30% 90%;
     --muted-foreground: 24 15% 17%;
-    --accent: 259 28% 63%;
-    --accent-foreground: 24 15% 17%;
+    /* Aligned with primary for a monochromatic palette (shadcn radix fallbacks) */
+    --accent: 24 15% 17%;
+    --accent-foreground: 40 33% 95%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 40 18% 82%;
     --input: 40 18% 82%;
-    --ring: 259 28% 63%;
+    --ring: 24 15% 17%;
     --radius: 0.75rem;
   }
 

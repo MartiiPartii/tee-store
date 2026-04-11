@@ -35,11 +35,11 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
           <div className="col-span-12 flex flex-col md:col-span-8 lg:col-span-6">
             <div className="mb-2 flex flex-row gap-2">
               {!shirt.soldByPlatform && (
-                <span className="inline-flex items-center rounded-md bg-accent px-2 py-0.5 text-xs font-medium text-accent-foreground">
+                <span className="inline-flex items-center rounded-md bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground">
                   By {user!.firstName || ""} {user!.lastName || ""}
                 </span>
               )}
-              <span className="inline-flex items-center gap-1 rounded-md border border-accent px-2 py-0.5 text-xs font-medium text-accent">
+              <span className="inline-flex items-center gap-1 rounded-md border border-primary px-2 py-0.5 text-xs font-medium text-primary">
                 <Check className="size-3.5" aria-hidden />
                 In Stock
               </span>
@@ -49,7 +49,7 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
               {shirt.name}
             </h1>
 
-            <p className="mb-6 text-[2rem] font-bold text-accent">${shirt.price}</p>
+            <p className="mb-6 text-[2rem] font-bold text-primary">${shirt.price}</p>
 
             <div className="flex flex-1 flex-col">
               <div className="flex flex-1 flex-col">
@@ -62,7 +62,7 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
               </div>
 
               <Link href={`/shirt/${b64}/purchase`}>
-                <Button variant="accent" size="lg" className="w-full">
+                <Button variant="default" size="lg" className="w-full">
                   Buy - ${shirt.price}
                 </Button>
               </Link>

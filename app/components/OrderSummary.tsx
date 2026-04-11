@@ -31,7 +31,7 @@ const OrderSummary = ({ product }: { product: ProductOverview }) => {
           </div>
           <div className="col-span-6 min-w-0">
             <Link href={`/shirt/${btoa(String(product.id))}`}>
-              <p className="text-base text-brand-text transition-colors hover:text-accent">
+              <p className="text-base text-brand-text transition-colors hover:text-primary/80">
                 {product.name}
               </p>
             </Link>

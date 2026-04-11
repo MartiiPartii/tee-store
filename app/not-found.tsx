@@ -18,7 +18,7 @@ export default function NotFound() {
           The page you are looking for was not found.
         </p>
         <Link href="/">
-          <Button variant="accent">Home</Button>
+          <Button variant="default">Home</Button>
         </Link>
       </div>
     </SectionContainer>

@@ -23,7 +23,7 @@ const ProfileStatCard = ({
 
   const inner = (
     <Card className="flex h-full flex-col items-center p-6 text-center">
-      <div className="mb-2 text-accent">
+      <div className="mb-2 text-primary">
         <Icon size={32} />
       </div>
       <p className="text-[1.5rem] font-bold text-brand-muted">{stat}</p>

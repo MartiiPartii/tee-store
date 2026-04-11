@@ -78,7 +78,7 @@ const ImageInput = ({
           />
           <button
             type="button"
-            className="absolute -right-5 -top-5 flex size-10 items-center justify-center rounded-full border border-border bg-brand-surface text-accent shadow-soft"
+            className="absolute -right-5 -top-5 flex size-10 items-center justify-center rounded-full border border-border bg-brand-surface text-primary shadow-soft"
             onClick={handleRemoveImage}
             aria-label="Remove image"
           >
@@ -99,7 +99,7 @@ const ImageInput = ({
             className={cn(
               "mt-2 mb-2 flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed p-6",
               fileEnter
-                ? "border-accent"
+                ? "border-primary"
                 : error
                   ? "border-destructive"
                   : "border-[var(--brand-border)]"

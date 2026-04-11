@@ -11,7 +11,7 @@ const OrderListCard = ({ order }: { order: OrderPreview }) => {
       <Card className="cursor-pointer p-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <div className="flex flex-1 flex-row items-center gap-4">
-            <CheckCircle2 className="size-6 shrink-0 text-accent" aria-hidden />
+            <CheckCircle2 className="size-6 shrink-0 text-primary" aria-hidden />
 
             <div className="flex flex-col">
               <p className="text-xl font-medium text-brand-muted">

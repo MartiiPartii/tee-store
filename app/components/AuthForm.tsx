@@ -40,7 +40,7 @@ const AuthForm = ({
 
               <Button
                 type="submit"
-                variant="accent"
+                variant="default"
                 className="w-full"
                 size="lg"
               >
@@ -53,7 +53,7 @@ const AuthForm = ({
         <p className="text-sm text-brand-muted">
           {link.text}{" "}
           <Link href={link.to}>
-            <span className="font-medium text-accent">{link.label}</span>
+            <span className="font-medium text-primary">{link.label}</span>
           </Link>
         </p>
       </Card>

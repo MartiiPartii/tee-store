@@ -53,7 +53,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 
                     <div className="flex flex-col">
                       <Link href={`/shirt/${btoa(String(order.item.id))}`}>
-                        <p className="text-base font-semibold text-brand-muted transition-colors hover:text-accent">
+                        <p className="text-base font-semibold text-brand-muted transition-colors hover:text-primary/80">
                           {order.item.name}
                         </p>
                       </Link>
@@ -76,7 +76,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                   </p>
                   <p className="text-sm text-brand-muted">
                     Sold by{" "}
-                    <span className="text-accent">
+                    <span className="text-primary">
                       {order.item.soldByPlatform
                         ? "TeeStore"
                         : `${order.item.seller?.firstName} ${order.item.seller?.lastName}`}

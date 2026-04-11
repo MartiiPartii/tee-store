@@ -98,7 +98,7 @@ const Hero = () => {
         <h1 className="text-[3.2rem] font-bold text-primary-foreground">
           Express yourself
         </h1>
-        <h1 className="mb-1 text-[3.2rem] font-bold text-accent">
+        <h1 className="mb-1 text-[3.2rem] font-bold text-primary-foreground">
           Through Style
         </h1>
 

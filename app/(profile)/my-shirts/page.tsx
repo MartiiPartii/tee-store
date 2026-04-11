@@ -20,7 +20,7 @@ const MyShirts = async () => {
         </div>
 
         <Link href="/sell-tshirt">
-          <Button variant="accent">
+          <Button variant="default">
             <Plus className="size-4" />
             Sell New T-Shirt
           </Button>
@@ -50,7 +50,7 @@ const MyShirts = async () => {
             <div className="flex flex-col gap-2">
               <p className="text-base text-brand-muted">You have no products yet...</p>
               <Link href="/sell-tshirt">
-                <Button variant="accent" size="sm">
+                <Button variant="default" size="sm">
                   <Plus className="size-4" />
                   Sell New T-Shirt
                 </Button>

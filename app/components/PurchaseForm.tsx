@@ -20,7 +20,7 @@ const PurchaseForm = ({
   const [state, formAction, isLoading] = useActionState(purchase, null)
 
   const selectClass =
-    "flex h-10 w-full rounded-xl border border-border bg-[color-mix(in_srgb,hsl(var(--card))_65%,transparent)] px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-accent"
+    "flex h-10 w-full rounded-xl border border-border bg-[color-mix(in_srgb,hsl(var(--card))_65%,transparent)] px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-primary"
 
   return (
     <>

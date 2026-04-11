@@ -19,7 +19,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
     <>
       <div className="flex sm:hidden">
         <Button
-          variant="ghostAccent"
+          variant="ghost"
           size="icon"
           type="button"
           onClick={() => setIsOpen(true)}
@@ -45,7 +45,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
               href="/browse"
               onClick={() => setIsOpen(false)}
               className={cn(
-                "text-base text-primary transition-colors hover:text-accent"
+                "text-base text-primary transition-colors hover:text-primary/80"
               )}
             >
               Browse
@@ -56,14 +56,14 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
                 <Link
                   href="/sell-tshirt"
                   onClick={() => setIsOpen(false)}
-                  className="text-base text-primary transition-colors hover:text-accent"
+                  className="text-base text-primary transition-colors hover:text-primary/80"
                 >
                   Sell
                 </Link>
                 <Link
                   href="/profile"
                   onClick={() => setIsOpen(false)}
-                  className="text-base text-primary transition-colors hover:text-accent"
+                  className="text-base text-primary transition-colors hover:text-primary/80"
                 >
                   Profile
                 </Link>
@@ -72,7 +72,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
               <Link
                 href="/register"
                 onClick={() => setIsOpen(false)}
-                className="text-base text-accent transition-colors hover:text-[#8272A3]"
+                className="text-base text-primary transition-colors hover:text-primary/80"
               >
                 Join now
               </Link>

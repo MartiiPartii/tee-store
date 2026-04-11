@@ -25,7 +25,7 @@ const DownloadPdf = ({ order }: { order: OrderDetailsInterface }) => {
 
   return (
     <>
-      <Button variant="accent" type="button" onClick={() => setIsOpen(true)}>
+      <Button variant="default" type="button" onClick={() => setIsOpen(true)}>
         <FileDown className="size-4" />
         Get as PDF
       </Button>
@@ -48,7 +48,7 @@ const DownloadPdf = ({ order }: { order: OrderDetailsInterface }) => {
                 <div className="flex w-full max-w-[35rem] flex-col gap-6 sm:flex-row">
                   <Button
                     className="flex-1"
-                    variant="accent"
+                    variant="default"
                     size="lg"
                     type="button"
                     onClick={() => createPdf()}
@@ -58,7 +58,7 @@ const DownloadPdf = ({ order }: { order: OrderDetailsInterface }) => {
                   </Button>
                   <Button
                     className="flex-1"
-                    variant="outlineAccent"
+                    variant="outlinePrimary"
                     size="lg"
                     type="button"
                     onClick={() => setIsOpen(false)}

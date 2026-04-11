@@ -55,14 +55,14 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
                 <Button variant="ghost" asChild>
                   <Link href="/sell-tshirt">Sell</Link>
                 </Button>
-                <Button variant="ghostAccent" size="icon" asChild>
+                <Button variant="ghost" size="icon" asChild>
                   <Link href="/profile" aria-label="Profile">
                     <User className="size-6 text-brand-text" />
                   </Link>
                 </Button>
               </>
             ) : (
-              <Button variant="accent" asChild>
+              <Button variant="default" asChild>
                 <Link href="/register">Join now</Link>
               </Button>
             )}

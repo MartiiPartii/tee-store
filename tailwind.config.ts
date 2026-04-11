@@ -48,8 +48,6 @@ const config: Config = {
         brand: {
           bg: "var(--brand-bg)",
           surface: "var(--brand-surface)",
-          accent: "var(--brand-accent)",
-          "accent-hover": "var(--brand-accent-hover)",
           text: "var(--brand-text)",
           border: "var(--brand-border)",
         },
