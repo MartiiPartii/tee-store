@@ -58,7 +58,7 @@ const FooterClient = () => {
               </p>
               <ul className="mt-4 flex flex-col gap-3">
                 <li>
-                  <Link href="/sell-tshirt" className={linkClass}>
+                  <Link href="/profile/sell-tshirt" className={linkClass}>
                     Sell a T-shirt
                   </Link>
                 </li>
@@ -86,12 +86,12 @@ const FooterClient = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/my-shirts" className={linkClass}>
+                  <Link href="/profile/my-shirts" className={linkClass}>
                     My T-shirts
                   </Link>
                 </li>
                 <li>
-                  <Link href="/orders" className={linkClass}>
+                  <Link href="/profile/orders" className={linkClass}>
                     Orders
                   </Link>
                 </li>

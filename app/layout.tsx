@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import ThemeWrapper from "./components/ThemeWrapper"
 import Header from "./components/Header"
+import BreadcrumbBar from "./components/BreadcrumbBar"
 import Footer from "./components/Footer"
 import { Suspense } from "react"
 import Loading from "./loading"
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body>
         <ThemeWrapper>
           <Header />
+          <BreadcrumbBar />
           <Suspense fallback={<Loading />}>{children}</Suspense>
           <Footer />
         </ThemeWrapper>

@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL(`https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/**`)]
   },
+  async redirects() {
+    return [
+      { source: "/my-shirts", destination: "/profile/my-shirts", permanent: true },
+      { source: "/orders", destination: "/profile/orders", permanent: true },
+      { source: "/orders/:id", destination: "/profile/orders/:id", permanent: true },
+      { source: "/sell-tshirt", destination: "/profile/sell-tshirt", permanent: true },
+    ]
+  },
   experimental: {
     globalNotFound: true,
     serverActions: {

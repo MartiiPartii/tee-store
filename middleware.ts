@@ -1,23 +1,28 @@
-import { NextRequest, NextResponse } from "next/server";
-import { isAuth } from "./lib/authentication/authenticate";
+import { NextRequest, NextResponse } from "next/server"
+import { isAuth } from "./lib/authentication/authenticate"
 
-const protectedRoutes = ['/profile', '/my-shirts', '/orders', '/orders/[id]', '/sell-tshirt', '/shirt/[id]/purchase']
-const reverseProtectedRoutes = ['/login', '/register', '/verify', '/verify/[uidb]/[token]']
+function isProtectedPath(path: string): boolean {
+  if (path === "/profile" || path.startsWith("/profile/")) return true
+  return /^\/shirt\/[^/]+\/purchase$/.test(path)
+}
+
+function isAuthPage(path: string): boolean {
+  if (path === "/login" || path === "/register") return true
+  if (path === "/verify" || path.startsWith("/verify/")) return true
+  return false
+}
 
 export default async function middleware(req: NextRequest) {
-    const path = req.nextUrl.pathname
-    const isProtectedPage = protectedRoutes.includes(path)
-    const isReverseProtectedPage = reverseProtectedRoutes.includes(path)
+  const path = req.nextUrl.pathname
+  const isAuthenticated = await isAuth(req)
 
-    const isAuthenticated = await isAuth(req)
-    
-    if(isProtectedPage && !isAuthenticated) {
-        return NextResponse.redirect(new URL('/login', req.url))
-    }
+  if (isProtectedPath(path) && !isAuthenticated) {
+    return NextResponse.redirect(new URL("/login", req.url))
+  }
 
-    if(isReverseProtectedPage && isAuthenticated) {
-        return NextResponse.redirect(new URL('/profile', req.url))
-    }
+  if (isAuthPage(path) && isAuthenticated) {
+    return NextResponse.redirect(new URL("/profile", req.url))
+  }
 
-    return NextResponse.next()
+  return NextResponse.next()
 }

@@ -7,7 +7,7 @@ const OrderListCard = ({ order }: { order: OrderPreview }) => {
   const encodedId = btoa(String(order.id))
 
   return (
-    <Link href={`/orders/${encodedId}`}>
+    <Link href={`/profile/orders/${encodedId}`}>
       <Card className="cursor-pointer p-6 transition-colors hover:border-primary/25 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex flex-1 flex-row items-center gap-4">

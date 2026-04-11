@@ -67,10 +67,10 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
             {isAuthenticated ? (
               <>
                 <Link
-                  href="/sell-tshirt"
+                  href="/profile/sell-tshirt"
                   className={cn(
                     navLinkClass,
-                    linkActive("/sell-tshirt") && "text-primary"
+                    linkActive("/profile/sell-tshirt") && "text-primary"
                   )}
                 >
                   Sell
@@ -80,7 +80,8 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
                   aria-label="Profile"
                   className={cn(
                     iconCircleButtonClass,
-                    linkActive("/profile") && "border-primary text-primary"
+                    (pathname === "/profile" || pathname.startsWith("/profile/")) &&
+                      "border-primary text-primary"
                   )}
                 >
                   <User className="size-[18px]" aria-hidden />

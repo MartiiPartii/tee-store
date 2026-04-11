@@ -178,5 +178,5 @@ export const uploadShirt = async (previousState: any, formData: FormData, file: 
             error: "We couldn't upload your product. Please try again"
         }
     }
-    redirect('/my-shirts')
+    redirect("/profile/my-shirts")
 }

@@ -66,7 +66,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
                   <>
                     <li>
                       <Link
-                        href="/sell-tshirt"
+                        href="/profile/sell-tshirt"
                         onClick={() => setIsOpen(false)}
                         className={navLinkClass}
                       >

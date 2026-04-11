@@ -4,11 +4,7 @@ import { Card } from "@/components/ui/card"
 
 const Sell = () => {
   return (
-    <SectionContainer
-      props={{
-        className: "pb-16 pt-[120px]",
-      }}
-    >
+    <SectionContainer props={{ className: "ui-page-section" }}>
       <div className="mx-auto max-w-[42rem]">
         <p className="ui-section-label mb-3">Selling</p>
         <h1 className="ui-page-title mb-4">Sell your T-Shirt</h1>

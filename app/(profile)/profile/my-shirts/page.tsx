@@ -20,7 +20,7 @@ const MyShirts = async () => {
           </p>
         </div>
 
-        <Link href="/sell-tshirt" className="shrink-0">
+        <Link href="/profile/sell-tshirt" className="shrink-0">
           <Button variant="default">
             <Plus className="size-4" />
             Sell New T-Shirt
@@ -50,7 +50,7 @@ const MyShirts = async () => {
           ) : (
             <div className="flex flex-col items-start gap-4">
               <p className="ui-body-lead">You have no products yet...</p>
-              <Link href="/sell-tshirt">
+              <Link href="/profile/sell-tshirt">
                 <Button variant="default" size="sm">
                   <Plus className="size-4" />
                   Sell New T-Shirt

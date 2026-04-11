@@ -49,7 +49,7 @@ const Profile = async () => {
                 stat={String(shirts)}
                 label="Shirts Selling"
                 size={{ xs: 12, md: 6 }}
-                link="/my-shirts"
+                link="/profile/my-shirts"
               />
               <ProfileStatCard
                 Icon={DollarSign}
@@ -62,7 +62,7 @@ const Profile = async () => {
                 stat={String(orders)}
                 label="Orders"
                 size={12}
-                link="/orders"
+                link="/profile/orders"
               />
             </div>
           </div>
