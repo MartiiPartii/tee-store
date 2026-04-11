@@ -4,10 +4,11 @@ import React, { useActionState } from "react"
 import { FormProps } from "@/types/form"
 import Form from "next/form"
 import Loader from "./Loader"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 const AuthForm = ({
+  sectionLabel,
+  inputStyle = "underline",
   title,
   description,
   inputs,
@@ -20,45 +21,58 @@ const AuthForm = ({
   return (
     <>
       {isLoading && <Loader />}
-      <Card className="mx-auto w-full max-w-md border-border p-8 text-center">
-        <div className="mb-8 flex flex-col gap-3">
-          <h2 className="text-balance text-2xl font-semibold tracking-tight text-primary sm:text-3xl">
-            {title}
-          </h2>
-          <p className="ui-body-lead">{description}</p>
-          {state && state.error && (
-            <p className="text-sm italic text-destructive">{state.error}</p>
-          )}
+      <div className="w-full text-start">
+        <header className="mb-8 space-y-3">
+          {sectionLabel ? (
+            <p className="ui-section-label">{sectionLabel}</p>
+          ) : null}
+          <h2 className="ui-page-title text-balance">{title}</h2>
+          <p className="ui-body-lead max-w-lg">{description}</p>
+          {state && state.error ? (
+            <p
+              className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+              role="alert"
+            >
+              {state.error}
+            </p>
+          ) : null}
+        </header>
+
+        {inputs && inputs.length > 0 ? (
+          <Form action={action}>
+            <div className="flex flex-col gap-5">
+              {inputs.map((input, i) => (
+                <FormInputField
+                  {...input}
+                  key={i}
+                  inputStyle={inputStyle}
+                />
+              ))}
+            </div>
+
+            <Button
+              type="submit"
+              variant="default"
+              className="mt-6 w-full"
+              size="lg"
+            >
+              {buttonLabel}
+            </Button>
+          </Form>
+        ) : null}
+
+        <div className="mt-10 border-t border-border pt-8">
+          <p className="text-sm leading-relaxed text-brand-muted">
+            {link.text}{" "}
+            <Link
+              href={link.to}
+              className="font-semibold text-primary underline-offset-4 transition-colors hover:text-primary/85 hover:underline"
+            >
+              {link.label}
+            </Link>
+          </p>
         </div>
-
-        <div className="mb-6">
-          {inputs && inputs.length > 0 && (
-            <Form action={action}>
-              <div className="mb-6 flex flex-col gap-4">
-                {inputs.map((input, i) => (
-                  <FormInputField {...input} key={i} />
-                ))}
-              </div>
-
-              <Button
-                type="submit"
-                variant="default"
-                className="w-full"
-                size="lg"
-              >
-                {buttonLabel}
-              </Button>
-            </Form>
-          )}
-        </div>
-
-        <p className="text-sm text-brand-muted">
-          {link.text}{" "}
-          <Link href={link.to}>
-            <span className="font-medium text-primary">{link.label}</span>
-          </Link>
-        </p>
-      </Card>
+      </div>
     </>
   )
 }

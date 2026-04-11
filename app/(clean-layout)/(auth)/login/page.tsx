@@ -1,7 +1,7 @@
 "use client"
 
 import AuthForm from "@/app/components/AuthForm"
-import SectionContainer from "@/app/components/SectionContainer"
+import AuthSplitLayout from "@/app/components/AuthSplitLayout"
 import { Mail, Lock } from "lucide-react"
 import { login } from "@/actions/authenticate"
 
@@ -24,10 +24,9 @@ const Login = () => {
   ]
 
   return (
-    <SectionContainer
-      props={{ className: "pb-24 pt-[120px]" }}
-    >
+    <AuthSplitLayout>
       <AuthForm
+        sectionLabel="Sign in"
         title="Welcome Back"
         description="Sign in to your account to continue shopping"
         inputs={inputs}
@@ -39,7 +38,7 @@ const Login = () => {
           to: "/register",
         }}
       />
-    </SectionContainer>
+    </AuthSplitLayout>
   )
 }
 

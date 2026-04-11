@@ -14,6 +14,10 @@ export interface InputProps {
 }
 
 export interface FormProps {
+  /** Small caps label above the title (matches .ui-section-label across the app). */
+  sectionLabel?: string
+  /** Auth forms use line inputs; leave default elsewhere. */
+  inputStyle?: "default" | "underline"
   title: string
   description: string
   inputs: InputProps[]

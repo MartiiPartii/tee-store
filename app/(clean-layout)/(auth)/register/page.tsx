@@ -1,7 +1,7 @@
 "use client"
 
 import AuthForm from "@/app/components/AuthForm"
-import SectionContainer from "@/app/components/SectionContainer"
+import AuthSplitLayout from "@/app/components/AuthSplitLayout"
 import { User, Mail, Lock, Phone, Home } from "lucide-react"
 import { register } from "@/actions/authenticate"
 
@@ -59,10 +59,9 @@ const Register = () => {
   ]
 
   return (
-    <SectionContainer
-      props={{ className: "pb-24 pt-[120px]" }}
-    >
+    <AuthSplitLayout>
       <AuthForm
+        sectionLabel="Register"
         title="Create Account"
         description="Join our community to purchase our best products or start selling your own designs"
         inputs={inputs}
@@ -74,7 +73,7 @@ const Register = () => {
           to: "/login",
         }}
       />
-    </SectionContainer>
+    </AuthSplitLayout>
   )
 }
 

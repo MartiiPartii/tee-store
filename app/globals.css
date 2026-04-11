@@ -41,6 +41,25 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+
+  /* Chrome / Edge autofill: mask browser tint with same fill as inputs (brand-bg) */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  textarea:-webkit-autofill:active,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: hsl(var(--foreground));
+    caret-color: hsl(var(--foreground));
+    box-shadow: 0 0 0px 1000px var(--brand-bg) inset;
+    -webkit-box-shadow: 0 0 0px 1000px var(--brand-bg) inset;
+    transition: background-color 50000s ease-in-out 0s;
+  }
 }
 
 html {
