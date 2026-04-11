@@ -17,7 +17,7 @@ const FooterClient = () => {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="mt-auto border-t border-border bg-brand-surface/60">
+    <footer className="mt-auto border-t border-border bg-brand-surface">
       <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
