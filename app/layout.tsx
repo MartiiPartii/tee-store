@@ -3,13 +3,9 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import "./globals.css";
 import ThemeWrapper from "./components/ThemeWrapper";
 import Header from "./components/Header";
-import { Inter } from "next/font/google"
 import { Suspense } from "react";
 import Loading from "./loading";
-
-const inter = Inter({
-  subsets: ['latin']
-})
+import { montserrat } from "./fonts";
 
 export const metadata: Metadata = {
   title: "TeeStore | Buy & Sell Unique T-Shirts Online",
@@ -22,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={montserrat.variable}>
       <body>
         <AppRouterCacheProvider>
           <ThemeWrapper>

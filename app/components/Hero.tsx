@@ -116,8 +116,6 @@ const Hero = () => {
                     p: { xs: 2, sm: 4, md: 8 },
                 }}
             >
-                <Typography variant="body1" mb={3} fontWeight={"bold"} color="primary.contrastText" fontSize={18}>✨ Premium Quality</Typography>
-
                 <Typography variant="h1" color="primary.contrastText">Express yourself</Typography>
                 <Typography variant="h1" mb={1} color="accent">Through Style</Typography>
 

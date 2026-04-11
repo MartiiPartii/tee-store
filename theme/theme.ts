@@ -1,4 +1,5 @@
 "use client"
+import { montserrat } from '@/app/fonts'
 import { createTheme } from '@mui/material/styles'
 
 const headingStyles = {
@@ -11,7 +12,7 @@ let theme = createTheme({
         borderRadius: "0.75rem"
     },
     typography: {
-        fontFamily: "var(--font-inter)",
+        fontFamily: montserrat.style.fontFamily,
         h1: { ...headingStyles, fontSize: "3.2rem" },
         h2: { ...headingStyles, fontSize: "2rem" },
         h3: { ...headingStyles, fontSize: "1.5rem" },
