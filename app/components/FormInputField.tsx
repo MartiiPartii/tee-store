@@ -23,7 +23,7 @@ const FormInputField = ({
   rows,
   type,
   Icon,
-  inputStyle = "default",
+  inputStyle = "underline",
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
   const hasPasswordToggle = type === "password"
