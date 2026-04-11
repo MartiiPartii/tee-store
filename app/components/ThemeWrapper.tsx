@@ -4,7 +4,9 @@ import React from "react"
 
 const ThemeWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-brand-bg text-foreground">{children}</div>
+    <div className="flex min-h-screen flex-col bg-brand-bg text-foreground">
+      {children}
+    </div>
   )
 }
 

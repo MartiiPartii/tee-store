@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import ThemeWrapper from "./components/ThemeWrapper"
 import Header from "./components/Header"
+import Footer from "./components/Footer"
 import { Suspense } from "react"
 import Loading from "./loading"
 import { montserrat } from "./fonts"
@@ -23,6 +24,7 @@ export default function RootLayout({
         <ThemeWrapper>
           <Header />
           <Suspense fallback={<Loading />}>{children}</Suspense>
+          <Footer />
         </ThemeWrapper>
       </body>
     </html>
