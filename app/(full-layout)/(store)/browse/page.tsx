@@ -42,7 +42,7 @@ const Browse = async ({
       <SectionContainer
         props={{
           className:
-            "border-b border-border pb-12 pt-10 sm:pb-14 sm:pt-12 md:pb-16 md:pt-14",
+            "pb-12 pt-10 sm:pb-14 sm:pt-12 md:pb-16 md:pt-14",
         }}
       >
         <p className="ui-section-label mb-3">Catalog</p>
@@ -57,9 +57,7 @@ const Browse = async ({
             <span className="font-medium text-primary">&ldquo;{search}&rdquo;</span>
           </p>
         ) : null}
-      </SectionContainer>
 
-      <SectionContainer props={{ className: "ui-page-section" }}>
         <Suspense
           fallback={
             <div

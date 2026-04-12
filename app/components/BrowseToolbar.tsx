@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { cn } from "@/lib/utils"
 import {
   BROWSE_SORT_OPTIONS,
   buildBrowseClearFiltersPath,
@@ -12,7 +11,6 @@ import {
   type BrowseSort,
   type BrowseSource,
 } from "@/lib/browse-params"
-import { pillButtonClass } from "@/lib/site-ui"
 import { Label } from "@/components/ui/label"
 import {
   Select,
@@ -35,14 +33,7 @@ const PRICE_OPTIONS: { value: BrowsePrice; label: string }[] = [
   { value: "50-plus", label: "$50+" },
 ]
 
-function pillClass(active: boolean) {
-  return cn(
-    pillButtonClass,
-    active
-      ? "border-primary bg-primary/[0.06] text-primary"
-      : "text-brand-muted"
-  )
-}
+const selectTriggerClass = "w-full rounded-full border-border bg-brand-bg"
 
 export default function BrowseToolbar() {
   const router = useRouter()
@@ -72,63 +63,63 @@ export default function BrowseToolbar() {
   const showClear = browseHasActiveFilters(sp)
 
   return (
-    <div className="mb-10 flex flex-col gap-8 border-b border-border pb-10">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
-        <div className="min-w-0 flex-1 space-y-6">
-          <fieldset>
-            <legend className="ui-section-label mb-3 block">Listing type</legend>
-            <div className="flex flex-wrap gap-2">
-              {SOURCE_OPTIONS.map(({ value, label }) => {
-                const active =
-                  value === "all"
-                    ? safeSource === "all"
-                    : safeSource === value
-                const href =
-                  value === "all"
-                    ? buildBrowsePath(qs, { source: null })
-                    : buildBrowsePath(qs, { source: value })
-                return (
-                  <Link
-                    key={value}
-                    href={href}
-                    className={pillClass(active)}
-                    aria-pressed={active}
-                  >
-                    {label}
-                  </Link>
-                )
-              })}
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend className="ui-section-label mb-3 block">Price</legend>
-            <div className="flex flex-wrap gap-2">
-              {PRICE_OPTIONS.map(({ value, label }) => {
-                const active =
-                  value === "all"
-                    ? safePrice === "all"
-                    : safePrice === value
-                const href =
-                  value === "all"
-                    ? buildBrowsePath(qs, { price: null })
-                    : buildBrowsePath(qs, { price: value })
-                return (
-                  <Link
-                    key={value}
-                    href={href}
-                    className={pillClass(active)}
-                    aria-pressed={active}
-                  >
-                    {label}
-                  </Link>
-                )
-              })}
-            </div>
-          </fieldset>
+    <div className="mb-10 pt-8 flex flex-col gap-8 border-b border-border pb-10">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:items-start lg:gap-8">
+        <div className="flex min-w-0 flex-col gap-2">
+          <Label htmlFor="browse-source" className="ui-section-label">
+            Listing type
+          </Label>
+          <Select
+            value={safeSource}
+            onValueChange={(value) => {
+              router.push(
+                buildBrowsePath(qs, {
+                  source: value === "all" ? null : value,
+                })
+              )
+            }}
+          >
+            <SelectTrigger id="browse-source" className={selectTriggerClass}>
+              <SelectValue placeholder="Listing type" />
+            </SelectTrigger>
+            <SelectContent>
+              {SOURCE_OPTIONS.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        <div className="flex w-full flex-col gap-2 lg:w-60 lg:shrink-0">
+        <div className="flex min-w-0 flex-col gap-2">
+          <Label htmlFor="browse-price" className="ui-section-label">
+            Price
+          </Label>
+          <Select
+            value={safePrice}
+            onValueChange={(value) => {
+              router.push(
+                buildBrowsePath(qs, {
+                  price: value === "all" ? null : value,
+                })
+              )
+            }}
+          >
+            <SelectTrigger id="browse-price" className={selectTriggerClass}>
+              <SelectValue placeholder="Price" />
+            </SelectTrigger>
+            <SelectContent>
+              {PRICE_OPTIONS.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex min-w-0 flex-col gap-2 sm:col-span-2 lg:col-span-1">
           <Label htmlFor="browse-sort" className="ui-section-label">
             Sort by
           </Label>
@@ -142,7 +133,7 @@ export default function BrowseToolbar() {
               )
             }}
           >
-            <SelectTrigger id="browse-sort" className="rounded-full bg-brand-bg">
+            <SelectTrigger id="browse-sort" className={selectTriggerClass}>
               <SelectValue placeholder="Sort" />
             </SelectTrigger>
             <SelectContent>
