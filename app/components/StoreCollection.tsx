@@ -1,11 +1,11 @@
 import ShirtCard from "./ShirtCard"
-import { Shirt } from "../generated/prisma"
+import type { CatalogShirt } from "@/types/shirt"
 
-const StoreCollection = async ({ collection }: { collection: Shirt[] }) => {
+const StoreCollection = ({ collection }: { collection: CatalogShirt[] }) => {
   return (
     <div className="grid w-full grid-cols-12 gap-x-6 gap-y-12 text-left sm:gap-x-8 sm:gap-y-14">
-      {collection.map((shirt: Shirt, i: number) => (
-        <ShirtCard key={i} shirt={shirt} />
+      {collection.map((shirt) => (
+        <ShirtCard key={shirt.id} shirt={shirt} />
       ))}
     </div>
   )

@@ -2,10 +2,10 @@ import SectionContainer from "./SectionContainer"
 import StoreCollection from "./StoreCollection"
 import { getShirts } from "@/actions/store"
 import { logServerError } from "@/lib/logger"
-import { Shirt } from "../generated/prisma"
+import type { CatalogShirt } from "@/types/shirt"
 
 const OurCollection = async () => {
-  let data: Shirt[] = []
+  let data: CatalogShirt[] = []
   let error = null
 
   try {

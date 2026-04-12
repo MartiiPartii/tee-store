@@ -4,30 +4,44 @@ import { uploadToCloudinary } from "@/lib/cloudinary/cloudinary"
 import { getUserId, verifyToken } from "@/lib/jwt/token"
 import { logServerError } from "@/lib/logger"
 import { prisma } from "@/lib/prisma"
+import type { CatalogShirt } from "@/types/shirt"
 import { ShirtOverview } from "@/types/shirt"
+import type { Prisma } from "@/app/generated/prisma"
 import { cookies } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
-export const getShirts = async ({ take, soldByPlatform, sellerId, searchQuery } : {
-    take?: number,
-    soldByPlatform?: boolean,
-    sellerId?: number,
+const shirtCatalogInclude = {
+    seller: { select: { firstName: true, lastName: true } },
+} satisfies Prisma.ShirtInclude
+
+export const getShirts = async ({
+    take,
+    soldByPlatform,
+    sellerId,
+    searchQuery,
+}: {
+    take?: number
+    soldByPlatform?: boolean
+    sellerId?: number
     searchQuery?: string
-}) => {
-    let config: any = {
-        orderBy: { createdAt: "desc" }
+}): Promise<CatalogShirt[]> => {
+    let config: Prisma.ShirtFindManyArgs = {
+        orderBy: { createdAt: "desc" },
+        include: shirtCatalogInclude,
     }
 
-    
-    if(take) config = { ...config, take: take }
-    if(soldByPlatform) config = { ...config, where: { soldByPlatform: true } }
-    if(soldByPlatform == false) {
+    if (take) config = { ...config, take }
+    if (soldByPlatform) config = { ...config, where: { soldByPlatform: true } }
+    if (soldByPlatform === false) {
         config = { ...config, where: { soldByPlatform: false } }
-        if(sellerId) {
-            config = { ...config, where: { ...config.where, sellerId } }
+        if (sellerId) {
+            config = {
+                ...config,
+                where: { ...config.where, sellerId },
+            }
         }
     }
-    if(searchQuery) {
+    if (searchQuery) {
         const words = searchQuery.split(" ")
 
         config = {
@@ -35,28 +49,39 @@ export const getShirts = async ({ take, soldByPlatform, sellerId, searchQuery } 
             where: {
                 ...config.where,
                 OR: [
-                { name: { contains: searchQuery, mode: "insensitive" } },
-                { description: { contains: searchQuery, mode: "insensitive" } },
+                    { name: { contains: searchQuery, mode: "insensitive" } },
+                    { description: { contains: searchQuery, mode: "insensitive" } },
                     {
                         seller: {
                             is: {
-                                OR: words.map(word => ({
+                                OR: words.map((word) => ({
                                     OR: [
-                                        { firstName: { contains: word, mode: "insensitive" } },
-                                        { lastName: { contains: word, mode: "insensitive" } }
-                                    ]
-                                }))
-                            }
-                        }
-                    }
-                ]
-            }
+                                        {
+                                            firstName: {
+                                                contains: word,
+                                                mode: "insensitive",
+                                            },
+                                        },
+                                        {
+                                            lastName: {
+                                                contains: word,
+                                                mode: "insensitive",
+                                            },
+                                        },
+                                    ],
+                                })),
+                            },
+                        },
+                    },
+                ],
+            },
         }
     }
-    
-    const data = await prisma.shirt.findMany(config)
 
-    return data
+    return prisma.shirt.findMany({
+        ...config,
+        include: shirtCatalogInclude,
+    })
 }
 
 export const getMyShirts = async () => {
@@ -68,7 +93,7 @@ export const getMyShirts = async () => {
     let error: string | null = null
     try {
         if(!userId) throw new Error()
-        shirts = await await prisma.shirt.findMany({
+        shirts = await prisma.shirt.findMany({
             where: { sellerId: userId },
             orderBy: {
                 createdAt: "desc"
@@ -106,32 +131,22 @@ export const getMyShirts = async () => {
     return { shirts, totalSales, totalRevenue, error }
 }
 
-export const getShirtSeller = async(sellerId: number) => {
-    const user = await prisma.user.findUnique({
-        where: { id: sellerId },
-        select: { firstName: true, lastName: true }
-    })
-
-    return user
-}
-
-export const getShirt = async (b64id: string) => {
-    let shirt
-    let user: { firstName: string, lastName: string } | null = null
+export const getShirt = async (
+    b64id: string
+): Promise<{ shirt: CatalogShirt | null }> => {
+    let shirt: CatalogShirt | null = null
     try {
         const id = atob(b64id)
-        shirt = await prisma.shirt.findUnique({ where: { id: Number(id) } })
-
-        if(shirt && !shirt.soldByPlatform) {
-            const sellerId: number = shirt.sellerId!
-            user = await getShirtSeller(sellerId)
-        }
+        shirt = await prisma.shirt.findUnique({
+            where: { id: Number(id) },
+            include: shirtCatalogInclude,
+        })
     } catch (err) {
         logServerError("store:get_shirt_failed", err, { b64id })
         notFound()
     }
 
-    return { shirt, user }
+    return { shirt }
 }
 
 export const uploadShirt = async (previousState: any, formData: FormData, file: File | null) => {

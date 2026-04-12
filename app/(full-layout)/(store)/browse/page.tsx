@@ -2,7 +2,7 @@ import SectionContainer from "@/app/components/SectionContainer"
 import StoreCollection from "@/app/components/StoreCollection"
 import { getShirts } from "@/actions/store"
 import { logServerError } from "@/lib/logger"
-import { Shirt } from "@/app/generated/prisma"
+import type { CatalogShirt } from "@/types/shirt"
 
 const Browse = async ({
   searchParams,
@@ -10,8 +10,8 @@ const Browse = async ({
   searchParams: Promise<{ search?: string }>
 }) => {
   const search = (await searchParams).search || ""
-  const decodedSearch = decodeURIComponent(search)
-  let collection: Shirt[] | null = null
+  const decodedSearch = decodeURIComponent(search).trim()
+  let collection: CatalogShirt[] | null = null
   let error: string | null = null
 
   try {
@@ -25,33 +25,44 @@ const Browse = async ({
 
   return (
     <>
-      <div className="border-b border-border bg-brand-surface">
-        <SectionContainer
-          props={{
-            className:
-              "flex flex-col items-center justify-center py-16 text-center sm:py-20",
-          }}
-        >
-          <p className="ui-section-label mb-3">Catalog</p>
-          <h1 className="ui-page-title mb-4">All T-Shirts</h1>
-          <p className="ui-body-lead max-w-xl">
-            Browse our complete collection of premium t-shirts and unique designs
-            from our community.
+      <SectionContainer
+        props={{
+          className:
+            "border-b border-border pb-12 pt-10 sm:pb-14 sm:pt-12 md:pb-16 md:pt-14",
+        }}
+      >
+        <p className="ui-section-label mb-3">Catalog</p>
+        <h1 className="ui-page-title mb-4 max-w-2xl">All T-Shirts</h1>
+        <p className="ui-body-lead max-w-xl">
+          Browse the full marketplace — studio picks and designs from independent
+          sellers.
+        </p>
+        {decodedSearch ? (
+          <p className="mt-5 text-sm text-brand-muted">
+            Showing results for{" "}
+            <span className="font-medium text-primary">&ldquo;{decodedSearch}&rdquo;</span>
           </p>
-        </SectionContainer>
-      </div>
+        ) : null}
+      </SectionContainer>
+
       <SectionContainer props={{ className: "ui-page-section" }}>
         {error ? (
-          <p className="text-center text-sm italic text-destructive">{error}</p>
+          <p
+            className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+            role="alert"
+          >
+            {error}
+          </p>
         ) : collection && collection.length > 0 ? (
           <StoreCollection collection={collection} />
         ) : (
-          <div className="flex flex-col items-center text-center">
-            <h2 className="ui-card-title mb-2">Nothing here yet</h2>
-            <p className="ui-body-lead max-w-md">
+          <div className="max-w-md text-left">
+            <p className="ui-section-label mb-2">No matches</p>
+            <h2 className="ui-section-title mb-3">Nothing here yet</h2>
+            <p className="ui-body-lead">
               {decodedSearch
-                ? "No products match your search query."
-                : "Expect new products very soon."}
+                ? "No products match your search. Try different keywords or clear the search in the header."
+                : "New listings appear here as soon as they go live."}
             </p>
           </div>
         )}

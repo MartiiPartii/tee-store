@@ -10,7 +10,7 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
   const encodedId = (await params).id
   const b64 = encodedId ? decodeURIComponent(encodedId) : ""
 
-  const { shirt, user } = await getShirt(b64)
+  const { shirt } = await getShirt(b64)
 
   return (
     <SectionContainer props={{ className: "ui-page-section" }}>
@@ -35,9 +35,9 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
 
           <div className="col-span-12 flex flex-col md:col-span-8 lg:col-span-6">
             <div className="mb-4 flex flex-row flex-wrap gap-2">
-              {!shirt.soldByPlatform && (
+              {!shirt.soldByPlatform && shirt.seller && (
                 <span className="inline-flex items-center rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
-                  By {user!.firstName || ""} {user!.lastName || ""}
+                  By {shirt.seller.firstName} {shirt.seller.lastName}
                 </span>
               )}
               <span className="inline-flex items-center gap-1 rounded-full border border-border bg-brand-bg px-3 py-1 text-xs font-medium text-primary">

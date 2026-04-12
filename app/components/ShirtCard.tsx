@@ -1,24 +1,18 @@
-import { Shirt } from "../generated/prisma"
 import Image from "next/image"
 import Link from "next/link"
 import { ShoppingCart } from "lucide-react"
 import placeholder from "@/public/placeholder.webp"
-import { getShirtSeller } from "@/actions/store"
+import type { CatalogShirt } from "@/types/shirt"
 
-const ShirtCard = async ({
+const ShirtCard = ({
   shirt,
   button = true,
 }: {
-  shirt: Shirt
+  shirt: CatalogShirt
   button?: boolean
 }) => {
   const encodedId = btoa(String(shirt.id))
-
-  let seller: { firstName: string; lastName: string } | null = null
-  if (!shirt.soldByPlatform) {
-    const sellerId = shirt.sellerId!
-    seller = await getShirtSeller(sellerId)
-  }
+  const seller = !shirt.soldByPlatform ? shirt.seller : null
 
   return (
     <article className="group col-span-12 flex flex-col text-left sm:col-span-6 md:col-span-4">
@@ -48,28 +42,25 @@ const ShirtCard = async ({
         )}
       </div>
 
-      <div className="mt-5 flex flex-1 flex-col items-start">
+      <div className="mt-4 flex flex-1 flex-col items-stretch gap-2 sm:mt-5">
         {!shirt.soldByPlatform && seller && (
-          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-brand-muted">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
             By {seller.firstName} {seller.lastName}
           </p>
         )}
 
-        <Link href={`/shirt/${encodedId}`}>
-          <h2 className="ui-card-title transition-colors hover:text-primary/80">
-            {shirt.name}
-          </h2>
-        </Link>
-
-        <p className="ui-body-lead mt-2 line-clamp-3 flex-1">
-          {shirt.description}
-        </p>
-
-        <div className="mt-5 w-full border-t border-border/60 pt-5">
-          <p className="text-base font-semibold tracking-tight text-primary">
+        <div className="flex items-start justify-between gap-3">
+          <Link href={`/shirt/${encodedId}`} className="min-w-0 flex-1">
+            <h2 className="ui-card-title line-clamp-2 transition-colors hover:text-primary/80">
+              {shirt.name}
+            </h2>
+          </Link>
+          <p className="shrink-0 text-base font-semibold tabular-nums tracking-tight text-primary">
             ${shirt.price}
           </p>
         </div>
+
+        <p className="ui-body-lead line-clamp-3 flex-1">{shirt.description}</p>
       </div>
     </article>
   )

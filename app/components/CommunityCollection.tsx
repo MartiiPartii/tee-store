@@ -1,11 +1,11 @@
 import SectionContainer from "./SectionContainer"
 import StoreCollection from "./StoreCollection"
-import { Shirt } from "../generated/prisma"
+import type { CatalogShirt } from "@/types/shirt"
 import { getShirts } from "@/actions/store"
 import { logServerError } from "@/lib/logger"
 
 const CommunityCollection = async () => {
-  let data: Shirt[] = []
+  let data: CatalogShirt[] = []
   let error = null
 
   try {
