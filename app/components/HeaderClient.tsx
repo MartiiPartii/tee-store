@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { User } from "lucide-react"
 import SearchForm from "./SearchForm"
 import MobileMenu from "./MobileMenu"
@@ -48,7 +48,13 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
             </span>
           </Link>
 
-          <SearchForm />
+          <Suspense
+            fallback={
+              <div className="h-9 w-full max-w-md flex-1 animate-pulse rounded-full bg-brand-bg" />
+            }
+          >
+            <SearchForm />
+          </Suspense>
 
           <nav
             className="hidden shrink-0 items-center gap-6 sm:flex"

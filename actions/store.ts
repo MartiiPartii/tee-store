@@ -7,6 +7,12 @@ import { prisma } from "@/lib/prisma"
 import type { CatalogShirt } from "@/types/shirt"
 import { ShirtOverview } from "@/types/shirt"
 import type { Prisma } from "@/app/generated/prisma"
+import {
+  browsePriceWhere,
+  browseShirtOrderBy,
+  type BrowsePrice,
+  type BrowseSort,
+} from "@/lib/browse-params"
 import { cookies } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
@@ -19,68 +25,69 @@ export const getShirts = async ({
     soldByPlatform,
     sellerId,
     searchQuery,
+    sort,
+    priceFilter,
 }: {
     take?: number
     soldByPlatform?: boolean
     sellerId?: number
     searchQuery?: string
+    sort?: BrowseSort
+    priceFilter?: BrowsePrice
 }): Promise<CatalogShirt[]> => {
-    let config: Prisma.ShirtFindManyArgs = {
-        orderBy: { createdAt: "desc" },
-        include: shirtCatalogInclude,
-    }
+    const where: Prisma.ShirtWhereInput = {}
 
-    if (take) config = { ...config, take }
-    if (soldByPlatform) config = { ...config, where: { soldByPlatform: true } }
-    if (soldByPlatform === false) {
-        config = { ...config, where: { soldByPlatform: false } }
-        if (sellerId) {
-            config = {
-                ...config,
-                where: { ...config.where, sellerId },
-            }
+    if (soldByPlatform === true) {
+        where.soldByPlatform = true
+    } else if (soldByPlatform === false) {
+        where.soldByPlatform = false
+        if (sellerId != null) {
+            where.sellerId = sellerId
         }
     }
+
+    const priceClause = browsePriceWhere(priceFilter ?? "all")
+    if (priceClause) {
+        where.price = priceClause
+    }
+
     if (searchQuery) {
         const words = searchQuery.split(" ")
-
-        config = {
-            ...config,
-            where: {
-                ...config.where,
-                OR: [
-                    { name: { contains: searchQuery, mode: "insensitive" } },
-                    { description: { contains: searchQuery, mode: "insensitive" } },
-                    {
-                        seller: {
-                            is: {
-                                OR: words.map((word) => ({
-                                    OR: [
-                                        {
-                                            firstName: {
-                                                contains: word,
-                                                mode: "insensitive",
-                                            },
-                                        },
-                                        {
-                                            lastName: {
-                                                contains: word,
-                                                mode: "insensitive",
-                                            },
-                                        },
-                                    ],
-                                })),
-                            },
-                        },
+        where.OR = [
+            { name: { contains: searchQuery, mode: "insensitive" } },
+            { description: { contains: searchQuery, mode: "insensitive" } },
+            {
+                seller: {
+                    is: {
+                        OR: words.map((word) => ({
+                            OR: [
+                                {
+                                    firstName: {
+                                        contains: word,
+                                        mode: "insensitive",
+                                    },
+                                },
+                                {
+                                    lastName: {
+                                        contains: word,
+                                        mode: "insensitive",
+                                    },
+                                },
+                            ],
+                        })),
                     },
-                ],
+                },
             },
-        }
+        ]
     }
 
+    const orderBy = browseShirtOrderBy(sort ?? "newest")
+
     return prisma.shirt.findMany({
-        ...config,
+        where: Object.keys(where).length ? where : undefined,
+        orderBy,
         include: shirtCatalogInclude,
+        ...(take ? { take } : {}),
     })
 }
 

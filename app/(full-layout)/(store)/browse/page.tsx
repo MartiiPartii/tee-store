@@ -1,25 +1,39 @@
+import { Suspense } from "react"
+import BrowseToolbar from "@/app/components/BrowseToolbar"
 import SectionContainer from "@/app/components/SectionContainer"
 import StoreCollection from "@/app/components/StoreCollection"
 import { getShirts } from "@/actions/store"
 import { logServerError } from "@/lib/logger"
+import {
+  parseBrowseSearchParams,
+  sourceToSoldByPlatform,
+} from "@/lib/browse-params"
 import type { CatalogShirt } from "@/types/shirt"
 
 const Browse = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ search?: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }) => {
-  const search = (await searchParams).search || ""
-  const decodedSearch = decodeURIComponent(search).trim()
+  const raw = await searchParams
+  const { search, source, sort, price } = parseBrowseSearchParams(raw)
   let collection: CatalogShirt[] | null = null
   let error: string | null = null
 
   try {
     collection = await getShirts({
-      searchQuery: decodedSearch,
+      searchQuery: search || undefined,
+      soldByPlatform: sourceToSoldByPlatform(source),
+      sort,
+      priceFilter: price,
     })
   } catch (err) {
-    logServerError("browse:get_shirts_failed", err, { search: decodedSearch })
+    logServerError("browse:get_shirts_failed", err, {
+      search,
+      source,
+      sort,
+      price,
+    })
     error = "We couldn't fetch products properly. Please try again."
   }
 
@@ -37,15 +51,26 @@ const Browse = async ({
           Browse the full marketplace — studio picks and designs from independent
           sellers.
         </p>
-        {decodedSearch ? (
+        {search ? (
           <p className="mt-5 text-sm text-brand-muted">
             Showing results for{" "}
-            <span className="font-medium text-primary">&ldquo;{decodedSearch}&rdquo;</span>
+            <span className="font-medium text-primary">&ldquo;{search}&rdquo;</span>
           </p>
         ) : null}
       </SectionContainer>
 
       <SectionContainer props={{ className: "ui-page-section" }}>
+        <Suspense
+          fallback={
+            <div
+              className="mb-10 h-36 animate-pulse rounded-2xl bg-brand-surface/60"
+              aria-hidden
+            />
+          }
+        >
+          <BrowseToolbar />
+        </Suspense>
+
         {error ? (
           <p
             className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
@@ -54,14 +79,20 @@ const Browse = async ({
             {error}
           </p>
         ) : collection && collection.length > 0 ? (
-          <StoreCollection collection={collection} />
+          <>
+            <p className="mb-8 text-sm text-brand-muted">
+              {collection.length}{" "}
+              {collection.length === 1 ? "listing" : "listings"}
+            </p>
+            <StoreCollection collection={collection} />
+          </>
         ) : (
           <div className="max-w-md text-left">
             <p className="ui-section-label mb-2">No matches</p>
             <h2 className="ui-section-title mb-3">Nothing here yet</h2>
             <p className="ui-body-lead">
-              {decodedSearch
-                ? "No products match your search. Try different keywords or clear the search in the header."
+              {search
+                ? "No products match your search and filters. Try adjusting filters or keywords."
                 : "New listings appear here as soon as they go live."}
             </p>
           </div>
