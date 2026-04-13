@@ -1,6 +1,6 @@
 "use server"
 
-import { transporter } from "@/lib/email"
+import { smtpFrom, transporter } from "@/lib/email"
 import {
     VERIFICATION_EMAIL_SUBJECT,
     buildVerificationEmail,
@@ -114,7 +114,7 @@ export const register = async (prevState: any, formData: FormData) => {
                 verificationUrl,
             })
             await transporter.sendMail({
-                from: "teestoreht@resend.dev",
+                from: smtpFrom(),
                 to: email,
                 subject: VERIFICATION_EMAIL_SUBJECT,
                 html,
