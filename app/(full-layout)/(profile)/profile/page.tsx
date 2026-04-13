@@ -1,6 +1,7 @@
 import SectionContainer from "@/app/components/SectionContainer"
 import UserInfo from "@/app/components/UserInfo"
-import { ShoppingBag, Shirt, DollarSign } from "lucide-react"
+import { ShoppingBag, Shirt } from "lucide-react"
+import ProfileEarningsSummary from "@/app/components/ProfileEarningsSummary"
 import ProfileStatCard from "@/app/components/ProfileStatCard"
 import LogOut from "@/app/components/LogOut"
 import { getAccount } from "@/actions/authenticate"
@@ -46,17 +47,13 @@ const Profile = async () => {
           <section className="min-w-0">
             <p className="ui-section-label mb-2">Overview</p>
             <h2 className="ui-card-title mb-6">Activity</h2>
+            <ProfileEarningsSummary amount={profit} />
             <div className="divide-y divide-border/60 border-t border-border/60">
               <ProfileStatCard
                 Icon={Shirt}
                 stat={String(shirts)}
                 label="Shirts listed"
                 link="/profile/my-shirts"
-              />
-              <ProfileStatCard
-                Icon={DollarSign}
-                stat={String(profit)}
-                label="Total earned"
               />
               <ProfileStatCard
                 Icon={ShoppingBag}
