@@ -5,8 +5,21 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { buildBrowsePath } from "@/lib/browse-params"
+import { cn } from "@/lib/utils"
 
-const SearchForm = () => {
+type SearchFormProps = {
+  /** Widen to parent (e.g. full-width mobile row). */
+  fullWidth?: boolean
+  /** Place the search icon on the right (mobile toolbar style). */
+  iconEnd?: boolean
+  className?: string
+}
+
+const SearchForm = ({
+  fullWidth = false,
+  iconEnd = false,
+  className,
+}: SearchFormProps) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -33,11 +46,23 @@ const SearchForm = () => {
   }
 
   return (
-    <div className="flex min-w-0 flex-1 items-center justify-center">
-      <form onSubmit={handleSubmit} className="w-full max-w-md">
+    <div
+      className={cn(
+        "flex min-w-0 items-center justify-center",
+        fullWidth ? "w-full" : "flex-1",
+        className
+      )}
+    >
+      <form
+        onSubmit={handleSubmit}
+        className={cn("w-full", fullWidth ? "max-w-none" : "max-w-md")}
+      >
         <div className="relative w-full">
           <Search
-            className="pointer-events-none absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-brand-muted"
+            className={cn(
+              "pointer-events-none absolute top-1/2 size-[18px] -translate-y-1/2 text-brand-muted",
+              iconEnd ? "right-3" : "left-3"
+            )}
             aria-hidden
           />
           <Input
@@ -45,7 +70,10 @@ const SearchForm = () => {
             name="search"
             placeholder="Search"
             defaultValue={searchFromUrl}
-            className="h-9 w-full rounded-full border-border bg-brand-bg pl-10 text-sm shadow-none placeholder:text-brand-muted focus-visible:ring-primary/20"
+            className={cn(
+              "h-9 w-full rounded-full border-border bg-brand-bg text-sm shadow-none placeholder:text-brand-muted focus-visible:ring-primary/20",
+              iconEnd ? "pl-4 pr-10" : "pl-10 pr-3"
+            )}
           />
         </div>
       </form>

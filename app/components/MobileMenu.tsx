@@ -10,7 +10,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
-import { iconCircleButtonClass, navLinkClass, pillButtonClass } from "@/lib/site-ui"
+import { iconCircleButtonClass, navLinkClass } from "@/lib/site-ui"
 
 const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -31,8 +31,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetContent
           side="left"
-          showCloseButton={false}
-          className="w-[min(100%,20rem)] border-r border-border bg-brand-surface p-0 sm:max-w-sm"
+          className="w-[min(100%,20rem)] border-r border-border bg-brand-surface p-0 sm:max-w-sm [&>button]:right-4 [&>button]:top-4 [&>button]:flex [&>button]:size-10 [&>button]:items-center [&>button]:justify-center [&>button]:rounded-full [&>button]:border [&>button]:border-border [&>button]:bg-brand-bg [&>button]:opacity-100 [&>button]:ring-offset-brand-surface [&>button]:hover:bg-primary/[0.06] [&>button>svg]:size-[18px]"
         >
           <SheetHeader className="sr-only">
             <SheetTitle>Navigation</SheetTitle>
@@ -88,7 +87,7 @@ const MobileMenu = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
                     <Link
                       href="/register"
                       onClick={() => setIsOpen(false)}
-                      className={pillButtonClass}
+                      className={navLinkClass}
                     >
                       Join now
                     </Link>
