@@ -2,20 +2,31 @@ import Image from "next/image"
 import Link from "next/link"
 import { ShoppingCart } from "lucide-react"
 import placeholder from "@/public/placeholder.webp"
+import { cn } from "@/lib/utils"
 import type { CatalogShirt } from "@/types/shirt"
 
 const ShirtCard = ({
   shirt,
   button = true,
+  carouselSlide = false,
 }: {
   shirt: CatalogShirt
   button?: boolean
+  /** Fixed-width slide for horizontal carousels (no grid column spans). */
+  carouselSlide?: boolean
 }) => {
   const encodedId = btoa(String(shirt.id))
   const seller = !shirt.soldByPlatform ? shirt.seller : null
 
   return (
-    <article className="group col-span-12 flex flex-col text-left sm:col-span-6 md:col-span-4">
+    <article
+      className={cn(
+        "group flex flex-col text-left",
+        carouselSlide
+          ? "w-[min(100%,280px)] sm:w-[280px]"
+          : "col-span-12 sm:col-span-6 md:col-span-4"
+      )}
+    >
       <div className="relative overflow-hidden rounded-2xl group/photo">
         <Image
           width={256}

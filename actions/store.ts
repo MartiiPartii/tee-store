@@ -210,6 +210,27 @@ export const getShirt = async (
     return { shirt }
 }
 
+/** Other listings in the same channel (studio vs community), newest first. */
+export const getSimilarShirts = async ({
+    excludeId,
+    soldByPlatform,
+    take = 15,
+}: {
+    excludeId: number
+    soldByPlatform: boolean
+    take?: number
+}): Promise<CatalogShirt[]> => {
+    return prisma.shirt.findMany({
+        where: {
+            id: { not: excludeId },
+            soldByPlatform,
+        },
+        orderBy: { createdAt: "desc" },
+        take,
+        include: shirtCatalogInclude,
+    })
+}
+
 export const uploadShirt = async (previousState: any, formData: FormData, file: File | null) => {
     try {
         const name = formData.get("name") as string

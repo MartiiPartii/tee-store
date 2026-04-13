@@ -3,7 +3,9 @@ import { Check, ChevronLeft } from "lucide-react"
 import Image from "next/image"
 import placeholder from "@/public/placeholder.webp"
 import Link from "next/link"
-import { getShirt } from "@/actions/store"
+import ShirtCard from "@/app/components/ShirtCard"
+import SimilarProductsCarousel from "@/app/components/SimilarProductsCarousel"
+import { getShirt, getSimilarShirts } from "@/actions/store"
 import { Button } from "@/components/ui/button"
 
 const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -11,6 +13,14 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
   const b64 = encodedId ? decodeURIComponent(encodedId) : ""
 
   const { shirt } = await getShirt(b64)
+  const similar =
+    shirt != null
+      ? await getSimilarShirts({
+          excludeId: shirt.id,
+          soldByPlatform: shirt.soldByPlatform,
+          take: 15,
+        })
+      : []
 
   return (
     <SectionContainer props={{ className: "ui-page-section" }}>
@@ -69,6 +79,16 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
           </div>
         </div>
+
+        {similar.length > 0 ? (
+          <SimilarProductsCarousel>
+            {similar.map((item) => (
+              <div key={item.id} className="snap-start shrink-0">
+                <ShirtCard shirt={item} carouselSlide />
+              </div>
+            ))}
+          </SimilarProductsCarousel>
+        ) : null}
         </>
       )}
     </SectionContainer>
