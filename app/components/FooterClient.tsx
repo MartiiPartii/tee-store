@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Facebook, Instagram, Twitter } from "lucide-react"
+import { PaymentMethodLogos } from "@/app/components/PaymentMethodLogos"
 import { cn } from "@/lib/utils"
 import { navLinkClass as linkClass } from "@/lib/site-ui"
 
@@ -131,13 +132,46 @@ const FooterClient = () => {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
-          <p className="text-xs text-brand-muted">
-            © {year} TeeStore. All rights reserved.
+        <div className="mt-12 border-t border-border pt-10">
+          <p className="mb-4 text-center text-sm leading-relaxed text-brand-muted sm:text-left">
+            By selling or purchasing a product in the TeeStore platform you agree
+            to our{" "}
+            <a
+              href="#"
+              className="font-medium text-primary underline-offset-4 transition-colors hover:underline"
+              onClick={(e) => e.preventDefault()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") e.preventDefault()
+              }}
+            >
+              Terms of Service
+            </a>{" "}
+            and our{" "}
+            <a
+              href="#"
+              className="font-medium text-primary underline-offset-4 transition-colors hover:underline"
+              onClick={(e) => e.preventDefault()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") e.preventDefault()
+              }}
+            >
+              Privacy Policy
+            </a>
+            .
           </p>
-          <p className="text-xs text-brand-muted">
-            Crafted for makers and wearers of great tees.
+          <p className="mb-3 text-center text-sm text-brand-muted sm:text-left">
+            We accept major cards and PayPal at checkout.
           </p>
+          <PaymentMethodLogos />
+
+          <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-dashed border-border/80 pt-8 sm:flex-row">
+            <p className="text-xs text-brand-muted">
+              © {year} TeeStore. All rights reserved.
+            </p>
+            <p className="text-xs text-brand-muted">
+              Crafted for makers and wearers of great tees.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
