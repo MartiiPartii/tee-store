@@ -40,7 +40,7 @@ const AuthForm = ({
 
         {inputs && inputs.length > 0 ? (
           <Form action={action}>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
               {inputs.map((input, i) => (
                 <FormInputField
                   {...input}

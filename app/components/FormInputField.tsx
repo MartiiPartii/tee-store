@@ -31,7 +31,7 @@ const FormInputField = ({
 
   if (multiline) {
     return (
-      <div className="flex flex-col gap-2 text-start">
+      <div className="flex flex-col text-start">
         {label && <Label>{label}</Label>}
         <textarea
           placeholder={placeholder}
@@ -51,7 +51,7 @@ const FormInputField = ({
   }
 
   return (
-    <div className="flex flex-col gap-2 text-start">
+    <div className="flex flex-col text-start">
       {label && <Label>{label}</Label>}
 
       <div className="relative">
