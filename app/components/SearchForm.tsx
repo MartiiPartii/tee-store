@@ -22,6 +22,7 @@ const SearchForm = () => {
       router.push(
         buildBrowsePath(searchParams.toString(), {
           search: q || null,
+          page: null,
         })
       )
     } else if (q) {

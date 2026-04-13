@@ -3,10 +3,12 @@
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
+  BROWSE_PER_PAGE_OPTIONS,
   BROWSE_SORT_OPTIONS,
   buildBrowseClearFiltersPath,
   buildBrowsePath,
   browseHasActiveFilters,
+  type BrowsePerPage,
   type BrowsePrice,
   type BrowseSort,
   type BrowseSource,
@@ -60,11 +62,18 @@ export default function BrowseToolbar() {
       ? currentPrice
       : "all"
 
+  const perPageRaw = sp.get("perPage") ?? "30"
+  const safePerPage: BrowsePerPage = BROWSE_PER_PAGE_OPTIONS.some(
+    (o) => String(o.value) === perPageRaw
+  )
+    ? (Number(perPageRaw) as BrowsePerPage)
+    : 30
+
   const showClear = browseHasActiveFilters(sp)
 
   return (
     <div className="mb-10 pt-8 flex flex-col gap-8 border-b border-border pb-10">
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:items-start lg:gap-8">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:items-start lg:gap-8">
         <div className="flex min-w-0 flex-col gap-2">
           <Label htmlFor="browse-source" className="ui-section-label">
             Listing type
@@ -75,6 +84,7 @@ export default function BrowseToolbar() {
               router.push(
                 buildBrowsePath(qs, {
                   source: value === "all" ? null : value,
+                  page: null,
                 })
               )
             }}
@@ -102,6 +112,7 @@ export default function BrowseToolbar() {
               router.push(
                 buildBrowsePath(qs, {
                   price: value === "all" ? null : value,
+                  page: null,
                 })
               )
             }}
@@ -119,7 +130,7 @@ export default function BrowseToolbar() {
           </Select>
         </div>
 
-        <div className="flex min-w-0 flex-col gap-2 sm:col-span-2 lg:col-span-1">
+        <div className="flex min-w-0 flex-col gap-2">
           <Label htmlFor="browse-sort" className="ui-section-label">
             Sort by
           </Label>
@@ -129,6 +140,7 @@ export default function BrowseToolbar() {
               router.push(
                 buildBrowsePath(qs, {
                   sort: value === "newest" ? null : value,
+                  page: null,
                 })
               )
             }}
@@ -139,6 +151,35 @@ export default function BrowseToolbar() {
             <SelectContent>
               {BROWSE_SORT_OPTIONS.map(({ value, label }) => (
                 <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex min-w-0 flex-col gap-2">
+          <Label htmlFor="browse-per-page" className="ui-section-label">
+            Per page
+          </Label>
+          <Select
+            value={String(safePerPage)}
+            onValueChange={(value) => {
+              const v = value as `${BrowsePerPage}`
+              router.push(
+                buildBrowsePath(qs, {
+                  perPage: v === "30" ? null : v,
+                  page: null,
+                })
+              )
+            }}
+          >
+            <SelectTrigger id="browse-per-page" className={selectTriggerClass}>
+              <SelectValue placeholder="Per page" />
+            </SelectTrigger>
+            <SelectContent>
+              {BROWSE_PER_PAGE_OPTIONS.map(({ value, label }) => (
+                <SelectItem key={value} value={String(value)}>
                   {label}
                 </SelectItem>
               ))}

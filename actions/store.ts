@@ -20,21 +20,22 @@ const shirtCatalogInclude = {
     seller: { select: { firstName: true, lastName: true } },
 } satisfies Prisma.ShirtInclude
 
-export const getShirts = async ({
-    take,
+function shirtCatalogWhereAndOrderBy({
     soldByPlatform,
     sellerId,
     searchQuery,
     sort,
     priceFilter,
 }: {
-    take?: number
     soldByPlatform?: boolean
     sellerId?: number
     searchQuery?: string
     sort?: BrowseSort
     priceFilter?: BrowsePrice
-}): Promise<CatalogShirt[]> => {
+}): {
+    where: Prisma.ShirtWhereInput | undefined
+    orderBy: Prisma.ShirtOrderByWithRelationInput
+} {
     const where: Prisma.ShirtWhereInput = {}
 
     if (soldByPlatform === true) {
@@ -83,11 +84,64 @@ export const getShirts = async ({
 
     const orderBy = browseShirtOrderBy(sort ?? "newest")
 
-    return prisma.shirt.findMany({
+    return {
         where: Object.keys(where).length ? where : undefined,
         orderBy,
+    }
+}
+
+export const countShirts = async ({
+    soldByPlatform,
+    sellerId,
+    searchQuery,
+    priceFilter,
+}: {
+    soldByPlatform?: boolean
+    sellerId?: number
+    searchQuery?: string
+    priceFilter?: BrowsePrice
+}): Promise<number> => {
+    const { where } = shirtCatalogWhereAndOrderBy({
+        soldByPlatform,
+        sellerId,
+        searchQuery,
+        sort: "newest",
+        priceFilter,
+    })
+    return prisma.shirt.count({ where })
+}
+
+export const getShirts = async ({
+    take,
+    skip,
+    soldByPlatform,
+    sellerId,
+    searchQuery,
+    sort,
+    priceFilter,
+}: {
+    take?: number
+    skip?: number
+    soldByPlatform?: boolean
+    sellerId?: number
+    searchQuery?: string
+    sort?: BrowseSort
+    priceFilter?: BrowsePrice
+}): Promise<CatalogShirt[]> => {
+    const { where, orderBy } = shirtCatalogWhereAndOrderBy({
+        soldByPlatform,
+        sellerId,
+        searchQuery,
+        sort,
+        priceFilter,
+    })
+
+    return prisma.shirt.findMany({
+        where,
+        orderBy,
         include: shirtCatalogInclude,
-        ...(take ? { take } : {}),
+        ...(skip != null && skip > 0 ? { skip } : {}),
+        ...(take != null ? { take } : {}),
     })
 }
 

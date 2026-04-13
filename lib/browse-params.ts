@@ -3,6 +3,13 @@ import type { Prisma } from "@/app/generated/prisma"
 export type BrowseSource = "all" | "store" | "community"
 export type BrowseSort = "newest" | "oldest" | "name" | "price-asc" | "price-desc"
 export type BrowsePrice = "all" | "under-25" | "25-50" | "50-plus"
+export type BrowsePerPage = 30 | 60 | 90
+
+export const BROWSE_PER_PAGE_OPTIONS: { value: BrowsePerPage; label: string }[] = [
+  { value: 30, label: "30 per page" },
+  { value: 60, label: "60 per page" },
+  { value: 90, label: "90 per page" },
+]
 
 export const BROWSE_SORT_OPTIONS: { value: BrowseSort; label: string }[] = [
   { value: "newest", label: "Newest first" },
@@ -12,6 +19,38 @@ export const BROWSE_SORT_OPTIONS: { value: BrowseSort; label: string }[] = [
   { value: "price-desc", label: "Price: high to low" },
 ]
 
+function parseBrowsePage(raw: Record<string, string | string[] | undefined>): number {
+  const s = typeof raw.page === "string" ? raw.page : ""
+  const n = parseInt(s, 10)
+  if (!Number.isFinite(n) || n < 1) return 1
+  return n
+}
+
+function parseBrowsePerPage(
+  raw: Record<string, string | string[] | undefined>
+): BrowsePerPage {
+  const s = typeof raw.perPage === "string" ? raw.perPage : ""
+  if (s === "60") return 60
+  if (s === "90") return 90
+  return 30
+}
+
+/** Serialize `searchParams` from a Next.js page (for redirects and link bases). */
+export function rawSearchParamsToQueryString(
+  raw: Record<string, string | string[] | undefined>
+): string {
+  const p = new URLSearchParams()
+  for (const [key, val] of Object.entries(raw)) {
+    if (val === undefined) continue
+    if (Array.isArray(val)) {
+      for (const v of val) p.append(key, v)
+    } else {
+      p.set(key, val)
+    }
+  }
+  return p.toString()
+}
+
 /** Parse Next.js `searchParams` for the browse page. */
 export function parseBrowseSearchParams(
   raw: Record<string, string | string[] | undefined>
@@ -20,6 +59,8 @@ export function parseBrowseSearchParams(
   source: BrowseSource
   sort: BrowseSort
   price: BrowsePrice
+  page: number
+  perPage: BrowsePerPage
 } {
   const rawSearch = typeof raw.search === "string" ? raw.search : ""
   let search = ""
@@ -48,7 +89,14 @@ export function parseBrowseSearchParams(
       ? priceRaw
       : "all"
 
-  return { search, source, sort, price }
+  return {
+    search,
+    source,
+    sort,
+    price,
+    page: parseBrowsePage(raw),
+    perPage: parseBrowsePerPage(raw),
+  }
 }
 
 export function sourceToSoldByPlatform(
@@ -95,6 +143,8 @@ function normalizeBrowseParamsInPlace(p: URLSearchParams) {
   if (p.get("source") === "all") p.delete("source")
   if (p.get("sort") === "newest") p.delete("sort")
   if (p.get("price") === "all") p.delete("price")
+  if (p.get("page") === "1") p.delete("page")
+  if (p.get("perPage") === "30") p.delete("perPage")
   const s = p.get("search")
   if (s === null || s.trim() === "") p.delete("search")
 }
@@ -105,7 +155,12 @@ function normalizeBrowseParamsInPlace(p: URLSearchParams) {
  */
 export function buildBrowsePath(
   currentQueryString: string,
-  patch: Partial<Record<"search" | "source" | "sort" | "price", string | null>>
+  patch: Partial<
+    Record<
+      "search" | "source" | "sort" | "price" | "page" | "perPage",
+      string | null
+    >
+  >
 ): string {
   const p = new URLSearchParams(currentQueryString)
   for (const [k, v] of Object.entries(patch)) {
@@ -132,6 +187,7 @@ export function buildBrowseClearFiltersPath(currentQueryString: string): string 
   p.delete("source")
   p.delete("sort")
   p.delete("price")
+  p.delete("page")
   normalizeBrowseParamsInPlace(p)
   const s = p.toString()
   return s ? `/browse?${s}` : "/browse"

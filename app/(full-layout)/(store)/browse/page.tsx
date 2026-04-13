@@ -1,11 +1,15 @@
 import { Suspense } from "react"
+import { redirect } from "next/navigation"
+import BrowsePagination from "@/app/components/BrowsePagination"
 import BrowseToolbar from "@/app/components/BrowseToolbar"
 import SectionContainer from "@/app/components/SectionContainer"
 import StoreCollection from "@/app/components/StoreCollection"
-import { getShirts } from "@/actions/store"
+import { countShirts, getShirts } from "@/actions/store"
 import { logServerError } from "@/lib/logger"
 import {
+  buildBrowsePath,
   parseBrowseSearchParams,
+  rawSearchParamsToQueryString,
   sourceToSoldByPlatform,
 } from "@/lib/browse-params"
 import type { CatalogShirt } from "@/types/shirt"
@@ -16,25 +20,53 @@ const Browse = async ({
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) => {
   const raw = await searchParams
-  const { search, source, sort, price } = parseBrowseSearchParams(raw)
+  const { search, source, sort, price, page, perPage } =
+    parseBrowseSearchParams(raw)
+  const queryString = rawSearchParamsToQueryString(raw)
   let collection: CatalogShirt[] | null = null
+  let total = 0
   let error: string | null = null
 
   try {
-    collection = await getShirts({
-      searchQuery: search || undefined,
-      soldByPlatform: sourceToSoldByPlatform(source),
-      sort,
-      priceFilter: price,
-    })
+    const soldBy = sourceToSoldByPlatform(source)
+    const [items, count] = await Promise.all([
+      getShirts({
+        searchQuery: search || undefined,
+        soldByPlatform: soldBy,
+        sort,
+        priceFilter: price,
+        skip: (page - 1) * perPage,
+        take: perPage,
+      }),
+      countShirts({
+        searchQuery: search || undefined,
+        soldByPlatform: soldBy,
+        priceFilter: price,
+      }),
+    ])
+    collection = items
+    total = count
   } catch (err) {
     logServerError("browse:get_shirts_failed", err, {
       search,
       source,
       sort,
       price,
+      page,
+      perPage,
     })
     error = "We couldn't fetch products properly. Please try again."
+  }
+
+  if (!error && total > 0) {
+    const totalPages = Math.max(1, Math.ceil(total / perPage))
+    if (page > totalPages) {
+      redirect(
+        buildBrowsePath(queryString, {
+          page: totalPages <= 1 ? null : String(totalPages),
+        })
+      )
+    }
   }
 
   return (
@@ -78,11 +110,14 @@ const Browse = async ({
           </p>
         ) : collection && collection.length > 0 ? (
           <>
-            <p className="mb-8 text-sm text-brand-muted">
-              {collection.length}{" "}
-              {collection.length === 1 ? "listing" : "listings"}
-            </p>
             <StoreCollection collection={collection} />
+            <BrowsePagination
+              page={page}
+              totalPages={Math.max(1, Math.ceil(total / perPage))}
+              total={total}
+              perPage={perPage}
+              queryString={queryString}
+            />
           </>
         ) : (
           <div className="max-w-md text-left">
