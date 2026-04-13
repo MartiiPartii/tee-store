@@ -3,6 +3,37 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { buildBrowsePath } from "@/lib/browse-params"
 import { cn } from "@/lib/utils"
 
+/** Page numbers with ellipsis for large totals (always includes 1 and last). */
+function getPaginationRange(
+  current: number,
+  total: number
+): (number | "ellipsis")[] {
+  if (total <= 9) {
+    return Array.from({ length: total }, (_, i) => i + 1)
+  }
+  const pages = new Set<number>()
+  pages.add(1)
+  pages.add(total)
+  for (let i = current - 1; i <= current + 1; i++) {
+    if (i >= 1 && i <= total) pages.add(i)
+  }
+  const sorted = [...pages].sort((a, b) => a - b)
+  const out: (number | "ellipsis")[] = []
+  for (let i = 0; i < sorted.length; i++) {
+    if (i > 0 && sorted[i] - sorted[i - 1] > 1) {
+      out.push("ellipsis")
+    }
+    out.push(sorted[i])
+  }
+  return out
+}
+
+function pageHref(queryString: string, pageNum: number) {
+  return buildBrowsePath(queryString, {
+    page: pageNum <= 1 ? null : String(pageNum),
+  })
+}
+
 type BrowsePaginationProps = {
   page: number
   totalPages: number
@@ -32,6 +63,17 @@ export default function BrowsePagination({
       ? null
       : buildBrowsePath(queryString, { page: String(page + 1) })
 
+  const pageItems = getPaginationRange(page, totalPages)
+
+  const pageButtonClass = cn(
+    "inline-flex h-10 min-w-10 items-center justify-center rounded-full border px-3 text-sm font-medium tabular-nums transition-colors",
+    "border-border bg-brand-bg hover:bg-primary/[0.06]"
+  )
+  const pageButtonCurrentClass = cn(
+    "inline-flex h-10 min-w-10 cursor-default items-center justify-center rounded-full border px-3 text-sm font-semibold tabular-nums",
+    "border-primary bg-primary/[0.08] text-primary"
+  )
+
   return (
     <nav
       className="mt-12 flex flex-col items-stretch gap-4 border-t border-border pt-10 sm:flex-row sm:items-center sm:justify-between"
@@ -46,7 +88,7 @@ export default function BrowsePagination({
         <span className="font-medium text-primary">{total}</span> listings
       </p>
       {totalPages > 1 ? (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           {prevHref ? (
             <Link
               href={prevHref}
@@ -66,9 +108,34 @@ export default function BrowsePagination({
               Previous
             </span>
           )}
-          <span className="min-w-[5.5rem] text-center text-sm tabular-nums text-brand-muted">
-            Page {page} of {totalPages}
-          </span>
+          <ul
+            className="flex flex-wrap items-center justify-center gap-1.5"
+            aria-label={`Page ${page} of ${totalPages}`}
+          >
+            {pageItems.map((item, idx) =>
+              item === "ellipsis" ? (
+                <li
+                  key={`ellipsis-${idx}`}
+                  className="flex h-10 min-w-8 items-center justify-center px-1 text-sm text-brand-muted"
+                  aria-hidden
+                >
+                  …
+                </li>
+              ) : item === page ? (
+                <li key={item}>
+                  <span className={pageButtonCurrentClass} aria-current="page">
+                    {item}
+                  </span>
+                </li>
+              ) : (
+                <li key={item}>
+                  <Link href={pageHref(queryString, item)} className={pageButtonClass}>
+                    {item}
+                  </Link>
+                </li>
+              )
+            )}
+          </ul>
           {nextHref ? (
             <Link
               href={nextHref}
