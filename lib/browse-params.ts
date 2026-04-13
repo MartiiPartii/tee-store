@@ -19,6 +19,33 @@ export const BROWSE_SORT_OPTIONS: { value: BrowseSort; label: string }[] = [
   { value: "price-desc", label: "Price: high to low" },
 ]
 
+/** Main heading and intro line on /browse for the active listing type filter. */
+export function browseCatalogHero(source: BrowseSource): {
+  title: string
+  lead: string
+} {
+  switch (source) {
+    case "store":
+      return {
+        title: "Studio collection",
+        lead:
+          "Hand-picked designs from the TeeStore studio — limited runs and timeless staples.",
+      }
+    case "community":
+      return {
+        title: "Community listings",
+        lead:
+          "Tees from independent artists and sellers — browse the community marketplace.",
+      }
+    default:
+      return {
+        title: "All T-Shirts",
+        lead:
+          "Browse the full marketplace — studio picks and designs from independent sellers.",
+      }
+  }
+}
+
 function parseBrowsePage(raw: Record<string, string | string[] | undefined>): number {
   const s = typeof raw.page === "string" ? raw.page : ""
   const n = parseInt(s, 10)

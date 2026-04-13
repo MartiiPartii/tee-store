@@ -7,6 +7,7 @@ import StoreCollection from "@/app/components/StoreCollection"
 import { countShirts, getShirts } from "@/actions/store"
 import { logServerError } from "@/lib/logger"
 import {
+  browseCatalogHero,
   buildBrowsePath,
   parseBrowseSearchParams,
   rawSearchParamsToQueryString,
@@ -69,6 +70,8 @@ const Browse = async ({
     }
   }
 
+  const { title: catalogTitle, lead: catalogLead } = browseCatalogHero(source)
+
   return (
     <>
       <SectionContainer
@@ -78,11 +81,8 @@ const Browse = async ({
         }}
       >
         <p className="ui-section-label mb-3">Catalog</p>
-        <h1 className="ui-page-title mb-4 max-w-2xl">All T-Shirts</h1>
-        <p className="ui-body-lead max-w-xl">
-          Browse the full marketplace — studio picks and designs from independent
-          sellers.
-        </p>
+        <h1 className="ui-page-title mb-4 max-w-2xl">{catalogTitle}</h1>
+        <p className="ui-body-lead max-w-xl">{catalogLead}</p>
         {search ? (
           <p className="mt-5 text-sm text-brand-muted">
             Showing results for{" "}
