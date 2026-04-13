@@ -4,7 +4,6 @@ import Image from "next/image"
 import DownloadPdf from "@/app/components/DownloadPdf"
 import { getOrder } from "@/actions/orders"
 import Link from "next/link"
-import { Card } from "@/components/ui/card"
 
 const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
   const encodedId = (await params).id
@@ -16,101 +15,112 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
   return (
     order && (
       <SectionContainer props={{ className: "ui-page-section" }}>
-        <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <div className="flex flex-col gap-2">
-            <p className="ui-section-label">Order detail</p>
-            <h1 className="ui-page-title">Order №{order.id}</h1>
-            <p className="text-sm text-brand-muted">
-              Placed on {order.date.toDateString()}
-            </p>
+        <header className="border-b border-border pb-10 md:pb-12">
+          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+            <div className="flex flex-col gap-2">
+              <p className="ui-section-label">Order</p>
+              <h1 className="ui-page-title">Order #{order.id}</h1>
+              <p className="text-sm text-brand-muted">
+                Placed on {order.date.toDateString()}
+              </p>
+            </div>
+
+            <DownloadPdf order={order} />
           </div>
+        </header>
 
-          <DownloadPdf order={order} />
-        </div>
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12">
-            <Card className="p-6 sm:p-8">
-              <h2 className="ui-card-title mb-6">Ordered item</h2>
+        <div className="space-y-12 pt-10 md:space-y-14 md:pt-12">
+          <section>
+            <h2 className="ui-card-title mb-6">Ordered item</h2>
 
-              <div className="grid grid-cols-12 gap-4 sm:gap-12">
-                <div className="col-span-12 sm:col-span-8">
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
+            <div className="grid grid-cols-12 gap-6 sm:gap-10">
+              <div className="col-span-12 sm:col-span-8">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                  <Link
+                    href={`/shirt/${btoa(String(order.item.id))}`}
+                    className="shrink-0 overflow-hidden rounded-2xl"
+                  >
                     <Image
                       src={order.item.imageLink}
-                      alt="Product Image"
-                      width={100}
-                      height={100}
-                      style={{
-                        height: "auto",
-                        aspectRatio: "1 / 1",
-                        objectFit: "cover",
-                        borderRadius: "1rem",
-                      }}
+                      alt=""
+                      width={160}
+                      height={160}
+                      className="aspect-square w-full max-w-[10rem] object-cover sm:max-w-[11rem]"
                     />
+                  </Link>
 
-                    <div className="flex flex-col gap-1">
-                      <Link href={`/shirt/${btoa(String(order.item.id))}`}>
-                        <p className="font-medium text-primary transition-colors hover:text-primary/80">
-                          {order.item.name}
-                        </p>
-                      </Link>
-                      <p className="mb-2 text-sm text-brand-muted">
-                        {order.item.description.length > 100
-                          ? `${order.item.description.substring(0, 100)}...`
-                          : order.item.description}
+                  <div className="min-w-0 flex-1">
+                    <Link href={`/shirt/${btoa(String(order.item.id))}`}>
+                      <p className="ui-card-title transition-colors hover:text-primary/80">
+                        {order.item.name}
                       </p>
-                      <p className="text-sm text-brand-muted">
-                        Product size:{" "}
-                        <span className="text-brand-muted">{order.itemSize}</span>
-                      </p>
-                    </div>
+                    </Link>
+                    <p className="ui-body-lead mt-2 line-clamp-4">
+                      {order.item.description.length > 160
+                        ? `${order.item.description.substring(0, 160)}...`
+                        : order.item.description}
+                    </p>
+                    <p className="mt-4 text-sm text-brand-muted">
+                      Size{" "}
+                      <span className="font-medium text-primary">{order.itemSize}</span>
+                    </p>
                   </div>
                 </div>
-
-                <div className="col-span-12 flex flex-col items-start sm:col-span-4 sm:items-end">
-                  <p className="text-xl font-semibold text-primary">${order.item.price}</p>
-                  <p className="text-sm text-brand-muted">
-                    Sold by{" "}
-                    <span className="text-primary">
-                      {order.item.soldByPlatform
-                        ? "TeeStore"
-                        : `${order.item.seller?.firstName} ${order.item.seller?.lastName}`}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </Card>
-          </div>
-          <div className="col-span-12">
-            <Card className="p-6 sm:p-8">
-              <div className="mb-6 flex flex-row items-center gap-3">
-                <MapPin
-                  className="size-7 shrink-0 text-primary"
-                  strokeWidth={1.5}
-                  aria-hidden
-                />
-                <div>
-                  <p className="ui-section-label mb-1">Delivery</p>
-                  <h2 className="ui-card-title">Shipping details</h2>
-                </div>
               </div>
 
-              <p className="mb-2 text-base text-brand-muted">
-                Receiver:{" "}
-                <span className="text-brand-muted">
-                  {order.firstName} {order.lastName}
+              <div className="col-span-12 flex flex-col border-t border-border/60 pt-6 sm:col-span-4 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+                <p className="text-2xl font-semibold tabular-nums tracking-tight text-primary">
+                  ${order.item.price}
+                </p>
+                <p className="mt-2 text-sm text-brand-muted">
+                  Sold by{" "}
+                  <span className="font-medium text-primary">
+                    {order.item.soldByPlatform
+                      ? "TeeStore"
+                      : `${order.item.seller?.firstName} ${order.item.seller?.lastName}`}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section className="border-t border-border pt-12 md:pt-14">
+            <div className="mb-6 flex flex-row items-start gap-3">
+              <MapPin
+                className="mt-0.5 size-6 shrink-0 text-primary"
+                strokeWidth={1.5}
+                aria-hidden
+              />
+              <div>
+                <p className="ui-section-label mb-1">Delivery</p>
+                <h2 className="ui-card-title">Shipping details</h2>
+              </div>
+            </div>
+
+            <div className="grid max-w-xl gap-3 text-base text-brand-muted">
+              <p>
+                <span className="font-semibold uppercase tracking-wider text-primary/80">
+                  Receiver
                 </span>
+                <br />
+                {order.firstName} {order.lastName}
               </p>
-              <p className="mb-2 text-base text-brand-muted">
-                Phone Number:{" "}
-                <span className="text-brand-muted">{order.phone}</span>
+              <p>
+                <span className="font-semibold uppercase tracking-wider text-primary/80">
+                  Phone
+                </span>
+                <br />
+                {order.phone}
               </p>
-              <p className="mb-2 text-base text-brand-muted">
-                Shipment Address:{" "}
-                <span className="text-brand-muted">{order.address}</span>
+              <p>
+                <span className="font-semibold uppercase tracking-wider text-primary/80">
+                  Address
+                </span>
+                <br />
+                {order.address}
               </p>
-            </Card>
-          </div>
+            </div>
+          </section>
         </div>
       </SectionContainer>
     )

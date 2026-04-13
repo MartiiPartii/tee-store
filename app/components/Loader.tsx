@@ -1,17 +1,16 @@
-import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 const Loader = () => {
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-brand-bg"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-brand-bg/85 backdrop-blur-[2px]"
       role="status"
       aria-live="polite"
       aria-label="Loading"
     >
-      <Card
+      <div
         className={cn(
-          "flex min-w-[min(20rem,calc(100vw-2rem))] flex-col items-center gap-6 px-10 py-9 sm:px-12",
+          "flex min-w-[min(20rem,calc(100vw-2rem))] flex-col items-center gap-6 rounded-2xl border border-border bg-background px-10 py-9 shadow-soft sm:px-12",
           "animate-in fade-in-0 zoom-in-95 duration-200"
         )}
       >
@@ -30,7 +29,7 @@ const Loader = () => {
         <p className="max-w-[14rem] text-center text-xs leading-relaxed text-brand-muted">
           Please wait a moment.
         </p>
-      </Card>
+      </div>
     </div>
   )
 }

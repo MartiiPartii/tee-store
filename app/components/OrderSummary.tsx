@@ -2,64 +2,57 @@ import { ProductOverview } from "@/types/shipping"
 import Image from "next/image"
 import PurchaseButton from "./PurchaseButton"
 import Link from "next/link"
-import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 
 const OrderSummary = ({ product }: { product: ProductOverview }) => {
   return (
-    <div className="sticky top-20 py-4">
-      <Card className="p-6 sm:p-8">
+    <aside className="sticky top-24 space-y-6 border-t border-border pt-8 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-2">
+      <div>
         <p className="ui-section-label mb-2">Summary</p>
         <h2 className="ui-card-title mb-6">Order summary</h2>
+      </div>
 
-        <div className="mb-2 grid grid-cols-12 items-center gap-4">
-          <div className="col-span-3">
-            <Image
-              src={product.imageLink}
-              alt="Product Image"
-              width={100}
-              height={100}
-              style={{
-                width: "100%",
-                height: "auto",
-                aspectRatio: "1 / 1",
-                objectFit: "cover",
-                borderRadius: "1rem",
-              }}
-            />
-          </div>
-          <div className="col-span-6 min-w-0">
-            <Link href={`/shirt/${btoa(String(product.id))}`}>
-              <p className="font-medium text-primary transition-colors hover:text-primary/80">
-                {product.name}
-              </p>
-            </Link>
-            <p className="mt-1 text-sm text-brand-muted">
-              By{" "}
-              {product.soldByPlatform
-                ? "TeeStore"
-                : `${product.seller?.firstName} ${product.seller?.lastName}`}
+      <div className="flex gap-4 border-b border-border/60 pb-6">
+        <Link
+          href={`/shirt/${btoa(String(product.id))}`}
+          className="relative shrink-0 overflow-hidden rounded-xl"
+        >
+          <Image
+            src={product.imageLink}
+            alt=""
+            width={100}
+            height={100}
+            className="size-20 object-cover sm:size-24"
+          />
+        </Link>
+        <div className="min-w-0 flex-1">
+          <Link href={`/shirt/${btoa(String(product.id))}`}>
+            <p className="font-medium text-primary transition-colors hover:text-primary/80">
+              {product.name}
             </p>
-          </div>
-          <div className="col-span-3">
-            <p className="text-end text-sm font-semibold text-primary">
-              ${product.price}
-            </p>
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className="mb-6 mt-4 flex flex-row justify-between gap-2">
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand-muted">
-            Total
+          </Link>
+          <p className="mt-1 text-sm text-brand-muted">
+            By{" "}
+            {product.soldByPlatform
+              ? "TeeStore"
+              : `${product.seller?.firstName} ${product.seller?.lastName}`}
           </p>
-          <p className="text-xl font-semibold text-primary">${product.price}</p>
+          <p className="mt-2 text-sm font-semibold tabular-nums text-primary">
+            ${product.price}
+          </p>
         </div>
+      </div>
 
-        <PurchaseButton />
-      </Card>
-    </div>
+      <div className="flex flex-row justify-between gap-2 border-b border-border/60 pb-6">
+        <p className="text-sm font-semibold uppercase tracking-wider text-brand-muted">
+          Total
+        </p>
+        <p className="text-xl font-semibold tabular-nums text-primary">
+          ${product.price}
+        </p>
+      </div>
+
+      <PurchaseButton />
+    </aside>
   )
 }
 

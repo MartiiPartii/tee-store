@@ -4,7 +4,6 @@ import Link from "next/link"
 import { verifyAccount } from "@/actions/authenticate"
 import { logServerError } from "@/lib/logger"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 
 const Verify = async ({
   params,
@@ -13,8 +12,8 @@ const Verify = async ({
 }) => {
   const { uidb, token } = await params
   let title = "Account verified.",
-    text = "Your account was successfully verified. Now you can login.",
-    button = "Login",
+    text = "Your account is verified. You can log in and start shopping.",
+    button = "Log in",
     link = "/login",
     success = true
 
@@ -32,19 +31,19 @@ const Verify = async ({
   return (
     <SectionContainer
       props={{
-        className: "flex min-h-screen flex-col justify-center",
+        className: "flex min-h-screen flex-col justify-center py-16",
       }}
     >
-      <Card className="mx-auto w-full max-w-md p-8 text-center sm:p-10">
+      <div className="mx-auto max-w-md border-b border-border pb-12 text-center">
         {success ? (
           <CheckCircle2
-            className="mx-auto mb-6 size-16 text-green-600"
+            className="mx-auto mb-8 size-14 text-green-600"
             strokeWidth={1.25}
             aria-hidden
           />
         ) : (
           <XCircle
-            className="mx-auto mb-6 size-16 text-destructive"
+            className="mx-auto mb-8 size-14 text-destructive"
             strokeWidth={1.25}
             aria-hidden
           />
@@ -52,12 +51,12 @@ const Verify = async ({
 
         <p className="ui-section-label mb-3">{success ? "Verified" : "Status"}</p>
         <h1 className="ui-page-title mb-4">{title}</h1>
-        {text ? <p className="ui-body-lead mb-8">{text}</p> : null}
+        {text ? <p className="ui-body-lead mb-10">{text}</p> : null}
 
         <Link href={link}>
           <Button variant="default">{button}</Button>
         </Link>
-      </Card>
+      </div>
     </SectionContainer>
   )
 }

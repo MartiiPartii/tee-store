@@ -4,68 +4,68 @@ import { ShoppingBag, Shirt, DollarSign } from "lucide-react"
 import ProfileStatCard from "@/app/components/ProfileStatCard"
 import LogOut from "@/app/components/LogOut"
 import { getAccount } from "@/actions/authenticate"
-import { Card } from "@/components/ui/card"
 
 const Profile = async () => {
   const { user, shirts, profit, orders, error } = await getAccount()
 
   return (
     <SectionContainer props={{ className: "ui-page-section" }}>
-      <div className="mb-10 flex flex-col gap-2">
-        <p className="ui-section-label">Account</p>
-        <h1 className="ui-page-title">My Profile</h1>
+      <header className="border-b border-border pb-10 md:pb-12">
+        <p className="ui-section-label mb-3">Account</p>
+        <h1 className="ui-page-title mb-4">My profile</h1>
         <p className="ui-body-lead max-w-xl">
-          Here you can check out your account&apos;s info and statistics.
+          Your details and a quick snapshot of selling and orders.
         </p>
-        {error && (
-          <div className="flex flex-col items-start gap-4 pt-2">
-            <p className="text-sm italic text-destructive">{error}</p>
+        {error ? (
+          <div
+            className="mt-6 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+            role="alert"
+          >
+            <p className="mb-4">{error}</p>
             <LogOut />
           </div>
-        )}
-      </div>
+        ) : null}
+      </header>
 
       {!error && (
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 md:col-span-6">
-            <Card className="flex h-full flex-col p-6 sm:p-8">
-              <h2 className="mb-6 text-2xl font-semibold tracking-tight text-primary">
-                {user?.firstName || ""} {user?.lastName || ""}
-              </h2>
-
-              <div className="mb-6 flex flex-col gap-4">
-                <UserInfo label="Email" text={user?.email || ""} />
-                <UserInfo label="Phone Number" text={user?.phoneNumber || ""} />
-                <UserInfo label="Address" text={user?.address || ""} />
-              </div>
-
+        <div className="grid gap-12 pt-10 md:grid-cols-2 md:gap-16 md:pt-12 lg:gap-20">
+          <section className="min-w-0">
+            <h2 className="ui-section-title mb-8">
+              {user?.firstName || ""} {user?.lastName || ""}
+            </h2>
+            <div className="flex flex-col gap-6 border-t border-border/60 pt-8">
+              <UserInfo label="Email" text={user?.email || ""} />
+              <UserInfo label="Phone number" text={user?.phoneNumber || ""} />
+              <UserInfo label="Address" text={user?.address || ""} />
+            </div>
+            <div className="mt-10">
               <LogOut />
-            </Card>
-          </div>
-          <div className="col-span-12 md:col-span-6">
-            <div className="grid grid-cols-12 gap-6">
+            </div>
+          </section>
+
+          <section className="min-w-0">
+            <p className="ui-section-label mb-2">Overview</p>
+            <h2 className="ui-card-title mb-6">Activity</h2>
+            <div className="divide-y divide-border/60 border-t border-border/60">
               <ProfileStatCard
                 Icon={Shirt}
                 stat={String(shirts)}
-                label="Shirts Selling"
-                size={{ xs: 12, md: 6 }}
+                label="Shirts listed"
                 link="/profile/my-shirts"
               />
               <ProfileStatCard
                 Icon={DollarSign}
                 stat={String(profit)}
-                label="Total Earned"
-                size={{ xs: 12, md: 6 }}
+                label="Total earned"
               />
               <ProfileStatCard
                 Icon={ShoppingBag}
                 stat={String(orders)}
                 label="Orders"
-                size={12}
                 link="/profile/orders"
               />
             </div>
-          </div>
+          </section>
         </div>
       )}
     </SectionContainer>

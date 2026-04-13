@@ -11,49 +11,56 @@ const MyShirts = async () => {
 
   return (
     <SectionContainer props={{ className: "ui-page-section" }}>
-      <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
-        <div>
-          <p className="ui-section-label mb-3">Listings</p>
-          <h1 className="ui-page-title mb-4">My T-Shirts</h1>
-          <p className="ui-body-lead max-w-xl">
-            Manage your t-shirt listings and track performance.
-          </p>
-        </div>
+      <header className="border-b border-border pb-10 md:pb-12">
+        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
+          <div>
+            <p className="ui-section-label mb-3">Listings</p>
+            <h1 className="ui-page-title mb-4">My T-shirts</h1>
+            <p className="ui-body-lead max-w-xl">
+              Manage your listings and see how they perform.
+            </p>
+          </div>
 
-        <Link href="/profile/sell-tshirt" className="shrink-0">
-          <Button variant="default">
-            <Plus className="size-4" />
-            Sell New T-Shirt
-          </Button>
-        </Link>
-      </div>
+          <Link href="/profile/sell-tshirt" className="shrink-0">
+            <Button variant="default">
+              <Plus className="size-4" />
+              New listing
+            </Button>
+          </Link>
+        </div>
+      </header>
 
       {error ? (
-        <p className="text-sm italic text-destructive">{error}</p>
+        <p
+          className="mt-8 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+          role="alert"
+        >
+          {error}
+        </p>
       ) : (
         <>
-          <div className="mb-8 grid grid-cols-12 gap-4">
-            <OrdersStatCard stat={String(shirts?.length || 0)} label="Total Listings" />
-            <OrdersStatCard stat={String(totalSales || 0)} label="Total Sales" />
+          <div className="my-10 grid grid-cols-1 divide-y divide-border/60 border-y border-border/60 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            <OrdersStatCard stat={String(shirts?.length || 0)} label="Total listings" />
+            <OrdersStatCard stat={String(totalSales || 0)} label="Total sales" />
             <OrdersStatCard
               stat={`$${String(totalRevenue || 0)}`}
-              label="Total Revenue"
+              label="Total revenue"
             />
           </div>
 
           {shirts && shirts.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {shirts.map((shirt, i) => (
-                <MyShirtCard shirt={shirt} key={i} />
+            <div className="border-t border-border/60 pt-2">
+              {shirts.map((shirt) => (
+                <MyShirtCard shirt={shirt} key={shirt.id} />
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-start gap-4">
-              <p className="ui-body-lead">You have no products yet...</p>
+            <div className="mt-10 max-w-md border-t border-border/60 pt-10">
+              <p className="ui-body-lead mb-6">You don&apos;t have any listings yet.</p>
               <Link href="/profile/sell-tshirt">
                 <Button variant="default" size="sm">
                   <Plus className="size-4" />
-                  Sell New T-Shirt
+                  Create a listing
                 </Button>
               </Link>
             </div>

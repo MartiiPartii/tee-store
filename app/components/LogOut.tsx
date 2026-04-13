@@ -18,7 +18,7 @@ const LogOut = () => {
   return (
     <>
       {loading && <Loader />}
-      <Button variant="default" size="sm" type="button" onClick={handleLogOut}>
+      <Button variant="outlinePrimary" size="sm" type="button" onClick={handleLogOut}>
         <LogOutIcon className="size-4" />
         LogOut
       </Button>

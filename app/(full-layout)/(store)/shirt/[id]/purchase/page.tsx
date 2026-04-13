@@ -11,14 +11,19 @@ const Purchase = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <SectionContainer props={{ className: "ui-page-section" }}>
-      <p className="ui-section-label mb-3">Checkout</p>
-      <h1 className="ui-page-title mb-10">Complete your order</h1>
+      <header className="border-b border-border pb-10 md:pb-12">
+        <p className="ui-section-label mb-3">Checkout</p>
+        <h1 className="ui-page-title mb-4">Complete your order</h1>
+        <p className="ui-body-lead max-w-xl">
+          Confirm size and shipping — your summary stays on the right on larger screens.
+        </p>
+      </header>
 
-      <div className="grid grid-cols-12 gap-8 lg:gap-10">
-        <div className="col-span-12 py-2 md:col-span-6 lg:col-span-8">
+      <div className="grid grid-cols-12 gap-10 pt-10 lg:gap-12 lg:pt-12">
+        <div className="col-span-12 lg:col-span-8">
           {user && <PurchaseForm user={user} productId={product.id} />}
         </div>
-        <div className="col-span-12 md:col-span-6 lg:col-span-4">
+        <div className="col-span-12 lg:col-span-4">
           <OrderSummary product={product} />
         </div>
       </div>

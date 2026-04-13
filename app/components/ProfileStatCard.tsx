@@ -1,47 +1,60 @@
-import { LucideIcon } from "lucide-react"
+import { ChevronRight, type LucideIcon } from "lucide-react"
 import Link from "next/link"
-import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 const ProfileStatCard = ({
   Icon,
   stat,
   label,
-  size,
   link,
 }: {
   Icon: LucideIcon
   stat: string
   label: string
-  size: any
   link?: string
 }) => {
-  let colClass = "col-span-12"
-  if (typeof size === "object" && size?.xs === 12 && size?.md === 6) {
-    colClass = "col-span-12 md:col-span-6"
-  }
-
   const inner = (
-    <Card className="flex h-full flex-col items-center p-6 text-center sm:p-8">
-      <div className="mb-3 text-primary">
-        <Icon size={28} strokeWidth={1.5} />
-      </div>
-      <p className="text-2xl font-semibold tracking-tight text-primary">{stat}</p>
-      <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-brand-muted">
-        {label}
-      </p>
-    </Card>
-  )
-
-  return (
-    <div className={cn(colClass)}>
-      {link ? (
-        <Link href={link}>{inner}</Link>
-      ) : (
-        inner
+    <div
+      className={cn(
+        "flex items-center gap-4 py-5",
+        link &&
+          "group rounded-xl transition-colors hover:bg-primary/[0.04] sm:-mx-2 sm:px-2"
       )}
+    >
+      <div
+        className={cn(
+          "flex size-11 shrink-0 items-center justify-center rounded-full border border-border bg-brand-bg text-brand-muted transition-colors",
+          link && "group-hover:border-primary group-hover:text-primary"
+        )}
+      >
+        <Icon className="size-5" strokeWidth={1.75} aria-hidden />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-2xl font-semibold tabular-nums tracking-tight text-primary">
+          {stat}
+        </p>
+        <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-brand-muted">
+          {label}
+        </p>
+      </div>
+      {link ? (
+        <ChevronRight
+          className="size-4 shrink-0 text-brand-muted transition-colors group-hover:translate-x-0.5 group-hover:text-primary"
+          aria-hidden
+        />
+      ) : null}
     </div>
   )
+
+  if (link) {
+    return (
+      <Link href={link} className="block text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-xl">
+        {inner}
+      </Link>
+    )
+  }
+
+  return <div>{inner}</div>
 }
 
 export default ProfileStatCard

@@ -15,55 +15,47 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <SectionContainer props={{ className: "ui-page-section" }}>
       {shirt && (
-        <div className="grid grid-cols-12 gap-10 lg:gap-12">
-          <div className="col-span-12 md:col-span-4 lg:col-span-6">
-            <div className="overflow-hidden rounded-2xl border border-border bg-brand-surface shadow-soft">
+        <div className="grid grid-cols-12 gap-10 lg:gap-14">
+          <div className="col-span-12 md:col-span-5 lg:col-span-6">
+            <div className="overflow-hidden rounded-2xl">
               <Image
                 src={shirt.imageLink || placeholder}
-                alt="Product Image"
+                alt=""
                 width={1000}
                 height={1000}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  aspectRatio: "1 / 1",
-                  objectFit: "cover",
-                }}
+                className="aspect-square w-full object-cover"
+                priority
               />
             </div>
           </div>
 
-          <div className="col-span-12 flex flex-col md:col-span-8 lg:col-span-6">
+          <div className="col-span-12 flex flex-col md:col-span-7 lg:col-span-6">
             <div className="mb-4 flex flex-row flex-wrap gap-2">
               {!shirt.soldByPlatform && shirt.seller && (
-                <span className="inline-flex items-center rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
+                <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
                   By {shirt.seller.firstName} {shirt.seller.lastName}
                 </span>
               )}
               <span className="inline-flex items-center gap-1 rounded-full border border-border bg-brand-bg px-3 py-1 text-xs font-medium text-primary">
                 <Check className="size-3.5" aria-hidden />
-                In Stock
+                In stock
               </span>
             </div>
 
             <p className="ui-section-label mb-2">Product</p>
             <h1 className="ui-page-title mb-4 text-balance">{shirt.name}</h1>
 
-            <p className="mb-6 text-3xl font-semibold tracking-tight text-primary">
+            <p className="mb-6 text-3xl font-semibold tabular-nums tracking-tight text-primary">
               ${shirt.price}
             </p>
 
-            <div className="flex flex-1 flex-col">
-              <div className="flex flex-1 flex-col">
-                <p className="ui-section-label mb-2">Description</p>
-                <p className="ui-body-lead mb-8">
-                  {shirt.description}
-                </p>
-              </div>
+            <div className="flex flex-1 flex-col border-t border-border/60 pt-8">
+              <p className="ui-section-label mb-2">Description</p>
+              <p className="ui-body-lead mb-10 flex-1">{shirt.description}</p>
 
               <Link href={`/shirt/${b64}/purchase`}>
-                <Button variant="default" size="lg" className="w-full">
-                  Buy - ${shirt.price}
+                <Button variant="default" size="lg" className="w-full sm:w-auto">
+                  Buy — ${shirt.price}
                 </Button>
               </Link>
             </div>
