@@ -94,7 +94,7 @@ const Hero = () => {
             "linear-gradient(rgba(44, 40, 37, 0.52), rgba(44, 40, 37, 0.52))",
         }}
       />
-      <div className="relative z-[2] mx-auto flex max-w-[48rem] flex-col items-center px-4 py-12 text-center sm:py-20 md:py-28">
+      <div className="relative z-[2] mx-auto flex max-w-5xl flex-col items-center px-4 py-12 text-center sm:py-20 md:py-28">
         <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-primary-foreground/85">
           Welcome
         </p>

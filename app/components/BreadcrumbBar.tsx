@@ -16,7 +16,7 @@ export default function BreadcrumbBar() {
 
   return (
     <nav aria-label="Breadcrumb" className="border-b border-border bg-brand-bg">
-      <div className="mx-auto w-full max-w-[1200px] px-4 py-3 sm:px-6">
+      <div className="layout-container py-3">
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm">
           {items.map((item, index) => {
             const isLast = index === items.length - 1

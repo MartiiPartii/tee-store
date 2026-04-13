@@ -41,7 +41,7 @@ const HeaderClient = ({ isAuthenticated }: Props) => {
           navVisible ? "translate-y-0" : "-translate-y-full"
         )}
       >
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
+        <div className="layout-container">
           {/* Mobile: menu row + full-width search row */}
           <div className="flex flex-col gap-3 py-3 sm:hidden">
             <div className="relative flex items-center justify-between gap-3">

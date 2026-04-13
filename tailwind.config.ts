@@ -64,6 +64,10 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-montserrat)", "sans-serif"],
       },
+      maxWidth: {
+        /* Override default `5xl` so `max-w-5xl` follows `--app-max-width` in globals.css */
+        "5xl": "var(--app-max-width)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

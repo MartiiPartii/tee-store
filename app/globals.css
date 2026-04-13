@@ -32,6 +32,9 @@
     --input: 40 18% 82%;
     --ring: 24 15% 17%;
     --radius: 0.75rem;
+
+    /* Main content column: maps to Tailwind `max-w-5xl` (see tailwind.config.ts) */
+    --app-max-width: 64rem;
   }
 
   html {
@@ -111,6 +114,11 @@ a {
 
 /* Align page content with header / footer: labels, type, spacing */
 @layer components {
+  /** Horizontally centered shell; width cap from `--app-max-width` via `max-w-5xl`. */
+  .layout-container {
+    @apply mx-auto w-full max-w-5xl px-4 sm:px-6;
+  }
+
   .ui-section-label {
     @apply text-xs font-semibold uppercase tracking-wider text-primary;
   }
