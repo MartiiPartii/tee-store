@@ -1,6 +1,10 @@
 "use server"
 
 import { transporter } from "@/lib/email"
+import {
+    VERIFICATION_EMAIL_SUBJECT,
+    buildVerificationEmail,
+} from "@/lib/email/verification-email"
 import { createAuthorizationToken, getUserId, verifyToken } from "@/lib/jwt/token"
 import { logServerError } from "@/lib/logger"
 import { createValidationToken } from "@/lib/jwt/validation-token"
@@ -103,11 +107,18 @@ export const register = async (prevState: any, formData: FormData) => {
         try {
             const token = await createValidationToken(newUser.id)
             const uidb = generateUidb(newUser.id)
+            const origin = (process.env.NEXT_PUBLIC_URL || "").replace(/\/$/, "")
+            const verificationUrl = `${origin}/verify/${uidb}/${token}`
+            const { html, text } = buildVerificationEmail({
+                firstName: firstName ?? "",
+                verificationUrl,
+            })
             await transporter.sendMail({
                 from: "teestoreht@resend.dev",
                 to: email,
-                subject: "Account Verification",
-                html: `<div><h1>Hi ${firstName}! Welcome to TeeStore.</h1><h3>Click the link below to verify your account and start using our platform:</h3><a href="${process.env.NEXT_PUBLIC_URL}/verify/${uidb}/${token}">Click to verify</a></div>`
+                subject: VERIFICATION_EMAIL_SUBJECT,
+                html,
+                text,
             })
         } catch (err) {
             logServerError("register:verification_email_failed", err, {
