@@ -14,7 +14,7 @@ import { UserProfile } from "@/types/profile"
 import bcrypt from "bcrypt"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { redirect, RedirectType } from "next/navigation"
 
 export const login = async (prevState: any, formData: FormData) => {
     try {
@@ -188,9 +188,11 @@ export const verifyAccount = async (uidb: string, token: string) => {
 export const logOut = async () => {
     revalidatePath("/", "layout")
     const cookieStore = await cookies()
-    cookieStore.delete("token");
-    
-    redirect("/login")
+    cookieStore.delete("token")
+
+    // Replace so /profile is not left in history; otherwise Back from /login
+    // returns to /profile, middleware redirects to /login again (loop).
+    redirect("/login", RedirectType.replace)
 }
 
 export const getAccount = async () => {
