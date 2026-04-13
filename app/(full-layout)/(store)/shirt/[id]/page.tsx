@@ -1,5 +1,5 @@
 import SectionContainer from "@/app/components/SectionContainer"
-import { Check } from "lucide-react"
+import { Check, ChevronLeft } from "lucide-react"
 import Image from "next/image"
 import placeholder from "@/public/placeholder.webp"
 import Link from "next/link"
@@ -15,7 +15,15 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <SectionContainer props={{ className: "ui-page-section" }}>
       {shirt && (
-        <div className="grid grid-cols-12 gap-10 lg:gap-14">
+        <>
+          <Link
+            href="/browse"
+            className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-brand-muted transition-colors hover:text-primary"
+          >
+            <ChevronLeft className="size-4 shrink-0" aria-hidden />
+            Back to catalog
+          </Link>
+          <div className="grid grid-cols-12 gap-10 lg:gap-14">
           <div className="col-span-12 md:col-span-5 lg:col-span-6">
             <div className="overflow-hidden rounded-2xl">
               <Image
@@ -61,6 +69,7 @@ const Shirt = async ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
           </div>
         </div>
+        </>
       )}
     </SectionContainer>
   )
