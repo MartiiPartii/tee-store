@@ -2,15 +2,24 @@
 
 import Form from "next/form"
 import FormInputField from "./FormInputField"
-import { useActionState } from "react"
+import { useActionState, useState } from "react"
 import { purchase } from "@/actions/purchase"
 import { UserShippingInfo } from "@/types/shipping"
 import { MapPin, Shirt } from "lucide-react"
 import Loader from "./Loader"
 import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-const selectUnderlineClass =
-  "flex h-11 w-full cursor-pointer appearance-none rounded-none border-0 border-b border-border bg-brand-bg px-0 py-2 text-sm text-foreground focus-visible:border-primary focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+const SIZE_OPTIONS = ["XS", "S", "M", "L", "XL"] as const
+
+/** Matches browse filter triggers (BrowseToolbar `selectTriggerClass`). */
+const selectTriggerClass = "w-full rounded-full border-border bg-brand-bg"
 
 const PurchaseForm = ({
   user,
@@ -20,61 +29,75 @@ const PurchaseForm = ({
   productId: number
 }) => {
   const [state, formAction, isLoading] = useActionState(purchase, null)
+  const [itemSize, setItemSize] = useState<string>("XS")
 
   return (
     <>
       {isLoading && <Loader />}
-      <Form id="purchase" action={formAction} className="text-start">
+      <Form
+        id="purchase"
+        action={formAction}
+        className="flex flex-col gap-8 text-start sm:gap-10"
+      >
         <input hidden name="itemId" value={productId} readOnly />
+        <input type="hidden" name="itemSize" value={itemSize} readOnly />
 
-        <section className="mb-10">
+        <section className="flex flex-col gap-4">
           {state?.error ? (
             <p
-              className="mb-6 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+              className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3.5 text-sm leading-relaxed text-destructive"
               role="alert"
             >
               {state.error}
             </p>
           ) : null}
 
-          <div className="mb-6 flex flex-row items-start gap-3">
-            <Shirt className="mt-0.5 size-6 shrink-0 text-primary" strokeWidth={1.5} aria-hidden />
-            <div>
-              <p className="ui-section-label mb-1">Item</p>
+          <div className="flex flex-row items-start gap-3.5 sm:gap-4">
+            <Shirt
+              className="mt-0.5 size-6 shrink-0 text-primary sm:size-7"
+              strokeWidth={1.5}
+              aria-hidden
+            />
+            <div className="min-w-0">
+              <p className="ui-section-label">Item</p>
               <h2 className="ui-card-title">Product settings</h2>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="size-select">Size</Label>
-              <select
-                id="size-select"
-                name="itemSize"
-                defaultValue="XS"
-                className={selectUnderlineClass}
-              >
-                <option value="XS">XS</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-              </select>
-            </div>
+          <div className="flex min-w-0 max-w-md flex-col gap-2">
+            <Label htmlFor="size-select" className="ui-section-label">
+              Size
+            </Label>
+            <Select value={itemSize} onValueChange={setItemSize}>
+              <SelectTrigger id="size-select" className={selectTriggerClass}>
+                <SelectValue placeholder="Select size" />
+              </SelectTrigger>
+              <SelectContent>
+                {SIZE_OPTIONS.map((size) => (
+                  <SelectItem key={size} value={size}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </section>
 
-        <section className="border-t border-border pt-10">
-          <div className="mb-6 flex flex-row items-start gap-3">
-            <MapPin className="mt-0.5 size-6 shrink-0 text-primary" strokeWidth={1.5} aria-hidden />
-            <div>
-              <p className="ui-section-label mb-1">Delivery</p>
+        <section className="flex flex-col gap-8 border-t border-border pt-10 sm:gap-9 sm:pt-12">
+          <div className="flex flex-row items-start gap-3.5 sm:gap-4">
+            <MapPin
+              className="mt-0.5 size-6 shrink-0 text-primary sm:size-7"
+              strokeWidth={1.5}
+              aria-hidden
+            />
+            <div className="min-w-0">
+              <p className="ui-section-label">Delivery</p>
               <h2 className="ui-card-title">Shipping information</h2>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            <div className="grid grid-cols-12 gap-5 gap-y-5 sm:gap-x-5">
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-12 gap-x-5 gap-y-6 sm:gap-x-6">
               <div className="col-span-12 sm:col-span-6">
                 <FormInputField
                   label="First Name"

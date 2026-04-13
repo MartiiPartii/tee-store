@@ -5,13 +5,13 @@ import Link from "next/link"
 
 const OrderSummary = ({ product }: { product: ProductOverview }) => {
   return (
-    <aside className="sticky top-24 space-y-6 border-t border-border pt-8 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-2">
-      <div>
-        <p className="ui-section-label mb-2">Summary</p>
-        <h2 className="ui-card-title mb-6">Order summary</h2>
+    <aside className="sticky top-24 space-y-8 border-t border-border pt-10 sm:pt-12 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-1 xl:pl-12">
+      <div className="space-y-2">
+        <p className="ui-section-label">Summary</p>
+        <h2 className="ui-card-title">Order summary</h2>
       </div>
 
-      <div className="flex gap-4 border-b border-border/60 pb-6">
+      <div className="flex gap-4 border-b border-border/60 pb-8 sm:gap-5">
         <Link
           href={`/shirt/${btoa(String(product.id))}`}
           className="relative shrink-0 overflow-hidden rounded-xl"
@@ -42,7 +42,7 @@ const OrderSummary = ({ product }: { product: ProductOverview }) => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between gap-2 border-b border-border/60 pb-6">
+      <div className="flex flex-row items-baseline justify-between gap-3 border-b border-border/60 pb-8">
         <p className="text-sm font-semibold uppercase tracking-wider text-brand-muted">
           Total
         </p>
